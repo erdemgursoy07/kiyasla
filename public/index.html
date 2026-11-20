@@ -747,6 +747,7 @@ function errText(e){
   if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){sampleFn=null;$('aiAdd').hidden=true;renderGrid();return 'Yapay zekâ bu görünümde kullanılamıyor.'}
   if(c==='offline')return 'İnternet bağlantısı yok. Cihaz eklemek için internete bağlan.';
   if(c==='not_configured')return 'Yapay zekâ henüz ayarlanmamış (sunucuda API anahtarı eksik).';
+  if(c==='busy')return 'Yapay zekâ şu an çok yoğun. Birkaç dakika sonra tekrar dene.';
   if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.'+(e&&e.detail?` (Ayrıntı: ${e.detail})`:'');
   if(c==='session_expired')return 'Oturumun sona ermiş. Yeniden giriş yapıp tekrar dene.';
   if(c==='refused')return 'Yapay zekâ bu isteği yanıtlamadı. Farklı yazmayı dene.';

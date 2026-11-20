@@ -3,7 +3,9 @@
 // Gemini anahtarı Cloudflare ayarlarında GEMINI_API_KEY adıyla gizli değişken olarak durur.
 // İstersen GEMINI_MODEL değişkeniyle belirli bir model seçebilirsin.
 
-const MODELLER = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+const MODELLER = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-flash-lite-latest', 'gemini-2.0-flash'];
+// Bu durumlarda sıradaki model denenir: bulunamadı (404), yoğun (503), geçici sunucu hatası (500)
+const TEKRAR_DENE = [404, 500, 503];
 const MAKS_UZUNLUK = 60000;
 
 function cevap(veri, durum = 200) {
@@ -46,18 +48,22 @@ async function yapayZeka(request, env) {
   if (!prompt || prompt.length > MAKS_UZUNLUK) return cevap({ error: 'invalid_request' }, 400);
 
   const denenecek = env.GEMINI_MODEL ? [env.GEMINI_MODEL, ...MODELLER] : MODELLER;
-  let yanit, sonHata = '';
+  let yanit, sonHata = '', sonDurum = 0;
   for (const model of denenecek) {
     try {
       yanit = await geminiyeSor(model, env.GEMINI_API_KEY, prompt, !!govde.json);
     } catch (e) {
       return cevap({ error: 'upstream_error', detail: 'Gemini’ye bağlanılamadı' }, 502);
     }
-    if (yanit.status !== 404) break;          // model bulunamadıysa sıradakini dene
+    if (!TEKRAR_DENE.includes(yanit.status)) break;
+    sonDurum = yanit.status;
     sonHata = await hataMetni(yanit);
     yanit = null;
   }
-  if (!yanit) return cevap({ error: 'upstream_error', detail: sonHata || 'Uygun model bulunamadı' }, 502);
+  if (!yanit) {
+    if (sonDurum === 503 || sonDurum === 500) return cevap({ error: 'busy', detail: sonHata }, 503);
+    return cevap({ error: 'upstream_error', detail: sonHata || 'Uygun model bulunamadı' }, 502);
+  }
   if (yanit.status === 429) return cevap({ error: 'rate_limited', detail: await hataMetni(yanit) }, 429);
   if (!yanit.ok) return cevap({ error: 'upstream_error', detail: await hataMetni(yanit) }, 502);
 
