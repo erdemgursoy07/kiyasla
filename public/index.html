@@ -6,8 +6,8 @@
 <title>Kıyasla – Telefon, Tablet, Laptop Karşılaştır</title>
 <meta name="description" content="Telefon, tablet ve laptopları yan yana karşılaştır.">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#EAF3F4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0C171C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FBF0EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14131F" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,10 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#EEF4F5; --surface:#FFFFFF; --ink:#0B1F2A; --muted:#4F6168; --line:#D2DFE2;
-  --accent:#0B5D6B; --accent-ink:#FFFFFF; --accent-soft:#DCEEF0;
-  --mark:#FFD166; --mark-ink:#0B1F2A; --err:#B3261E;
-  --device:#0B1F2A; --splash-bg:#EAF3F4; --pic-l:91%; --pic-s:40%;
+  --bg:#F8F2EF; --surface:#FFFFFF; --ink:#1A1F36; --muted:#5E5562; --line:#EBDCD6;
+  --accent:#E5533F; --accent-ink:#1A1F36; --accent-soft:#FBE3DC; --accent-text:#B93A26;
+  --mark:#FFE1A1; --mark-ink:#1A1F36; --err:#B3261E;
+  --device:#1A1F36; --splash-bg:#FBF0EC; --pic-l:91%; --pic-s:40%;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -29,25 +29,28 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0C171C; --surface:#14232A; --ink:#E5EFF1; --muted:#93A8AE; --line:#24363D;
-    --accent:#5BC0CE; --accent-ink:#06171C; --accent-soft:#163A41; --splash-bg:#0C171C;
-    --mark:#6A5214; --mark-ink:#FFF1C9; --err:#FF8A80;
-    --device:#0A0F14; --pic-l:24%; --pic-s:22%;
+    --bg:#14131F; --surface:#1E1C2B; --ink:#F3ECEA; --muted:#A99FA8; --line:#332F42;
+    --accent:#FF7A66; --accent-ink:#1A1F36; --accent-soft:#3B2531; --accent-text:#FF8E7C; --splash-bg:#14131F;
+    --mark:#5E4A1E; --mark-ink:#FFE9BF; --err:#FF8A80;
+    --device:#0B0A12; --pic-l:24%; --pic-s:22%;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0C171C; --surface:#14232A; --ink:#E5EFF1; --muted:#93A8AE; --line:#24363D;
-  --accent:#5BC0CE; --accent-ink:#06171C; --accent-soft:#163A41; --splash-bg:#0C171C;
-  --mark:#6A5214; --mark-ink:#FFF1C9; --err:#FF8A80;
-  --device:#0A0F14; --pic-l:24%; --pic-s:22%;
+  --bg:#14131F; --surface:#1E1C2B; --ink:#F3ECEA; --muted:#A99FA8; --line:#332F42;
+  --accent:#FF7A66; --accent-ink:#1A1F36; --accent-soft:#3B2531; --accent-text:#FF8E7C; --splash-bg:#14131F;
+  --mark:#5E4A1E; --mark-ink:#FFE9BF; --err:#FF8A80;
+  --device:#0B0A12; --pic-l:24%; --pic-s:22%;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);touch-action:manipulation;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5}
+body{margin:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;zoom:var(--yazi,1);background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+:focus:not(:focus-visible){outline:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+[data-oto]:focus{outline:none}
 .wrap{max-width:1120px;margin:0 auto;padding:24px 18px 150px}
 .acilis{position:fixed;inset:0;z-index:50;background:var(--splash-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .35s ease}
 .acilis.gizle{opacity:0;pointer-events:none}
@@ -73,7 +76,16 @@ button{font:inherit;color:inherit}
 .ust{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
 .ust-ic{width:56px;height:56px;border-radius:13px;overflow:hidden;flex-shrink:0}
 .ust-ic svg{width:100%;height:100%;display:block}
-.ust-yazi{display:flex;flex-direction:column;gap:2px}
+.ust-yazi{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.ayar-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#ayarlar{width:min(420px,calc(100vw - 24px))}
+.ay-grup{margin:6px 0 18px}
+.ay-grup p{margin:0 0 8px;font-weight:700}
+.ay-seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.ay-seg button{flex:1;border:0;background:var(--surface);padding:10px 6px;cursor:pointer;font-size:14px}
+.ay-seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:calc(100vw - 40px);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
+.toast.goster{opacity:1;transform:translateX(-50%)}
 .ust-yazi p{margin:0;font-size:15px;font-weight:500;color:var(--muted)}
 h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:0}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -131,7 +143,7 @@ h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:
 .tray-x{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
 .tray-go{display:flex;align-items:center;gap:10px;height:56px;padding:0 22px 0 10px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
 .tray-go.bekle{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
-.tray-n{width:36px;height:36px;border-radius:50%;background:var(--accent-ink);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px}
+.tray-n{width:36px;height:36px;border-radius:50%;background:var(--accent-ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px}
 .tray-go.bekle .tray-n{background:var(--accent);color:var(--accent-ink)}
 dialog{border:0;padding:0;background:var(--surface);color:var(--ink);border-radius:16px;width:min(1000px,calc(100vw - 20px));max-height:calc(100dvh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 dialog::backdrop{background:rgba(10,16,22,.55)}
@@ -162,13 +174,34 @@ tr.grp th{position:sticky;left:0;background:var(--accent-soft);color:var(--ink);
 .ext-g{font-size:.92rem;margin:14px 0 6px;color:var(--accent)}
 .small{font-size:.85rem;margin:0 0 10px}
 .loading{animation:none}
-.det-b{font-size:14px;font-weight:800;color:var(--accent);margin:18px 0 8px}
+.det-b{font-size:14px;font-weight:800;color:var(--accent-text);margin:18px 0 8px}
+.ozet{margin:14px 0 4px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-align:center;font-size:14px}
+.ozet b{color:var(--accent-text)}
+.uyari{margin:8px 0 4px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--ink);font-size:13px;line-height:1.45;text-align:center}
+.by-ust{display:flex;justify-content:center;margin:2px 0 10px}
+.by-seg{display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.by-seg button{border:0;background:var(--surface);padding:6px 14px;font-size:13px;cursor:pointer}
+.by-seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.by-kutu{display:flex;justify-content:center;padding:6px 0}
+.by-svg{width:100%;max-width:360px;height:auto;max-height:240px}
+.by-t{font-size:11px;fill:var(--muted);font-family:inherit}
+.by-lej{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:12px;margin-top:6px}
+.by-lej span{display:flex;align-items:center;gap:6px}
+.by-lej i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.by-not{font-size:11px;color:var(--muted);text-align:center;margin:6px 0 4px}
+.aile{margin:16px 0 4px}
+.aile-b{margin:0 0 8px;font-weight:800;font-size:14px}
+.aile-l{display:flex;flex-wrap:wrap;gap:8px}
+.aile-c{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 8px 7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.aile-c span{width:22px;height:22px;border-radius:50%;background:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-weight:800}
+.aile-c[aria-pressed="true"]{border-color:var(--accent)}
+.aile-c[aria-pressed="true"] span{background:var(--accent);color:var(--accent-ink)}
 #compare{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;background:var(--bg)}
 @media (min-width:760px){#compare{width:min(900px,calc(100vw - 40px));height:calc(100dvh - 40px);margin:auto;border-radius:18px}}
 .ck{display:flex;flex-direction:column;height:100%}
 .ck-ust{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 8px}
 .ck-ust h2{margin:0;font-size:17px;font-weight:800}
-.ck-geri{display:flex;align-items:center;gap:2px;border:0;background:none;color:var(--accent);font-weight:700;font-size:16px;cursor:pointer;padding:6px 4px}
+.ck-geri{display:flex;align-items:center;gap:2px;border:0;background:none;color:var(--accent-text);font-weight:700;font-size:16px;cursor:pointer;padding:6px 4px}
 .ck-fark{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer}
 .ck-fark input{position:absolute;opacity:0;width:1px;height:1px}
 .ck-fark span{width:42px;height:26px;border-radius:13px;background:var(--line);position:relative;transition:background .15s}
@@ -179,18 +212,31 @@ tr.grp th{position:sticky;left:0;background:var(--accent-soft);color:var(--ink);
 .ck-cihaz{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;padding:4px 14px 12px;border-bottom:1px solid var(--line)}
 .ck-k{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 6px 9px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;min-width:0}
 .ck-pic{width:56px;height:42px;border-radius:8px;overflow:hidden;margin-bottom:4px}
-.ck-m{font-size:11px;color:var(--muted)}
+.ck-m{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.ck-m i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.ck-k{touch-action:pan-y;transition:transform .12s,box-shadow .12s}
+.ck-k.tut{z-index:5;box-shadow:0 10px 24px rgba(0,0,0,.25);transition:none}
 .ck-a{font-size:14px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
 #compare[data-n="3"] .ck-a,#compare[data-n="4"] .ck-a{font-size:12px}
 .ck-x{position:absolute;top:2px;right:4px;border:0;background:none;color:var(--muted);font-size:17px;cursor:pointer;width:26px;height:26px}
 .ck-govde{flex:1;overflow-y:auto;padding:0 14px calc(24px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
-.cb h3{margin:0;padding:16px 0 4px;font-size:13px;font-weight:800;color:var(--accent)}
-.cs{padding:9px 0 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
-.cs-ad{font-size:12px;color:var(--muted)}
-.cs-v{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;align-items:start}
-.cs-v span{font-size:15px;font-weight:600;line-height:1.3;justify-self:start;overflow-wrap:anywhere;min-width:0}
+.bb{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;padding:18px 0 8px;font-size:14px;font-weight:800;color:var(--accent-text);text-align:center}
+.bb::before,.bb::after{content:"";flex:1;height:1px;background:var(--line)}
+.cb .bb{position:sticky;top:0;background:var(--bg);z-index:2}
+#detail .bb{justify-content:flex-start}
+#detail .bb::before{display:none}
+.cs{padding:9px 0 11px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.cs-ad{font-size:12px;color:var(--muted);text-align:center}
+.cs-v{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:start}
+.cs-v>span{text-align:center;justify-self:center;padding:2px 6px;border-left:1px solid var(--line)}
+.cs-v>span:first-child{border-left:0}
+.cs-v small{display:block;font-size:.78em;font-weight:500;color:var(--muted);margin-top:1px}
+.cs-v .iyi small{color:inherit;opacity:.8}
+.cs-v span{font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere;min-width:0;width:100%}
+.cs-v span.iyi{width:auto;border-left:0;margin:0 4px;padding:2px 8px}
 #compare[data-n="3"] .cs-v span{font-size:13px}
-#compare[data-n="4"] .cs-v span{font-size:12px}
+#compare[data-n="4"] .cs-v span{font-size:12px;padding:2px 3px}
+#compare[data-n="4"] .cs-v span.iyi{margin:0 2px;padding:2px 4px}
 .iyi{background:var(--mark);color:var(--mark-ink);border-radius:6px;padding:1px 6px}
 .ck-not{font-size:12px;color:var(--muted);margin:16px 0 0}
 mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:4px}
@@ -200,7 +246,7 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </head>
 <body>
 <div class="acilis" id="acilis" aria-hidden="true">
-  <div class="acilis-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kıyasla"><rect width="512" height="512" fill="#0B5D6B"/><circle cx="256" cy="256" r="206" fill="#0F6E7D"/><g class="an-sol"><rect x="96" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect class="an-c an-l1" x="130" y="290" width="64" height="16" rx="8" fill="#0B5D6B"/><rect class="an-c an-l2" x="130" y="316" width="88" height="16" rx="8" fill="#0B5D6B" opacity="0.6"/><rect class="an-c an-l3" x="130" y="342" width="46" height="16" rx="8" fill="#0B5D6B" opacity="0.35"/></g><g class="an-sag"><rect x="272" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFD166"/><rect class="an-c an-r1" x="306" y="290" width="88" height="16" rx="8" fill="#0B1F2A"/><rect class="an-c an-r2" x="306" y="316" width="52" height="16" rx="8" fill="#0B1F2A" opacity="0.6"/><rect class="an-c an-r3" x="306" y="342" width="72" height="16" rx="8" fill="#0B1F2A" opacity="0.35"/></g><g class="an-roz"><circle cx="256" cy="206" r="48" fill="#FFD166" stroke="#0B5D6B" stroke-width="12"/><g class="an-ok"><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>
+  <div class="acilis-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kıyasla"><rect width="512" height="512" fill="#E5533F"/><circle cx="256" cy="256" r="206" fill="#EA6855"/><g class="an-sol"><rect x="96" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect class="an-c an-l1" x="130" y="290" width="64" height="16" rx="8" fill="#E5533F"/><rect class="an-c an-l2" x="130" y="316" width="88" height="16" rx="8" fill="#E5533F" opacity="0.6"/><rect class="an-c an-l3" x="130" y="342" width="46" height="16" rx="8" fill="#E5533F" opacity="0.35"/></g><g class="an-sag"><rect x="272" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFE1A1"/><rect class="an-c an-r1" x="306" y="290" width="88" height="16" rx="8" fill="#1A1F36"/><rect class="an-c an-r2" x="306" y="316" width="52" height="16" rx="8" fill="#1A1F36" opacity="0.6"/><rect class="an-c an-r3" x="306" y="342" width="72" height="16" rx="8" fill="#1A1F36" opacity="0.35"/></g><g class="an-roz"><circle cx="256" cy="206" r="48" fill="#FFE1A1" stroke="#E5533F" stroke-width="12"/><g class="an-ok"><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>
 </div>
   <div class="acilis-yazi">
     <p class="acilis-ad">Kıyasla</p>
@@ -209,11 +255,12 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </div>
 <div class="wrap">
   <header class="ust">
-    <div class="ust-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="512" height="512" fill="#0B5D6B"/><circle cx="256" cy="256" r="206" fill="#0F6E7D"/><rect x="96" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect x="130" y="290" width="64" height="16" rx="8" fill="#0B5D6B"/><rect x="130" y="316" width="88" height="16" rx="8" fill="#0B5D6B" opacity="0.6"/><rect x="130" y="342" width="46" height="16" rx="8" fill="#0B5D6B" opacity="0.35"/><rect x="272" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFD166"/><rect x="306" y="290" width="88" height="16" rx="8" fill="#0B1F2A"/><rect x="306" y="316" width="52" height="16" rx="8" fill="#0B1F2A" opacity="0.6"/><rect x="306" y="342" width="72" height="16" rx="8" fill="#0B1F2A" opacity="0.35"/><circle cx="256" cy="206" r="48" fill="#FFD166" stroke="#0B5D6B" stroke-width="12"/><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="ust-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="512" height="512" fill="#E5533F"/><circle cx="256" cy="256" r="206" fill="#EA6855"/><rect x="96" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect x="130" y="290" width="64" height="16" rx="8" fill="#E5533F"/><rect x="130" y="316" width="88" height="16" rx="8" fill="#E5533F" opacity="0.6"/><rect x="130" y="342" width="46" height="16" rx="8" fill="#E5533F" opacity="0.35"/><rect x="272" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFE1A1"/><rect x="306" y="290" width="88" height="16" rx="8" fill="#1A1F36"/><rect x="306" y="316" width="52" height="16" rx="8" fill="#1A1F36" opacity="0.6"/><rect x="306" y="342" width="72" height="16" rx="8" fill="#1A1F36" opacity="0.35"/><circle cx="256" cy="206" r="48" fill="#FFE1A1" stroke="#E5533F" stroke-width="12"/><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="ust-yazi">
       <h1>Kıyasla</h1>
       <p>Karşılaştır. Karar ver.</p>
     </div>
+    <button class="ayar-btn" id="ayarBtn" aria-label="Ayarlar"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg></button>
   </header>
 
   <div class="tools">
@@ -239,6 +286,8 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </div>
 
 <dialog id="detail" aria-labelledby="dTitle"></dialog>
+<dialog id="ayarlar" aria-labelledby="aTitle"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <dialog id="compare" aria-labelledby="cTitle"></dialog>
 
 <script>
@@ -735,6 +784,19 @@ function art(d){
 }
 const picBox=(d,cls='pic')=>`<div class="${cls} pic" style="--h:${hueOf(d.id)}">${d.gorsel?`<img src="${esc(d.gorsel)}" alt="${esc(d.marka+' '+d.ad)}" loading="lazy" onerror="this.remove()">`:art(d)}</div>`;
 
+// ---------- Akıllı arama ----------
+const TR_ASCII={'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u','â':'a','î':'i','û':'u'};
+const sade=t=>String(t).toLocaleLowerCase('tr-TR').replace(/[çğıöşüâîû]/g,c=>TR_ASCII[c]).replace(/["'()]/g,' ').replace(/\+/g,' plus ').replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+const ESANLAM={galaksi:'galaxy',galaxi:'galaxy',gelaksi:'galaxy',samsun:'samsung',samsunk:'samsung',ayfon:'iphone',aypon:'iphone',ifon:'iphone',aypad:'ipad',ipat:'ipad',makbuk:'macbook',makbook:'macbook',macbok:'macbook',seomi:'xiaomi',saomi:'xiaomi',siaomi:'xiaomi',ksiaomi:'xiaomi',shaomi:'xiaomi',xaomi:'xiaomi',xiomi:'xiaomi',xiami:'xiaomi',redmy:'redmi',lenova:'lenovo',lenevo:'lenovo',asuss:'asus',hauwei:'huawei',huavei:'huawei',huwaii:'huawei',huawey:'huawei',monstir:'monster',tablet:'',telefon:'',laptop:'',bilgisayar:''};
+function mesafe(a,b){if(Math.abs(a.length-b.length)>1)return 9;const m=a.length,n=b.length;let o=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const y=[i];for(let j=1;j<=n;j++)y[j]=Math.min(o[j]+1,y[j-1]+1,o[j-1]+(a[i-1]===b[j-1]?0:1));o=y}return o[n]}
+function aramaUyar(d,q){
+  const ad=sade(d.marka+' '+d.ad), bitisik=ad.replace(/ /g,''), kelimeler=ad.split(' ');
+  const qs=sade(q);if(!qs)return true;
+  if(bitisik.includes(qs.replace(/ /g,'')))return true;
+  const parca=qs.split(' ').map(t=>ESANLAM[t]??t).filter(Boolean);
+  return parca.every(t=>bitisik.includes(t)||kelimeler.some(k=>k.startsWith(t)||(t.length>=4&&mesafe(t,k.slice(0,t.length+1))<=1)||(t.length>=4&&mesafe(t,k)<=1)));
+}
+
 // ---------- Liste ----------
 function renderCats(){$('cats').innerHTML=CATS.map(c=>`<button data-cat="${c.id}" aria-pressed="${state.cat===c.id}">${c.ad}</button>`).join('')}
 function renderBrands(){
@@ -745,8 +807,8 @@ function renderBrands(){
   $('brand').value=state.brand;
 }
 function renderGrid(){
-  const q=state.q.trim().toLocaleLowerCase('tr-TR');
-  let items=allDevices().filter(d=>(state.cat==='hepsi'||d.kat===state.cat)&&(state.brand==='hepsi'||d.marka===state.brand)&&(!q||(d.marka+' '+d.ad).toLocaleLowerCase('tr-TR').includes(q)));
+  const q=state.q.trim();
+  let items=allDevices().filter(d=>(state.cat==='hepsi'||d.kat===state.cat)&&(state.brand==='hepsi'||d.marka===state.brand)&&(!q||aramaUyar(d,q)));
   const az=(a,b)=>(a.marka+' '+a.ad).localeCompare(b.marka+' '+b.ad,'tr');
   items.sort((a,b)=>state.sort==='eski'?(a.yil-b.yil)||az(a,b):state.sort==='az'?az(a,b):(b.yil-a.yil)||az(a,b));
   $('count').textContent=items.length+' cihaz';
@@ -780,6 +842,7 @@ function renderTray(){
   $('go').classList.toggle('bekle',n<2);
   $('go').setAttribute('aria-label',n<2?'Karşılaştırmak için bir cihaz daha seç':n+' cihazı karşılaştır');
 }
+function kaydetSecim(){try{localStorage.setItem('kiyasla:secim',JSON.stringify(state.sel))}catch(e){}}
 function refresh(){renderBrands();renderGrid();renderTray()}
 
 // ---------- Özellikler ----------
@@ -789,7 +852,7 @@ const X=(ad,k,extra={})=>({ad,raw:d=>(d.ext&&d.ext[k])||'—',...extra});
 const BOLUMLER=[
   {ad:'Ekran',r:[
     {ad:'Ekran boyutu',raw:d=>fmtE(d.ekran)},
-    {ad:'Panel',raw:d=>d.ekranNot},
+    {ad:'Panel',raw:d=>d.ekranNot.replace(/,?\s*\d+\s*Hz/,'').replace(/^,\s*|,\s*$/g,'')||d.ekranNot},
     X('Çözünürlük','coz'),
     {ad:'Yenileme hızı',raw:d=>hz(d)+' Hz',n:hz,best:'high'},
     X('En yüksek parlaklık','parlaklik',{n:nit,best:'high'})]},
@@ -823,65 +886,197 @@ const BOLUMLER=[
     {ad:'Çıkış fiyatı',raw:d=>fmtP(d.fiyat),n:d=>d.fiyat,best:'low'}]}
 ];
 
+const BOL_IKON={
+  'Boyut karşılaştırması':'<path d="M3 17l14-14 4 4L7 21H3z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/>',
+  'Ekran':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+  'Performans':'<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
+  'Kamera':'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  'Pil ve şarj':'<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 11v2M10 9l-2 4h4l-2 4"/>',
+  'Bağlantı':'<path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/>',
+  'Tasarım':'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  'Yazılım':'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  'Genel':'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>'
+};
+const bolBaslik=ad=>`<h3 class="bb"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${BOL_IKON[ad]||''}</svg>${ad}</h3>`;
+const CIHAZ_RENK=['#E5533F','#3D7BE0','#1FA884','#9B6BDF'];
+// Değeri ana metin + parantez içi alt yazı olarak göster
+const degerHtml=v=>{const m=/^(.*?)\s*\(([^)]*)\)\s*$/.exec(v);return m&&m[1]?`${esc(m[1])}<small>${esc(m[2])}</small>`:esc(v)};
+
+// ---------- Aynı aileden modeller ----------
+function aileAnahtari(d){
+  let a=d.ad.replace(/\(.*?\)/g,' ').replace(/\d+([,.]\d+)?"/g,' ').replace(/\+/g,' ');
+  if(!/^(iPad|MacBook)/.test(d.ad)){
+    a=a.replace(/\b(Pro|Max|Plus|Ultra|mini|Mini|FE|Edge|Lite|5G)\b/g,' ');
+    a=a.replace(/(\d+)e\b/,'$1').replace(/([A-Za-z]{3,})(\d+)\b/,'$1');
+  }
+  return d.marka+'|'+d.kat+'|'+a.replace(/\s+/g,' ').trim().toLowerCase();
+}
+function ayniAile(d){
+  const k=aileAnahtari(d);
+  return allDevices().filter(x=>x.id!==d.id&&aileAnahtari(x)===k).sort((a,b)=>(b.yil-a.yil)||a.ad.localeCompare(b.ad,'tr')).slice(0,8);
+}
+
+// ---------- Gerçek boyut ----------
+function olcu(d){
+  const t=(d.ext&&d.ext.boyut)||'';const m=/(\d+(?:,\d+)?)\s*×\s*(\d+(?:,\d+)?)/.exec(t);if(!m)return null;
+  const a=parseFloat(m[1].replace(',','.')),b=parseFloat(m[2].replace(',','.'));
+  return d.kat==='dizustu'?{w:a,h:b,r:0.03}:{w:b,h:a,r:d.kat==='tablet'?0.06:0.12};
+}
+function boyutBolumu(ds){
+  const ol=ds.map(olcu);if(ol.some(x=>!x))return '';
+  const mod=state.boyutMod||'yan';
+  const maxH=Math.max(...ol.map(o=>o.h)), maxW=Math.max(...ol.map(o=>o.w));
+  let svg;
+  if(mod==='ust'){
+    const W=320,H=220,k=Math.min((W-20)/maxW,(H-20)/maxH);
+    svg=`<svg viewBox="0 0 ${W} ${H}" class="by-svg" role="img" aria-label="Cihazların gerçek boyutları üst üste">`+ol.map((o,i)=>{const w=o.w*k,h=o.h*k;return `<rect x="${(W-w)/2}" y="${H-10-h}" width="${w}" height="${h}" rx="${Math.min(w,h)*o.r}" fill="${CIHAZ_RENK[i]}" fill-opacity=".10" stroke="${CIHAZ_RENK[i]}" stroke-width="2.5"/>`}).join('')+'</svg>';
+  }else{
+    const gap=14,H=200,W=Math.max(320,0);const topW=ol.reduce((t,o)=>t+o.w,0);
+    const k=Math.min((340-gap*(ol.length-1))/topW,(H-30)/maxH);
+    let x=0;const parts=ol.map((o,i)=>{const w=o.w*k,h=o.h*k;const r=`<rect x="${x}" y="${H-26-h}" width="${w}" height="${h}" rx="${Math.min(w,h)*o.r}" fill="${CIHAZ_RENK[i]}" fill-opacity=".14" stroke="${CIHAZ_RENK[i]}" stroke-width="2.5"/><text x="${x+w/2}" y="${H-8}" text-anchor="middle" class="by-t">${Math.round(o.h)} × ${Math.round(o.w)}</text>`;x+=w+gap;return r});
+    svg=`<svg viewBox="0 0 ${Math.max(x-gap,1)} ${H}" class="by-svg" role="img" aria-label="Cihazların gerçek boyutları yan yana">`+parts.join('')+'</svg>';
+  }
+  return `<section class="cb">${bolBaslik('Boyut karşılaştırması')}
+    <div class="by-ust"><div class="by-seg" role="group" aria-label="Görünüm"><button data-boyut="yan" aria-pressed="${mod==='yan'}">Yan yana</button><button data-boyut="ust" aria-pressed="${mod==='ust'}">Üst üste</button></div></div>
+    <div class="by-kutu">${svg}</div>
+    <div class="by-lej">${ds.map((d,i)=>`<span><i style="background:${CIHAZ_RENK[i]}"></i>${esc(d.ad)}</span>`).join('')}</div>
+    <p class="by-not">Gerçek oranlarla çizildi; ölçüler milimetre.</p>
+  </section>`;
+}
+
 function openDetail(id){
   const d=byId(id);if(!d)return;
   const on=state.sel.includes(id), full=state.sel.length>=MAX;
   const govde=BOLUMLER.map(b=>{
     const satir=b.r.filter(r=>r.raw(d)!=='—').map(r=>`<dt>${r.ad}</dt><dd>${esc(r.raw(d))}</dd>`).join('');
-    return satir?`<h3 class="det-b">${b.ad}</h3><dl class="kv">${satir}</dl>`:'';
+    return satir?`${bolBaslik(b.ad)}<dl class="kv">${satir}</dl>`:'';
   }).join('');
+  const aile=ayniAile(d);
+  const aileHtml=aile.length?`<div class="aile"><p class="aile-b">Aynı seriden</p><div class="aile-l">${aile.map(x=>{const s2=state.sel.includes(x.id);return `<button class="aile-c" data-add="${x.id}" aria-pressed="${s2}">${esc(x.ad)}<span aria-hidden="true">${s2?'✓':'+'}</span></button>`}).join('')}</div></div>`:'';
   $('detail').dataset.id=id;
-  $('detail').innerHTML=`<div class="dlg-head"><h2 id="dTitle">${esc(d.marka)} ${esc(d.ad)}</h2><button class="x" data-close aria-label="Kapat">×</button></div>
+  $('detail').innerHTML=`<div class="dlg-head"><h2 id="dTitle" tabindex="-1" autofocus data-oto>${esc(d.marka)} ${esc(d.ad)}</h2><button class="x" data-close aria-label="Kapat">×</button></div>
   <div class="dlg-body">
     ${picBox(d,'detail-pic')}
     ${d.ai?'<p class="muted">Bu cihaz yapay zekâ ile eklendi; bilgilerini doğrula.</p>':''}
-    ${govde}
     <button class="go" data-add="${d.id}" ${!on&&full?'disabled':''}>${on?'Karşılaştırmadan çıkar':full?`En fazla ${MAX} cihaz seçilebilir`:'Karşılaştırmaya ekle'}</button>
+    ${aileHtml}
+    ${govde}
   </div>`;
   if(!$('detail').open)$('detail').showModal();
 }
 
-function cmpGovde(ds){
-  return BOLUMLER.map(b=>{
+function cmpVeri(ds){
+  let farkli=0,ayni=0;
+  const html=BOLUMLER.map(b=>{
     const satirlar=b.r.map(r=>{
       const raw=ds.map(r.raw);
       if(raw.every(v=>v==='—'))return '';
-      if(state.diffOnly&&new Set(raw).size===1)return '';
+      const esit=new Set(raw).size===1;
+      if(esit)ayni++;else farkli++;
+      if(state.diffOnly&&esit)return '';
       let enIyi=[];
       if(r.best){const ns=ds.map(r.n);const g=ns.filter(x=>x!=null&&!isNaN(x));if(new Set(g).size>1){const bv=r.best==='high'?Math.max(...g):Math.min(...g);enIyi=ns.map((x,i)=>x===bv?i:-1).filter(i=>i>-1)}}
-      return `<div class="cs"><span class="cs-ad">${r.ad}</span><div class="cs-v">${raw.map((v,i)=>`<span class="${enIyi.includes(i)?'iyi':''}">${esc(v)}</span>`).join('')}</div></div>`;
+      return `<div class="cs"><span class="cs-ad">${r.ad}</span><div class="cs-v">${raw.map((v,i)=>`<span class="${enIyi.includes(i)?'iyi':''}">${degerHtml(v)}</span>`).join('')}</div></div>`;
     }).join('');
-    return satirlar?`<section class="cb"><h3>${b.ad}</h3>${satirlar}</section>`:'';
-  }).join('')||'<p class="muted" style="padding:20px 0">Seçtiğin cihazların gösterilen tüm özellikleri aynı.</p>';
+    return satirlar?`<section class="cb">${bolBaslik(b.ad)}${satirlar}</section>`:'';
+  }).join('');
+  return {html,farkli,ayni};
+}
+function cmpGovde(ds){
+  const v=cmpVeri(ds);
+  const turler=new Set(ds.map(d=>d.kat));
+  const ozet=`<div class="ozet"><b>${ds.length} cihaz</b> ${v.farkli} özellikte farklı, ${v.ayni} özellikte aynı.</div>`;
+  const karisik=turler.size>1?`<div class="uyari">Farklı türde cihazlar karşılaştırıyorsun (${[...turler].map(t=>KAT_AD_COGUL[t]).join(', ')}). Kamera, pil ve ekran gibi özellikler aynı anlamı taşımayabilir.</div>`:'';
+  return ozet+karisik+boyutBolumu(ds)+(v.html||'<p class="muted" style="padding:20px 0">Seçtiğin cihazların gösterilen tüm özellikleri aynı.</p>')+'<p class="ck-not"><span class="iyi">Sarı</span> o satırdaki en iyi değeri gösterir. Cihazların yerini değiştirmek için kartı basılı tutup sürükle.</p>';
+}
+function cihazKartlari(ds){
+  return ds.map((d,i)=>`<div class="ck-k" data-sira="${i}">
+      <button class="ck-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button>
+      ${picBox(d,'ck-pic')}
+      <span class="ck-m"><i style="background:${CIHAZ_RENK[i]}"></i>${esc(d.marka)}</span><span class="ck-a">${esc(d.ad)}</span>
+    </div>`).join('');
 }
 function openCompare(){
   const ds=state.sel.map(byId).filter(Boolean);
   if(ds.length<2){$('compare').open&&$('compare').close();return}
   const dlg=$('compare');
+  const kaydir=dlg.open&&$('cmpBody')?$('cmpBody').scrollTop:0;
   dlg.style.setProperty('--n',ds.length);
   dlg.dataset.n=ds.length;
   dlg.innerHTML=`<div class="ck">
     <div class="ck-ust">
       <button class="ck-geri" data-close><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Geri</button>
-      <h2 id="cTitle">Karşılaştırma</h2>
+      <h2 id="cTitle" tabindex="-1" autofocus data-oto>Karşılaştırma</h2>
       <label class="ck-fark">Farklar<input type="checkbox" id="diffOnly" role="switch" ${state.diffOnly?'checked':''}><span aria-hidden="true"></span></label>
     </div>
-    <div class="ck-cihaz">${ds.map(d=>`<div class="ck-k">
-      <button class="ck-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button>
-      ${picBox(d,'ck-pic')}
-      <span class="ck-m">${esc(d.marka)}</span><span class="ck-a">${esc(d.ad)}</span>
-    </div>`).join('')}</div>
-    <div class="ck-govde" id="cmpBody">${cmpGovde(ds)}<p class="ck-not"><span class="iyi">Sarı</span> o satırdaki en iyi değeri gösterir.</p></div>
+    <div class="ck-cihaz" id="ckCihaz">${cihazKartlari(ds)}</div>
+    <div class="ck-govde" id="cmpBody">${cmpGovde(ds)}</div>
   </div>`;
-  $('diffOnly').addEventListener('change',e=>{state.diffOnly=e.target.checked;$('cmpBody').innerHTML=cmpGovde(state.sel.map(byId).filter(Boolean))+'<p class="ck-not"><span class="iyi">Sarı</span> o satırdaki en iyi değeri gösterir.</p>'});
+  $('diffOnly').addEventListener('change',e=>{state.diffOnly=e.target.checked;$('cmpBody').innerHTML=cmpGovde(state.sel.map(byId).filter(Boolean))});
+  suruklemeKur();
   if(!dlg.open)dlg.showModal();
+  $('cmpBody').scrollTop=kaydir;
+}
+// Basılı tutup sürükleyerek cihazların yerini değiştirme
+function suruklemeKur(){
+  const kap=$('ckCihaz');let zam=null,surukle=null;
+  kap.querySelectorAll('.ck-k').forEach(k=>{
+    k.addEventListener('pointerdown',e=>{
+      if(e.target.closest('.ck-x'))return;
+      const bas=e.clientX;clearTimeout(zam);
+      zam=setTimeout(()=>{surukle={k,bas,from:+k.dataset.sira};k.classList.add('tut');try{k.setPointerCapture(e.pointerId)}catch(_){};if(navigator.vibrate)navigator.vibrate(15)},280);
+    });
+    k.addEventListener('pointermove',e=>{
+      if(!surukle||surukle.k!==k){return}
+      e.preventDefault();k.style.transform=`translateX(${e.clientX-surukle.bas}px) scale(1.04)`;
+    });
+    const bitir=e=>{
+      clearTimeout(zam);
+      if(!surukle||surukle.k!==k){surukle=null;return}
+      const kartlar=[...kap.querySelectorAll('.ck-k')];
+      const hedef=kartlar.reduce((en,x,i)=>{const r=x.getBoundingClientRect();const dx=Math.abs(e.clientX-(r.left+r.width/2));return dx<en.dx?{i,dx}:en},{i:surukle.from,dx:1e9}).i;
+      const from=surukle.from;surukle=null;k.classList.remove('tut');k.style.transform='';
+      if(hedef!==from){const [x]=state.sel.splice(from,1);state.sel.splice(hedef,0,x);kaydetSecim();openCompare();renderTray()}
+    };
+    k.addEventListener('pointerup',bitir);k.addEventListener('pointercancel',bitir);
+  });
 }
 
+// ---------- Ayarlar: tema ve yazı boyutu ----------
+const AYAR_KEY='kiyasla:ayarlar';
+let ayar={tema:'sistem',yazi:1};
+try{ayar={...ayar,...JSON.parse(localStorage.getItem(AYAR_KEY)||'{}')}}catch(e){}
+function ayarUygula(){
+  const r=document.documentElement;
+  if(ayar.tema==='sistem')r.removeAttribute('data-theme');else r.setAttribute('data-theme',ayar.tema);
+  r.style.setProperty('--yazi',ayar.yazi);
+  try{localStorage.setItem(AYAR_KEY,JSON.stringify(ayar))}catch(e){}
+}
+function ayarAc(){
+  const T=[['sistem','Telefona göre'],['light','Açık'],['dark','Koyu']], Y=[[1,'Normal'],[1.12,'Büyük'],[1.25,'Çok büyük']];
+  $('ayarlar').innerHTML=`<div class="dlg-head"><h2 id="aTitle" tabindex="-1" autofocus data-oto>Ayarlar</h2><button class="x" data-close aria-label="Kapat">×</button></div>
+  <div class="dlg-body">
+    <div class="ay-grup"><p>Görünüm</p><div class="ay-seg" role="group" aria-label="Görünüm">${T.map(([v,l])=>`<button data-tema="${v}" aria-pressed="${ayar.tema===v}">${l}</button>`).join('')}</div></div>
+    <div class="ay-grup"><p>Yazı boyutu</p><div class="ay-seg" role="group" aria-label="Yazı boyutu">${Y.map(([v,l])=>`<button data-yazi="${v}" aria-pressed="${ayar.yazi===v}">${l}</button>`).join('')}</div></div>
+  </div>`;
+  if(!$('ayarlar').open)$('ayarlar').showModal();
+}
+ayarUygula();
+
+let toastZ=null;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('goster');clearTimeout(toastZ);toastZ=setTimeout(()=>t.classList.remove('goster'),2600)}
+const KAT_AD_COGUL={telefon:'telefon',tablet:'tablet',dizustu:'laptop'};
 function toggle(id){
   const i=state.sel.indexOf(id);
-  if(i>-1)state.sel.splice(i,1);else if(state.sel.length<MAX)state.sel.push(id);
+  if(i>-1)state.sel.splice(i,1);else if(state.sel.length<MAX){
+    const yeni=byId(id), turler=new Set(state.sel.map(x=>byId(x)&&byId(x).kat));
+    state.sel.push(id);
+    if(yeni&&turler.size&&!turler.has(yeni.kat))toast('Farklı türde cihazlar seçtin. Karşılaştırma yapılır ama bazı özellikler aynı anlamı taşımayabilir.');
+  } else toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');
+  kaydetSecim();
   renderGrid();renderTray();
-  if($('detail').open)openDetail(id);
+  if($('detail').open)openDetail($('detail').dataset.id||id);
+  if($('compare').open)openCompare();
 }
 
 document.addEventListener('click',e=>{
@@ -889,16 +1084,21 @@ document.addEventListener('click',e=>{
   if(t.dataset.cat){state.cat=t.dataset.cat;renderCats();renderBrands();renderGrid()}
   else if(t.dataset.add)toggle(t.dataset.add);
   else if(t.dataset.open)openDetail(t.dataset.open);
-  else if(t.dataset.rm){state.sel=state.sel.filter(x=>x!==t.dataset.rm);renderGrid();renderTray();if($('compare').open)openCompare()}
+  else if(t.dataset.rm){state.sel=state.sel.filter(x=>x!==t.dataset.rm);kaydetSecim();renderGrid();renderTray();if($('compare').open)openCompare()}
   else if(t.dataset.aiadd!==undefined)addWithAI(t.dataset.aiadd);
+  else if(t.dataset.boyut){state.boyutMod=t.dataset.boyut;const y=$('cmpBody').scrollTop;$('cmpBody').innerHTML=cmpGovde(state.sel.map(byId).filter(Boolean));$('cmpBody').scrollTop=y}
+  else if(t.dataset.tema){ayar.tema=t.dataset.tema;ayarUygula();ayarAc()}
+  else if(t.dataset.yazi){ayar.yazi=+t.dataset.yazi;ayarUygula();ayarAc()}
+  else if(t.id==='ayarBtn')ayarAc();
   else if(t.hasAttribute('data-close'))t.closest('dialog').close();
 });
-['detail','compare'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
+['detail','compare','ayarlar'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
 $('q').addEventListener('input',e=>{state.q=e.target.value;renderGrid()});
 $('brand').addEventListener('change',e=>{state.brand=e.target.value;renderGrid()});
 $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderGrid()});
 $('go').addEventListener('click',openCompare);
-$('clear').addEventListener('click',()=>{state.sel=[];renderGrid();renderTray()});
+$('clear').addEventListener('click',()=>{state.sel=[];kaydetSecim();renderGrid();renderTray()});
+try{const s0=JSON.parse(localStorage.getItem('kiyasla:secim')||'[]');if(Array.isArray(s0))state.sel=s0.filter(id=>DEVICES.some(d=>d.id===id)).slice(0,MAX)}catch(e){}
 renderCats();refresh();
 // Açılış ekranını kısa bir süre gösterip kaldır
 // Her açılışta animasyon oynar (yaklaşık 2 saniye); hareketi azalt açıksa kısa süre sade hali görünür
