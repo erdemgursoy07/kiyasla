@@ -1,5 +1,5 @@
 // Uygulamanın internetsiz de açılmasını sağlar. Dosyaları değiştirdiğinde SURUM'u artır.
-const SURUM = 'v6';
+const SURUM = 'v7';
 const DOSYALAR = ['/', '/index.html', '/gizlilik.html', '/manifest.webmanifest',
   '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png'];
 
