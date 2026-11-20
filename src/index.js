@@ -1,8 +1,9 @@
 // Cloudflare Workers için sunucu kodu.
 // /api/ai adresine gelen istekleri Gemini'ye iletir, diğer her şeyde uygulamanın dosyalarını gösterir.
 // Gemini anahtarı Cloudflare ayarlarında GEMINI_API_KEY adıyla gizli değişken olarak durur.
+// İstersen GEMINI_MODEL değişkeniyle belirli bir model seçebilirsin.
 
-const VARSAYILAN_MODEL = 'gemini-2.5-flash';
+const MODELLER = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
 const MAKS_UZUNLUK = 60000;
 
 function cevap(veri, durum = 200) {
@@ -12,7 +13,30 @@ function cevap(veri, durum = 200) {
   });
 }
 
+async function geminiyeSor(model, anahtar, prompt, json) {
+  const generationConfig = { temperature: json ? 0.2 : 0.7, maxOutputTokens: 4096 };
+  if (json) generationConfig.responseMimeType = 'application/json';
+  return fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': anahtar },
+    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig })
+  });
+}
+
+async function hataMetni(yanit) {
+  try {
+    const v = await yanit.json();
+    return `Gemini ${yanit.status}: ${(v.error && v.error.message) || 'bilinmeyen hata'}`.slice(0, 300);
+  } catch {
+    return `Gemini ${yanit.status}`;
+  }
+}
+
 async function yapayZeka(request, env) {
+  // Tarayıcıdan açınca durum kontrolü gösterir
+  if (request.method === 'GET') {
+    return cevap({ calisiyor: true, anahtar_var: !!env.GEMINI_API_KEY, model: env.GEMINI_MODEL || MODELLER[0] });
+  }
   if (request.method !== 'POST') return cevap({ error: 'invalid_request' }, 405);
   if (!env.GEMINI_API_KEY) return cevap({ error: 'not_configured' }, 500);
 
@@ -21,28 +45,27 @@ async function yapayZeka(request, env) {
   const prompt = typeof govde.prompt === 'string' ? govde.prompt : '';
   if (!prompt || prompt.length > MAKS_UZUNLUK) return cevap({ error: 'invalid_request' }, 400);
 
-  const model = env.GEMINI_MODEL || VARSAYILAN_MODEL;
-  const generationConfig = { temperature: govde.json ? 0.2 : 0.7, maxOutputTokens: 4096 };
-  if (govde.json) generationConfig.responseMimeType = 'application/json';
-
-  let yanit;
-  try {
-    yanit = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig })
-    });
-  } catch {
-    return cevap({ error: 'upstream_error' }, 502);
+  const denenecek = env.GEMINI_MODEL ? [env.GEMINI_MODEL, ...MODELLER] : MODELLER;
+  let yanit, sonHata = '';
+  for (const model of denenecek) {
+    try {
+      yanit = await geminiyeSor(model, env.GEMINI_API_KEY, prompt, !!govde.json);
+    } catch (e) {
+      return cevap({ error: 'upstream_error', detail: 'Gemini’ye bağlanılamadı' }, 502);
+    }
+    if (yanit.status !== 404) break;          // model bulunamadıysa sıradakini dene
+    sonHata = await hataMetni(yanit);
+    yanit = null;
   }
-  if (yanit.status === 429) return cevap({ error: 'rate_limited' }, 429);
-  if (!yanit.ok) return cevap({ error: 'upstream_error' }, 502);
+  if (!yanit) return cevap({ error: 'upstream_error', detail: sonHata || 'Uygun model bulunamadı' }, 502);
+  if (yanit.status === 429) return cevap({ error: 'rate_limited', detail: await hataMetni(yanit) }, 429);
+  if (!yanit.ok) return cevap({ error: 'upstream_error', detail: await hataMetni(yanit) }, 502);
 
   const veri = await yanit.json();
   const aday = veri.candidates && veri.candidates[0];
   if (!aday || aday.finishReason === 'SAFETY') return cevap({ error: 'refused' }, 422);
-  const metin = ((aday.content && aday.content.parts) || []).map(p => p.text || '').join('');
-  if (!metin) return cevap({ error: 'empty_completion' }, 502);
+  const metin = ((aday.content && aday.content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
+  if (!metin) return cevap({ error: 'empty_completion', detail: 'Gemini boş yanıt verdi' }, 502);
   return cevap({ text: metin });
 }
 

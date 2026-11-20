@@ -747,12 +747,12 @@ function errText(e){
   if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){sampleFn=null;$('aiAdd').hidden=true;renderGrid();return 'Yapay zekâ bu görünümde kullanılamıyor.'}
   if(c==='offline')return 'İnternet bağlantısı yok. Cihaz eklemek için internete bağlan.';
   if(c==='not_configured')return 'Yapay zekâ henüz ayarlanmamış (sunucuda API anahtarı eksik).';
-  if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.';
+  if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.'+(e&&e.detail?` (Ayrıntı: ${e.detail})`:'');
   if(c==='session_expired')return 'Oturumun sona ermiş. Yeniden giriş yapıp tekrar dene.';
   if(c==='refused')return 'Yapay zekâ bu isteği yanıtlamadı. Farklı yazmayı dene.';
   if(c==='invalid_json'||c==='empty_completion')return 'Yanıt anlaşılamadı. Tekrar dene.';
   if(c==='cancelled')return '';
-  return 'Bağlantıda bir sorun oluştu. Tekrar dene.';
+  return 'Bağlantıda bir sorun oluştu. Tekrar dene.'+(e&&e.detail?` (Ayrıntı: ${e.detail})`:'');
 }
 function addPrompt(name){
   return `You are a consumer-electronics specification database. The user wants to add this device to a comparison catalog: "${name}".
@@ -833,9 +833,10 @@ async function callAI(prompt,wantJson,signal){
   let r;
   try{r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson}),signal})}
   catch(e){throw {code:e&&e.name==='AbortError'?'cancelled':'upstream_error'}}
-  let data={};try{data=await r.json()}catch(e){}
-  if(!r.ok)throw {code:data.error||'upstream_error'};
-  if(!data.text)throw {code:'empty_completion'};
+  let data=null;try{data=await r.json()}catch(e){}
+  if(!data)throw {code:'upstream_error',detail:`Sunucudan beklenen yanıt gelmedi (HTTP ${r.status}); sunucu kodu çalışmıyor olabilir`};
+  if(!r.ok)throw {code:data.error||'upstream_error',detail:data.detail};
+  if(!data.text)throw {code:'empty_completion',detail:data.detail};
   return data.text;
 }
 
