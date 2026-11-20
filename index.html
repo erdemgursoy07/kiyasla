@@ -2,12 +2,12 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Kıyasla – Telefon, Tablet, Laptop Karşılaştır</title>
 <meta name="description" content="Telefon, tablet ve laptopları yan yana karşılaştır.">
 <link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#EEF2F4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#12181E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#EAF3F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C171C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,10 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#EEF2F4; --surface:#FFFFFF; --ink:#14202B; --muted:#5B6B78; --line:#D3DBE1;
-  --accent:#1F6F5C; --accent-ink:#FFFFFF; --accent-soft:#DCEFE9;
-  --mark:#FFE066; --mark-ink:#14202B; --err:#B3261E;
-  --device:#1E2A36; --pic-l:91%; --pic-s:40%;
+  --bg:#EEF4F5; --surface:#FFFFFF; --ink:#0B1F2A; --muted:#4F6168; --line:#D2DFE2;
+  --accent:#0B5D6B; --accent-ink:#FFFFFF; --accent-soft:#DCEEF0;
+  --mark:#FFD166; --mark-ink:#0B1F2A; --err:#B3261E;
+  --device:#0B1F2A; --splash-bg:#EAF3F4; --pic-l:91%; --pic-s:40%;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -29,26 +29,34 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#12181E; --surface:#1B232B; --ink:#E6EDF2; --muted:#93A3AF; --line:#2C3842;
-    --accent:#4FBF9F; --accent-ink:#0D1A16; --accent-soft:#1E3A33;
-    --mark:#6B5A12; --mark-ink:#FFF4C2; --err:#FF8A80;
+    --bg:#0C171C; --surface:#14232A; --ink:#E5EFF1; --muted:#93A8AE; --line:#24363D;
+    --accent:#5BC0CE; --accent-ink:#06171C; --accent-soft:#163A41; --splash-bg:#0C171C;
+    --mark:#6A5214; --mark-ink:#FFF1C9; --err:#FF8A80;
     --device:#0A0F14; --pic-l:24%; --pic-s:22%;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#12181E; --surface:#1B232B; --ink:#E6EDF2; --muted:#93A3AF; --line:#2C3842;
-  --accent:#4FBF9F; --accent-ink:#0D1A16; --accent-soft:#1E3A33;
-  --mark:#6B5A12; --mark-ink:#FFF4C2; --err:#FF8A80;
+  --bg:#0C171C; --surface:#14232A; --ink:#E5EFF1; --muted:#93A8AE; --line:#24363D;
+  --accent:#5BC0CE; --accent-ink:#06171C; --accent-soft:#163A41; --splash-bg:#0C171C;
+  --mark:#6A5214; --mark-ink:#FFF1C9; --err:#FF8A80;
   --device:#0A0F14; --pic-l:24%; --pic-s:22%;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .wrap{max-width:1120px;margin:0 auto;padding:24px 18px 150px}
+.acilis{position:fixed;inset:0;z-index:50;background:var(--splash-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .35s ease}
+.acilis.gizle{opacity:0;pointer-events:none}
+.acilis-ic{width:112px;height:112px;border-radius:26px;overflow:hidden}
+.acilis-ic svg{width:100%;height:100%;display:block}
+.acilis-yazi{display:flex;flex-direction:column;align-items:center;gap:6px}
+.acilis-ad{margin:0;font-size:34px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.acilis-slogan{margin:0;font-size:17px;font-weight:500;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.acilis{transition:none}}
 .brand{font-weight:800;font-size:1.05rem;color:var(--accent);margin:0 0 12px}
 h1{font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:0 0 10px;max-width:18ch}
 .lead{color:var(--muted);max-width:54ch;margin:0 0 24px}
@@ -56,7 +64,7 @@ h1{font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.08;font-weight:800;letter-sp
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
 .seg button{border:0;background:none;padding:8px 14px;cursor:pointer;font-size:.92rem}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.search,.sel{font:inherit;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.search,.sel{font:inherit;font-size:16px;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
 .search{flex:1 1 200px}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
@@ -81,6 +89,11 @@ h1{font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.08;font-weight:800;letter-sp
 .pick[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pick:disabled{opacity:.35;cursor:not-allowed}
 .empty{grid-column:1/-1;padding:24px 4px;color:var(--muted)}
+.empty-box{grid-column:1/-1;background:var(--surface);border:1.5px dashed var(--line);border-radius:16px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.empty-ic{width:52px;height:52px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.empty-t{margin:0;font-size:1.08rem;font-weight:800}
+.empty-d{margin:0;color:var(--muted);max-width:34ch}
+.empty-box .status{margin:4px 0 0}
 .go{border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;border-radius:10px;padding:10px 16px;cursor:pointer}
 .go:disabled{opacity:.45;cursor:not-allowed}
 .link{border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;padding:8px}
@@ -134,6 +147,14 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </style>
 </head>
 <body>
+<div class="acilis" id="acilis" aria-hidden="true">
+  <div class="acilis-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kıyasla"><rect width="512" height="512" fill="#0B5D6B"/><circle cx="256" cy="256" r="206" fill="#0F6E7D"/><rect x="96" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect x="130" y="290" width="64" height="16" rx="8" fill="#0B5D6B"/><rect x="130" y="316" width="88" height="16" rx="8" fill="#0B5D6B" opacity="0.6"/><rect x="130" y="342" width="46" height="16" rx="8" fill="#0B5D6B" opacity="0.35"/><rect x="272" y="112" width="144" height="288" rx="34" fill="#0B1F2A"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFD166"/><rect x="306" y="290" width="88" height="16" rx="8" fill="#0B1F2A"/><rect x="306" y="316" width="52" height="16" rx="8" fill="#0B1F2A" opacity="0.6"/><rect x="306" y="342" width="72" height="16" rx="8" fill="#0B1F2A" opacity="0.35"/><circle cx="256" cy="206" r="48" fill="#FFD166" stroke="#0B5D6B" stroke-width="12"/><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#0B1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+  <div class="acilis-yazi">
+    <p class="acilis-ad">Kıyasla</p>
+    <p class="acilis-slogan">Karşılaştır. Karar ver.</p>
+  </div>
+</div>
 <div class="wrap">
   <p class="brand">Kıyasla</p>
   <h1>Cihazları yan yana koy, farkı kendin gör.</h1>
@@ -152,15 +173,6 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
   <p class="count" id="count" aria-live="polite"></p>
   <div class="grid" id="grid"></div>
 
-  <section class="ai" id="aiAdd" hidden>
-    <h2>Aradığın cihaz listede yok mu?</h2>
-    <p class="muted">Telefon, tablet ya da laptopun tam adını yaz; yapay zekâ teknik özelliklerini bulup listeye eklesin. Kıyasla’nın kapsadığı markalardaki cihazlar eklenebilir. Bu şekilde eklenen cihazlar işaretlenir ve bilgileri doğrulanmamıştır.</p>
-    <div class="ai-row">
-      <input id="aiName" class="search" placeholder="Örnek: Huawei Pura 70 Pro" aria-label="Eklenecek cihazın adı">
-      <button class="go" id="aiAddBtn">Yapay zekâ ile ekle</button>
-    </div>
-    <p class="status" id="aiStatus" aria-live="polite"></p>
-  </section>
 
   <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Ürün fotoğrafları Wikipedia ve Wikimedia Commons’tan serbest lisansla alınır; fotoğrafı bulunamayan cihazlarda temsili çizim gösterilir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="/gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
 </div>
@@ -601,7 +613,13 @@ function renderGrid(){
   $('count').textContent=items.length+' cihaz';
   if(!items.length){
     const qq=state.q.trim();
-    $('grid').innerHTML='<div class="empty"><p>Bu aramaya uyan cihaz yok. Türü ve markayı “Hepsi” yap ya da aramayı kısalt.</p>'+(sampleFn&&qq.length>2?`<button class="go" data-aiadd="${esc(qq)}">“${esc(qq)}” cihazını yapay zekâ ile ekle</button>`:'')+'</div>';
+    const canAdd=sampleFn&&qq.length>2;
+    $('grid').innerHTML=`<div class="empty-box">
+      <div class="empty-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div>
+      <p class="empty-t">${qq?`“${esc(qq)}” listede yok`:'Bu seçimde cihaz yok'}</p>
+      <p class="empty-d">${canAdd?'İstersen yapay zekâ özelliklerini bulup listeye eklesin. Eklenen cihazlar işaretlenir.':'Türü ve markayı “Hepsi” yap ya da aramayı kısalt.'}</p>
+      ${canAdd?`<button class="go" id="aiAddBtn" data-aiadd="${esc(qq)}">Yapay zekâ ile ekle</button><p class="status" id="aiStatus" aria-live="polite"></p>`:''}
+    </div>`;
     return;
   }
   const full=state.sel.length>=MAX;
@@ -711,7 +729,7 @@ document.addEventListener('click',e=>{
   else if(t.dataset.add)toggle(t.dataset.add);
   else if(t.dataset.open)openDetail(t.dataset.open);
   else if(t.dataset.rm){state.sel=state.sel.filter(x=>x!==t.dataset.rm);renderGrid();renderTray();if($('compare').open)openCompare()}
-  else if(t.dataset.aiadd!==undefined){$('aiName').value=t.dataset.aiadd;$('aiAdd').scrollIntoView({block:'center'});addWithAI()}
+  else if(t.dataset.aiadd!==undefined)addWithAI(t.dataset.aiadd);
   else if(t.hasAttribute('data-close'))t.closest('dialog').close();
 });
 ['detail','compare'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
@@ -721,6 +739,9 @@ $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderGrid()})
 $('go').addEventListener('click',openCompare);
 $('clear').addEventListener('click',()=>{state.sel=[];renderGrid();renderTray()});
 renderCats();refresh();
+// Açılış ekranını kısa bir süre gösterip kaldır
+(function(){const el=$('acilis');if(!el)return;const bitir=()=>{el.classList.add('gizle');setTimeout(()=>el.remove(),400)};
+  const sure=window.matchMedia&&matchMedia('(display-mode: standalone)').matches?900:500;setTimeout(bitir,sure)})();
 
 // ---------- Yapay zekâ ile cihaz ekleme ----------
 const trMap={'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'};
@@ -741,19 +762,18 @@ function validate(r){
   const ext={};EXT_F.forEach(([k])=>{ext[k]=clean(r[k],120)||'—'});
   return {id:'ai-'+slug(marka+' '+ad),ad,marka,kat,yil:Math.round(yil),ekran,ekranNot:clean(r.ekranNot)||'Bilgi yok',islemci:clean(r.islemci)||'Bilgi yok',ram,depolama,agirlik:Math.round(agirlik),kamera:clean(r.kamera,200)||'Bilgi yok',pil:clean(r.pil)||'Bilgi yok',fiyat:fiyat==null?null:Math.round(fiyat),ext,ai:true,bilinen:true};
 }
-function setStatus(msg,err){$('aiStatus').textContent=msg;$('aiStatus').classList.toggle('err',!!err)}
+function setStatus(msg,err){const el=$('aiStatus');if(!el)return;el.textContent=msg;el.classList.toggle('err',!!err)}
 function errText(e){
   const c=e&&e.code;
-  if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){sampleFn=null;$('aiAdd').hidden=true;renderGrid();return 'Yapay zekâ bu görünümde kullanılamıyor.'}
+  if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){sampleFn=null;renderGrid();return 'Yapay zekâ bu görünümde kullanılamıyor.'}
   if(c==='offline')return 'İnternet bağlantısı yok. Cihaz eklemek için internete bağlan.';
   if(c==='not_configured')return 'Yapay zekâ henüz ayarlanmamış (sunucuda API anahtarı eksik).';
-  if(c==='busy')return 'Yapay zekâ şu an çok yoğun. Birkaç dakika sonra tekrar dene.';
-  if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.'+(e&&e.detail?` (Ayrıntı: ${e.detail})`:'');
+  if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.';
   if(c==='session_expired')return 'Oturumun sona ermiş. Yeniden giriş yapıp tekrar dene.';
   if(c==='refused')return 'Yapay zekâ bu isteği yanıtlamadı. Farklı yazmayı dene.';
   if(c==='invalid_json'||c==='empty_completion')return 'Yanıt anlaşılamadı. Tekrar dene.';
   if(c==='cancelled')return '';
-  return 'Bağlantıda bir sorun oluştu. Tekrar dene.'+(e&&e.detail?` (Ayrıntı: ${e.detail})`:'');
+  return 'Bağlantıda bir sorun oluştu. Tekrar dene.';
 }
 function addPrompt(name){
   return `You are a consumer-electronics specification database. The user wants to add this device to a comparison catalog: "${name}".
@@ -790,14 +810,14 @@ Otherwise return exactly these fields (Turkish text, short, correct Turkish char
 
 Facts only, no opinions or recommendations.`;
 }
-async function addWithAI(){
+async function addWithAI(name){
   if(!sampleFn)return;
-  const name=$('aiName').value.trim();
+  name=String(name||'').trim();
   if(name.length<3){setStatus('Önce cihazın adını yaz (marka ve model).',true);return}
   const n=norm(name);
   const ex=allDevices().find(d=>norm(d.ad)===n||norm(d.marka+d.ad)===n);
   if(ex){setStatus(`“${ex.ad}” zaten listede.`);openDetail(ex.id);return}
-  const btn=$('aiAddBtn');btn.disabled=true;
+  const btn=$('aiAddBtn');if(btn){btn.disabled=true;btn.textContent='Ekleniyor…'}
   setStatus('Yapay zekâ cihazı araştırıyor… Bu 10 ile 60 saniye sürebilir.');
   try{
     const d=validate(await sampleFn.json(addPrompt(name),{modelTier:'default'}));
@@ -808,13 +828,11 @@ async function addWithAI(){
     aiMap.set(d.id,d);refresh();
     const saved=await persist(d);
     setStatus(saved?`“${d.marka} ${d.ad}” listeye eklendi ve kaydedildi.`:`“${d.marka} ${d.ad}” bu oturum için listeye eklendi.`);
-    $('aiName').value='';openDetail(d.id);
+    state.q='';$('q').value='';refresh();openDetail(d.id);
     if(!IN_CLAUDE)loadImages();
   }catch(e){const m=errText(e);if(m)setStatus(m,true)}
-  finally{btn.disabled=false}
+  finally{const b=$('aiAddBtn');if(b){b.disabled=false;b.textContent='Yapay zekâ ile ekle'}}
 }
-$('aiAddBtn').addEventListener('click',addWithAI);
-$('aiName').addEventListener('keydown',e=>{if(e.key==='Enter')addWithAI()});
 
 // Kayıt: Claude içinde ortak veritabanı, bağımsız uygulamada cihazın kendi hafızası
 const LS_KEY='kiyasla:ai-cihazlar:v2';
@@ -834,21 +852,19 @@ async function callAI(prompt,wantJson,signal){
   let r;
   try{r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson}),signal})}
   catch(e){throw {code:e&&e.name==='AbortError'?'cancelled':'upstream_error'}}
-  let data=null;try{data=await r.json()}catch(e){}
-  if(!data)throw {code:'upstream_error',detail:`Sunucudan beklenen yanıt gelmedi (HTTP ${r.status}); sunucu kodu çalışmıyor olabilir`};
-  if(!r.ok)throw {code:data.error||'upstream_error',detail:data.detail};
-  if(!data.text)throw {code:'empty_completion',detail:data.detail};
+  let data={};try{data=await r.json()}catch(e){}
+  if(!r.ok)throw {code:data.error||'upstream_error'};
+  if(!data.text)throw {code:'empty_completion'};
   return data.text;
 }
 
 (async()=>{
   if(IN_CLAUDE){
-    try{sampleFn=await window.claude.use('sample');if(sampleFn){$('aiAdd').hidden=false;renderGrid()}}catch(e){}
+    try{sampleFn=await window.claude.use('sample');if(sampleFn)renderGrid()}catch(e){}
     try{db=await window.claude.use('db');if(db)db.collection('devices').onSnapshot(snap=>mergeAI(snap.docs.map(x=>x.data())),()=>{})}catch(e){}
   }else{
     sampleFn=async(p,o={})=>({text:await callAI(p,false,o.signal),truncated:false});
     sampleFn.json=async(p,o={})=>{const t=await callAI(p,true,o.signal);try{return JSON.parse(t.replace(/```json|```/g,'').trim())}catch(e){throw {code:'invalid_json'}}};
-    $('aiAdd').hidden=false;
     try{const arr=JSON.parse(localStorage.getItem(LS_KEY)||'[]');if(Array.isArray(arr))mergeAI(arr)}catch(e){}
     renderGrid();
     loadImages();
