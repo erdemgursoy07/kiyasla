@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Kıyasla – Telefon, Tablet, Laptop Karşılaştır</title>
 <meta name="description" content="Telefon, tablet ve laptopları yan yana karşılaştır.">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#EAF3F4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0C171C" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="/icons/icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kıyasla">
@@ -197,7 +197,7 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
   <div class="grid" id="grid"></div>
 
 
-  <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="/gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
+  <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
 </div>
 
 <div class="tray" id="tray">
@@ -833,10 +833,12 @@ function mergeAI(list){
 }
 
 // Bağımsız uygulamada yapay zekâ isteği kendi sunucumuzdaki /api/ai adresine gider
+// GitHub Pages sunucu kodu çalıştıramaz; orada yapay zekâ istekleri Cloudflare'deki sunucuya gider
+const AI_URL=location.hostname.endsWith('github.io')?'https://kiyasla.erdemgursoy07.workers.dev/api/ai':'/api/ai';
 async function callAI(prompt,wantJson,signal){
   if(!navigator.onLine)throw {code:'offline'};
   let r;
-  try{r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson}),signal})}
+  try{r=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson}),signal})}
   catch(e){throw {code:e&&e.name==='AbortError'?'cancelled':'upstream_error'}}
   let data={};try{data=await r.json()}catch(e){}
   if(!r.ok)throw {code:data.error||'upstream_error'};
@@ -853,7 +855,7 @@ async function callAI(prompt,wantJson,signal){
     sampleFn.json=async(p,o={})=>{const t=await callAI(p,true,o.signal);try{return JSON.parse(t.replace(/```json|```/g,'').trim())}catch(e){throw {code:'invalid_json'}}};
     try{const arr=JSON.parse(localStorage.getItem(LS_KEY)||'[]');if(Array.isArray(arr))mergeAI(arr)}catch(e){}
     renderGrid();
-    if(navigator.serviceWorker)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    if(navigator.serviceWorker)navigator.serviceWorker.register('sw.js').catch(()=>{});
   }
 })();
 </script>

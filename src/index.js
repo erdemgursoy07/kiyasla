@@ -8,10 +8,20 @@ const MODELLER = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-flash-lite-
 const TEKRAR_DENE = [404, 500, 503];
 const MAKS_UZUNLUK = 60000;
 
+// Bu adreslerden gelen istekler kabul edilir (GitHub Pages sürümü için)
+const IZINLI_ADRESLER = ['https://erdemgursoy07.github.io'];
+
+function cors(request) {
+  const origin = request && request.headers.get('Origin');
+  if (!origin || !IZINLI_ADRESLER.includes(origin)) return {};
+  return { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '86400', 'Vary': 'Origin' };
+}
+
+let aktifIstek = null;
 function cevap(veri, durum = 200) {
   return new Response(JSON.stringify(veri), {
     status: durum,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...cors(aktifIstek) }
   });
 }
 
@@ -78,7 +88,11 @@ async function yapayZeka(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === '/api/ai') return yapayZeka(request, env);
+    if (url.pathname === '/api/ai') {
+      aktifIstek = request;
+      if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(request) });
+      return yapayZeka(request, env);
+    }
     return env.ASSETS.fetch(request);
   }
 };
