@@ -86,9 +86,10 @@ h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:
 .search{min-width:0}
 .sel{min-width:0;width:100%}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
-@media (min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
-.card{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}}
+.card .pic{aspect-ratio:auto;height:78px}
+.card{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
 .card.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .card-open{display:block;width:100%;border:0;background:none;padding:0;text-align:left;cursor:pointer}
 .pic{aspect-ratio:4/3;background:radial-gradient(120% 90% at 50% 30%,hsl(var(--h) var(--pic-s) calc(var(--pic-l) + 4%)),hsl(var(--h) var(--pic-s) var(--pic-l)));display:flex;align-items:center;justify-content:center}
@@ -99,12 +100,12 @@ h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:
 .grp th{position:sticky;left:0;background:var(--accent-soft);color:var(--ink);font-weight:800;font-size:.9rem;padding:8px 12px;text-align:left}
 .ext-h{font-size:1.05rem;margin:18px 0 8px}
 .small{font-size:.85rem;margin:0 0 10px}
-.card-txt{padding:10px 12px 14px;display:flex;flex-direction:column;gap:2px}
+.card-txt{padding:7px 8px 9px;display:flex;flex-direction:column;gap:1px}
 .c-brand{font-size:.82rem;color:var(--muted);font-weight:500}
-.c-name{font-weight:700;line-height:1.25}
-.c-year{font-size:.85rem;color:var(--muted)}
+.c-name{font-weight:700;line-height:1.2;font-size:13px}
+.c-year{font-size:11px;color:var(--muted)}
 .c-ai{font-size:.75rem;color:var(--muted);border:1.5px dashed var(--muted);border-radius:6px;padding:0 6px;align-self:flex-start;margin-top:4px}
-.pick{position:absolute;top:8px;right:8px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);background:var(--surface);font-size:1.2rem;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pick{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--muted);background:var(--surface);font-size:15px;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pick[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .pick:disabled{opacity:.35;cursor:not-allowed}
 .empty{grid-column:1/-1;padding:24px 4px;color:var(--muted)}
@@ -124,13 +125,14 @@ h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:
 .status:empty{display:none}
 .status.err{color:var(--err)}
 .note{color:var(--muted);font-size:.85rem;margin-top:26px;max-width:72ch}
-.tray{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1.5px solid var(--ink);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none;z-index:5}
-.tray.show{display:block}
-.tray-in{max-width:1120px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.chips{display:flex;gap:6px;flex-wrap:wrap;flex:1 1 260px;align-items:center}
-.chips b{margin-right:4px;font-size:.92rem}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:.85rem;background:var(--accent-soft);border-radius:999px;padding:4px 4px 4px 10px}
-.chip button{border:0;background:none;cursor:pointer;width:24px;height:24px;border-radius:50%;line-height:1}
+.tray{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));display:none;justify-content:center;align-items:center;gap:10px;z-index:5;pointer-events:none}
+.tray.show{display:flex}
+.tray>*{pointer-events:auto}
+.tray-x{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.tray-go{display:flex;align-items:center;gap:10px;height:56px;padding:0 22px 0 10px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.tray-go.bekle{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.tray-n{width:36px;height:36px;border-radius:50%;background:var(--accent-ink);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px}
+.tray-go.bekle .tray-n{background:var(--accent);color:var(--accent-ink)}
 dialog{border:0;padding:0;background:var(--surface);color:var(--ink);border-radius:16px;width:min(1000px,calc(100vw - 20px));max-height:calc(100dvh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 dialog::backdrop{background:rgba(10,16,22,.55)}
 .dlg-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;position:sticky;top:0;background:var(--surface);z-index:3;border-bottom:1px solid var(--line)}
@@ -160,8 +162,39 @@ tr.grp th{position:sticky;left:0;background:var(--accent-soft);color:var(--ink);
 .ext-g{font-size:.92rem;margin:14px 0 6px;color:var(--accent)}
 .small{font-size:.85rem;margin:0 0 10px}
 .loading{animation:none}
+.det-b{font-size:14px;font-weight:800;color:var(--accent);margin:18px 0 8px}
+#compare{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;background:var(--bg)}
+@media (min-width:760px){#compare{width:min(900px,calc(100vw - 40px));height:calc(100dvh - 40px);margin:auto;border-radius:18px}}
+.ck{display:flex;flex-direction:column;height:100%}
+.ck-ust{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 8px}
+.ck-ust h2{margin:0;font-size:17px;font-weight:800}
+.ck-geri{display:flex;align-items:center;gap:2px;border:0;background:none;color:var(--accent);font-weight:700;font-size:16px;cursor:pointer;padding:6px 4px}
+.ck-fark{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer}
+.ck-fark input{position:absolute;opacity:0;width:1px;height:1px}
+.ck-fark span{width:42px;height:26px;border-radius:13px;background:var(--line);position:relative;transition:background .15s}
+.ck-fark span::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+.ck-fark input:checked+span{background:var(--accent)}
+.ck-fark input:checked+span::after{transform:translateX(16px)}
+.ck-fark input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.ck-cihaz{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;padding:4px 14px 12px;border-bottom:1px solid var(--line)}
+.ck-k{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 6px 9px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;min-width:0}
+.ck-pic{width:56px;height:42px;border-radius:8px;overflow:hidden;margin-bottom:4px}
+.ck-m{font-size:11px;color:var(--muted)}
+.ck-a{font-size:14px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+#compare[data-n="3"] .ck-a,#compare[data-n="4"] .ck-a{font-size:12px}
+.ck-x{position:absolute;top:2px;right:4px;border:0;background:none;color:var(--muted);font-size:17px;cursor:pointer;width:26px;height:26px}
+.ck-govde{flex:1;overflow-y:auto;padding:0 14px calc(24px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
+.cb h3{margin:0;padding:16px 0 4px;font-size:13px;font-weight:800;color:var(--accent)}
+.cs{padding:9px 0 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+.cs-ad{font-size:12px;color:var(--muted)}
+.cs-v{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;align-items:start}
+.cs-v span{font-size:15px;font-weight:600;line-height:1.3;justify-self:start;overflow-wrap:anywhere;min-width:0}
+#compare[data-n="3"] .cs-v span{font-size:13px}
+#compare[data-n="4"] .cs-v span{font-size:12px}
+.iyi{background:var(--mark);color:var(--mark-ink);border-radius:6px;padding:1px 6px}
+.ck-not{font-size:12px;color:var(--muted);margin:16px 0 0}
 mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:4px}
-@media (max-width:520px){.wrap{padding:18px 12px 160px}.grid{gap:10px}.card-txt{padding:8px 10px 12px}}
+@media (max-width:520px){.wrap{padding:18px 12px 160px}}
 @media (prefers-reduced-motion:no-preference){.pick,.card{transition:background-color .15s,border-color .15s,box-shadow .15s}}
 </style>
 </head>
@@ -201,11 +234,8 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </div>
 
 <div class="tray" id="tray">
-  <div class="tray-in">
-    <div class="chips" id="chips"></div>
-    <button class="link" id="clear">Temizle</button>
-    <button class="go" id="go">Karşılaştır</button>
-  </div>
+  <button class="tray-x" id="clear" aria-label="Seçimi temizle">×</button>
+  <button class="tray-go" id="go"><span class="tray-n" id="trayN">0</span><span id="trayT">Karşılaştır</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </div>
 
 <dialog id="detail" aria-labelledby="dTitle"></dialog>
@@ -530,7 +560,130 @@ E('tabs9','2560×1600','12 MP','4K 30 fps','45 W','Yok','IP68','USB-C (USB 3.2)'
 E('taba9p','1920×1200','5 MP','1080p 30 fps','15 W','Yok','Yok','USB-C','Wi-Fi 5, isteğe bağlı 5G','Android 13, One UI 5.1','Yüz tanıma');
 E('taba9','1340×800','2 MP','1080p 30 fps','15 W','Yok','Yok','USB-C','Wi-Fi 5, isteğe bağlı 4G','Android 13, One UI 5.1','Yüz tanıma');
 
-const DEVICES=RAW.filter(d=>BRANDS[d.kat].includes(d.marka)).map(d=>({...d,ext:EXTD[d.id]||null}));
+// Ek özellikler: id, depolama seçenekleri, en yüksek parlaklık, boyutlar, renkler
+const FD={};
+function F(id,depolamaSec,parlaklik,boyut,renkler){FD[id]={depolamaSec,parlaklik,boyut,renkler}}
+F('ip17pm','256 GB, 512 GB, 1 TB, 2 TB','3000 nit','163,4 × 78 × 8,8 mm','Kozmik Turuncu, Koyu Mavi, Gümüş');
+F('ip17p','256 GB, 512 GB, 1 TB','3000 nit','150 × 71,9 × 8,8 mm','Kozmik Turuncu, Koyu Mavi, Gümüş');
+F('ipair','256 GB, 512 GB, 1 TB','3000 nit','156,2 × 74,7 × 5,6 mm','Uzay Siyahı, Bulut Beyazı, Açık Altın, Gök Mavisi');
+F('ip17','256 GB, 512 GB','3000 nit','149,6 × 71,5 × 7,95 mm','Siyah, Beyaz, Lavanta, Sis Mavisi, Adaçayı');
+F('ip16pm','256 GB, 512 GB, 1 TB','2000 nit','163 × 77,6 × 8,25 mm','Çöl, Doğal, Beyaz ve Siyah Titanyum');
+F('ip16p','128 GB, 256 GB, 512 GB, 1 TB','2000 nit','149,6 × 71,5 × 8,25 mm','Çöl, Doğal, Beyaz ve Siyah Titanyum');
+F('ip16','128 GB, 256 GB, 512 GB','2000 nit','147,6 × 71,6 × 7,8 mm','Siyah, Beyaz, Pembe, Deniz Mavisi, Lacivert');
+F('ip16plus','128 GB, 256 GB, 512 GB','2000 nit','160,9 × 77,8 × 7,8 mm','Siyah, Beyaz, Pembe, Deniz Mavisi, Lacivert');
+F('ip16e','128 GB, 256 GB, 512 GB','1200 nit','146,7 × 71,5 × 7,8 mm','Siyah, Beyaz');
+F('ip15pm','256 GB, 512 GB, 1 TB','2000 nit','159,9 × 76,7 × 8,25 mm','Doğal, Mavi, Beyaz ve Siyah Titanyum');
+F('ip15p','128 GB, 256 GB, 512 GB, 1 TB','2000 nit','146,6 × 70,6 × 8,25 mm','Doğal, Mavi, Beyaz ve Siyah Titanyum');
+F('ip15plus','128 GB, 256 GB, 512 GB','2000 nit','160,9 × 77,8 × 7,8 mm','Siyah, Mavi, Yeşil, Sarı, Pembe');
+F('ip15','128 GB, 256 GB, 512 GB','2000 nit','147,6 × 71,6 × 7,8 mm','Siyah, Mavi, Yeşil, Sarı, Pembe');
+F('ip14p','128 GB, 256 GB, 512 GB, 1 TB','2000 nit','147,5 × 71,5 × 7,85 mm','Uzay Siyahı, Gümüş, Altın, Koyu Mor');
+F('ip14','128 GB, 256 GB, 512 GB','1200 nit','146,7 × 71,5 × 7,8 mm','Gece Yarısı, Yıldız Işığı, Mavi, Mor, Kırmızı');
+F('ip13','128 GB, 256 GB, 512 GB','1200 nit','146,7 × 71,5 × 7,65 mm','Gece Yarısı, Yıldız Işığı, Mavi, Pembe, Kırmızı');
+F('ipse3','64 GB, 128 GB, 256 GB','625 nit','138,4 × 67,3 × 7,3 mm','Gece Yarısı, Yıldız Işığı, Kırmızı');
+F('s25u','256 GB, 512 GB, 1 TB','2600 nit','162,8 × 77,6 × 8,2 mm','Titanyum Gümüş Mavi, Siyah, Gri, Beyaz Gümüş');
+F('s25p','256 GB, 512 GB','2600 nit','158,4 × 75,8 × 7,3 mm','Buz Mavisi, Lacivert, Nane, Gümüş');
+F('s25','128 GB, 256 GB, 512 GB','2600 nit','146,9 × 70,5 × 7,2 mm','Buz Mavisi, Lacivert, Nane, Gümüş');
+F('s25edge','256 GB, 512 GB','2600 nit','158,2 × 75,6 × 5,8 mm','Titanyum Gümüş, Buz Mavisi, Siyah');
+F('s25fe','128 GB, 256 GB, 512 GB','1900 nit','161,3 × 76,6 × 7,4 mm','Lacivert, Buz Mavisi, Siyah, Beyaz');
+F('zfold7','256 GB, 512 GB, 1 TB','2600 nit','Açık 158,4 × 143,2 × 4,2 mm, kapalı 8,9 mm','Mavi Gölge, Gümüş Gölge, Siyah');
+F('zflip7','256 GB, 512 GB','2600 nit','Açık 166,7 × 75,2 × 6,5 mm, kapalı 13,7 mm','Mavi Gölge, Siyah, Mercan Kırmızısı');
+F('a56','128 GB, 256 GB','1900 nit','162,2 × 77,5 × 7,4 mm','Grafit, Açık Gri, Pembe, Zeytin');
+F('a55','128 GB, 256 GB','1000 nit','161,1 × 77,4 × 8,2 mm','Lacivert, Buz Mavisi, Lila, Limon');
+F('a36','128 GB, 256 GB','1900 nit','162,9 × 78,2 × 7,4 mm','Siyah, Beyaz, Lavanta, Lime');
+F('a16','128 GB, 256 GB','800 nit','164,4 × 77,9 × 7,9 mm','Siyah, Açık Gri, Açık Yeşil');
+F('s24u','256 GB, 512 GB, 1 TB','2600 nit','162,3 × 79 × 8,6 mm','Titanyum Gri, Siyah, Mor, Sarı');
+F('s24p','256 GB, 512 GB','2600 nit','158,5 × 75,9 × 7,7 mm','Siyah, Gri, Mor, Sarı');
+F('s24','128 GB, 256 GB, 512 GB','2600 nit','147 × 70,6 × 7,6 mm','Siyah, Gri, Mor, Sarı');
+F('s24fe','128 GB, 256 GB, 512 GB','1900 nit','162 × 77,3 × 8 mm','Mavi, Grafit, Gri, Nane, Sarı');
+F('s23u','256 GB, 512 GB, 1 TB','1750 nit','163,4 × 78,1 × 8,9 mm','Siyah, Krem, Yeşil, Lavanta');
+F('s23','128 GB, 256 GB, 512 GB','1750 nit','146,3 × 70,9 × 7,6 mm','Siyah, Krem, Yeşil, Lavanta');
+F('zfold6','256 GB, 512 GB, 1 TB','2600 nit','Açık 153,5 × 132,6 × 5,6 mm, kapalı 12,1 mm','Gümüş Gölge, Pembe, Lacivert');
+F('zflip6','256 GB, 512 GB','2600 nit','Açık 165,1 × 71,9 × 6,9 mm, kapalı 14,9 mm','Mavi, Sarı, Gümüş Gölge, Nane');
+F('a35','128 GB, 256 GB','1000 nit','161,7 × 78 × 8,2 mm','Lacivert, Buz Mavisi, Lila, Limon');
+F('a26','128 GB, 256 GB','1000 nit','164 × 77,5 × 7,7 mm','Siyah, Beyaz, Nane, Pembe');
+F('a15','128 GB, 256 GB','800 nit','160,1 × 76,8 × 8,4 mm','Lacivert, Mavi, Açık Mavi, Sarı');
+F('mi15u','512 GB, 1 TB','3200 nit','161,3 × 75,3 × 9,35 mm','Siyah, Beyaz, Krom Gümüş');
+F('mi15','256 GB, 512 GB','3200 nit','152,3 × 71,2 × 8,1 mm','Siyah, Beyaz, Yeşil');
+F('rn14p','256 GB, 512 GB','3000 nit','162,3 × 74,4 × 8,4 mm','Siyah, Mor, Okyanus Mavisi');
+F('mi14','256 GB, 512 GB','3000 nit','152,8 × 71,5 × 8,2 mm','Siyah, Beyaz, Yeşil');
+F('mi14tp','512 GB, 1 TB','4000 nit','160,4 × 75,1 × 8,4 mm','Titan Siyahı, Titan Gri, Titan Mavisi');
+F('mi14t','256 GB, 512 GB','4000 nit','160,5 × 75,1 × 7,8 mm','Titan Siyahı, Titan Gri, Titan Mavisi, Limon Yeşili');
+F('rn13pp','256 GB, 512 GB','1800 nit','161,4 × 74,2 × 8,9 mm','Siyah, Beyaz, Mor');
+F('rn13','128 GB, 256 GB','1800 nit','162,2 × 75,6 × 8 mm','Siyah, Nane Yeşili, Buz Mavisi');
+F('redmi13','128 GB, 256 GB','600 nit','168,6 × 76,3 × 8,3 mm','Siyah, Okyanus Mavisi, Pembe');
+F('pocof7p','256 GB, 512 GB','3200 nit','160,3 × 75 × 8,1 mm','Siyah, Gümüş, Mavi');
+F('pocof6','256 GB, 512 GB','2400 nit','160,5 × 74,5 × 7,8 mm','Siyah, Yeşil, Titanyum');
+F('pocox6p','256 GB, 512 GB','1800 nit','160,5 × 74,3 × 8,3 mm','Siyah, Gri, Sarı');
+F('mba13','256 GB, 512 GB, 1 TB, 2 TB','500 nit','304,1 × 215 × 11,3 mm','Gök Mavisi, Gümüş, Yıldız Işığı, Gece Yarısı');
+F('mba15','256 GB, 512 GB, 1 TB, 2 TB','500 nit','340,4 × 237,6 × 11,5 mm','Gök Mavisi, Gümüş, Yıldız Işığı, Gece Yarısı');
+F('mbp14m5','512 GB, 1 TB, 2 TB, 4 TB','1000 nit (HDR 1600)','312,6 × 221,2 × 15,5 mm','Uzay Siyahı, Gümüş');
+F('mbp16','512 GB, 1 TB, 2 TB, 4 TB, 8 TB','1000 nit (HDR 1600)','355,7 × 248,1 × 16,8 mm','Uzay Siyahı, Gümüş');
+F('mba13m3','256 GB, 512 GB, 1 TB, 2 TB','500 nit','304,1 × 215 × 11,3 mm','Gece Yarısı, Yıldız Işığı, Uzay Grisi, Gümüş');
+F('mba13m2','256 GB, 512 GB, 1 TB, 2 TB','500 nit','304,1 × 215 × 11,3 mm','Gece Yarısı, Yıldız Işığı, Uzay Grisi, Gümüş');
+F('mbp14m4','512 GB, 1 TB, 2 TB','1000 nit (HDR 1600)','312,6 × 221,2 × 15,5 mm','Uzay Siyahı, Gümüş');
+F('mbp14m4p','512 GB, 1 TB, 2 TB, 4 TB','1000 nit (HDR 1600)','312,6 × 221,2 × 15,5 mm','Uzay Siyahı, Gümüş');
+F('xps13','512 GB, 1 TB, 2 TB','500 nit','295,3 × 199,1 × 15,3 mm','Grafit, Platin');
+F('xps14','512 GB, 1 TB, 2 TB','500 nit','309,5 × 209,7 × 18 mm','Grafit, Platin');
+F('insp15','256 GB, 512 GB, 1 TB','250 nit','358,5 × 235,6 × 18,9 mm','Siyah, Gümüş');
+F('awm16','512 GB, 1 TB, 2 TB','500 nit','364,5 × 289 × 23,4 mm','Koyu Metalik Gri');
+F('pav15','512 GB, 1 TB','250 nit','360 × 234 × 17,9 mm','Gümüş, Mavi');
+F('omen16','1 TB, 2 TB','500 nit','369 × 259 × 23,5 mm','Siyah');
+F('elite840','256 GB, 512 GB, 1 TB','400 nit','312,9 × 223,8 × 19,2 mm','Gümüş');
+F('omnix','512 GB, 1 TB','300 nit','312,6 × 218,5 × 14,4 mm','Gümüş');
+F('loq15','512 GB, 1 TB','300 nit','359,9 × 258,7 × 23,9 mm','Gri');
+F('tpe14','256 GB, 512 GB, 1 TB','300 nit','313 × 219,3 × 17,7 mm','Siyah');
+F('yoga9i','1 TB','400 nit','316,8 × 221,2 × 15,3 mm','Kozmik Mavi, Ay Grisi');
+F('ideapad1','256 GB, 512 GB','220 nit','359,2 × 236,5 × 17,9 mm','Gri');
+F('g14','512 GB, 1 TB','500 nit','311 × 220 × 16,3 mm','Gri, Beyaz');
+F('tufa15','512 GB, 1 TB','250 nit','354 × 251 × 22,4 mm','Siyah');
+F('zenbook14','512 GB, 1 TB','400 nit','312,4 × 220,1 × 14,9 mm','Mavi, Gümüş');
+F('vivo15','256 GB, 512 GB','250 nit','359,7 × 232,5 × 17,9 mm','Siyah, Gümüş');
+F('strixg16','1 TB, 2 TB','500 nit','354 × 264 × 22,6 mm','Gri');
+F('g16','1 TB, 2 TB','500 nit','354 × 246 × 14,9 mm','Gri, Beyaz');
+F('vivos15','512 GB, 1 TB','600 nit','352,6 × 227,6 × 14,7 mm','Siyah');
+F('zenbooks14','1 TB','500 nit','310,3 × 214,7 × 12,9 mm','Gri, Beyaz');
+F('spectre14','512 GB, 1 TB, 2 TB','400 nit','313,6 × 218,7 × 17 mm','Siyah, Mavi');
+F('victus15','512 GB','250 nit','357,9 × 255 × 23,5 mm','Gümüş, Siyah');
+F('swiftgo14','512 GB, 1 TB','400 nit','312,9 × 218,9 × 14,9 mm','Gümüş');
+F('nitrov15','512 GB, 1 TB','250 nit','362,3 × 239,9 × 22,9 mm','Siyah');
+F('cbplus514','128 GB, 256 GB','300 nit','323 × 223 × 18,9 mm','Gri');
+F('aspire5','512 GB, 1 TB','250 nit','358,5 × 236,6 × 17,9 mm','Gümüş, Gri');
+F('heliosneo16','1 TB','400 nit','357,8 × 278,7 × 25,9 mm','Siyah');
+F('katana15','1 TB','250 nit','359 × 259 × 24,9 mm','Siyah');
+F('gf63','512 GB','250 nit','359 × 254 × 21,7 mm','Siyah');
+F('mbd16','512 GB, 1 TB','300 nit','356,7 × 248,7 × 18,4 mm','Uzay Grisi, Gümüş');
+F('mbd14','512 GB','300 nit','322,5 × 214,8 × 15,9 mm','Uzay Grisi, Gümüş');
+F('monabra5','500 GB, 1 TB (sürüme göre)','—','—','Siyah');
+F('montulpar5','500 GB, 1 TB, 2 TB (sürüme göre)','—','—','Siyah');
+F('montulpar7','1 TB, 2 TB (sürüme göre)','—','—','Siyah');
+F('monsemruk7','1 TB, 2 TB (sürüme göre)','—','—','Siyah');
+F('monhuma4','500 GB, 1 TB (sürüme göre)','—','—','Gri');
+F('ipadpro13','256 GB, 512 GB, 1 TB, 2 TB','1000 nit (HDR 1600)','281,6 × 215,5 × 5,1 mm','Uzay Siyahı, Gümüş');
+F('ipadpro11','256 GB, 512 GB, 1 TB, 2 TB','1000 nit (HDR 1600)','249,7 × 177,5 × 5,3 mm','Uzay Siyahı, Gümüş');
+F('ipadair13','128 GB, 256 GB, 512 GB, 1 TB','600 nit','280,6 × 214,9 × 6,1 mm','Uzay Grisi, Mavi, Mor, Yıldız Işığı');
+F('ipadair11','128 GB, 256 GB, 512 GB, 1 TB','500 nit','247,6 × 178,5 × 6,1 mm','Uzay Grisi, Mavi, Mor, Yıldız Işığı');
+F('ipada16','128 GB, 256 GB, 512 GB','500 nit','248,6 × 179,5 × 7 mm','Gümüş, Mavi, Pembe, Sarı');
+F('ipadmini','128 GB, 256 GB, 512 GB','500 nit','195,4 × 134,8 × 6,3 mm','Uzay Grisi, Mavi, Mor, Yıldız Işığı');
+F('ipadpro13m4','256 GB, 512 GB, 1 TB, 2 TB','1000 nit (HDR 1600)','281,6 × 215,5 × 5,1 mm','Uzay Siyahı, Gümüş');
+F('ipadpro11m4','256 GB, 512 GB, 1 TB, 2 TB','1000 nit (HDR 1600)','249,7 × 177,5 × 5,3 mm','Uzay Siyahı, Gümüş');
+F('ipadair11m2','128 GB, 256 GB, 512 GB, 1 TB','500 nit','247,6 × 178,5 × 6,1 mm','Uzay Grisi, Mavi, Mor, Yıldız Işığı');
+F('ipad10','64 GB, 256 GB','500 nit','248,6 × 179,5 × 7 mm','Gümüş, Mavi, Pembe, Sarı');
+F('ipadmini6','64 GB, 256 GB','500 nit','195,4 × 134,8 × 6,3 mm','Uzay Grisi, Pembe, Mor, Yıldız Işığı');
+F('tabs10u','256 GB, 512 GB, 1 TB','930 nit','326,4 × 208,6 × 5,4 mm','Gri, Gümüş');
+F('tabs10p','256 GB, 512 GB','650 nit','285,4 × 185,4 × 5,6 mm','Gri, Gümüş');
+F('tabs10fe','128 GB, 256 GB','800 nit','254,3 × 165,8 × 6 mm','Gri, Gümüş, Mavi');
+F('tabs10fep','128 GB, 256 GB','800 nit','300,6 × 194,7 × 6 mm','Gri, Gümüş, Mavi');
+F('tabs9fe','128 GB, 256 GB','600 nit','254,3 × 165,8 × 6,5 mm','Gri, Gümüş, Lavanta, Nane');
+F('tabs9u','256 GB, 512 GB, 1 TB','930 nit','326,4 × 208,6 × 5,5 mm','Grafit, Bej');
+F('tabs9','128 GB, 256 GB','750 nit','254,3 × 165,8 × 5,9 mm','Grafit, Bej');
+F('taba9p','64 GB, 128 GB','480 nit','257,1 × 168,7 × 6,9 mm','Grafit, Gümüş, Lacivert');
+F('taba9','64 GB, 128 GB','480 nit','211 × 124,7 × 8 mm','Grafit, Gümüş, Lacivert');
+F('x1c','512 GB, 1 TB, 2 TB','400 nit','312,8 × 214,8 × 14,9 mm','Siyah');
+F('yoga7x','512 GB, 1 TB','500 nit','325 × 225,5 × 12,9 mm','Kozmik Mavi');
+F('ideapad5','512 GB, 1 TB','400 nit','312,8 × 221,4 × 16,9 mm','Gri, Mavi');
+F('legion5','1 TB, 2 TB','500 nit','363,4 × 260,4 × 26,6 mm','Gri');
+
+const DEVICES=RAW.filter(d=>BRANDS[d.kat].includes(d.marka)).map(d=>({...d,ext:{...(EXTD[d.id]||{}),...(FD[d.id]||{})}}));
 
 const state={cat:'hepsi',brand:'hepsi',q:'',sort:'yeni',sel:[],diffOnly:false};
 const aiMap=new Map();
@@ -614,7 +767,7 @@ function renderGrid(){
     return `<article class="card${on?' on':''}">
       <button class="card-open" data-open="${d.id}" aria-label="${esc(d.marka+' '+d.ad)}, ${d.yil}. Özellikleri gör">
         ${picBox(d)}
-        <div class="card-txt"><span class="c-brand">${esc(d.marka)}</span><span class="c-name">${esc(d.ad)}</span><span class="c-year">${d.yil}</span>${d.ai?'<span class="c-ai">Yapay zekâ ile eklendi</span>':''}</div>
+        <div class="card-txt"><span class="c-name">${esc(d.ad)}</span><span class="c-year">${esc(d.marka)}, ${d.yil}</span>${d.ai?'<span class="c-ai">Yapay zekâ ile eklendi</span>':''}</div>
       </button>
       <button class="pick" data-add="${d.id}" aria-pressed="${on}" aria-label="${on?'Karşılaştırmadan çıkar':'Karşılaştırmaya ekle'}: ${esc(d.ad)}" ${!on&&full?'disabled':''}>${on?'✓':'+'}</button>
     </article>`}).join('');
@@ -622,83 +775,106 @@ function renderGrid(){
 function renderTray(){
   const n=state.sel.length;
   $('tray').classList.toggle('show',n>0);
-  $('chips').innerHTML=`<b>${n}/${MAX}</b>`+state.sel.map(id=>{const d=byId(id);return d?`<span class="chip">${esc(d.ad)}<button data-rm="${id}" aria-label="${esc(d.ad)} çıkar">×</button></span>`:''}).join('');
-  $('go').disabled=n<2;
-  $('go').textContent=n<2?'En az 2 cihaz seç':'Karşılaştır';
+  $('trayN').textContent=n;
+  $('trayT').textContent=n<2?'Bir cihaz daha seç':'Karşılaştır';
+  $('go').classList.toggle('bekle',n<2);
+  $('go').setAttribute('aria-label',n<2?'Karşılaştırmak için bir cihaz daha seç':n+' cihazı karşılaştır');
 }
 function refresh(){renderBrands();renderGrid();renderTray()}
 
 // ---------- Özellikler ----------
-const EXT_F=[['coz','Çözünürlük'],['on','Ön kamera'],['video','Video kaydı'],['sarj','Şarj'],['kablosuz','Kablosuz şarj'],['ip','Suya ve toza dayanıklılık'],['port','Portlar'],['ag','Bağlantı'],['os','İşletim sistemi'],['kilit','Kilit açma']];
-const CORE=[
-  {ad:'Marka',v:d=>esc(d.marka)},
-  {ad:'Tür',v:d=>CAT_AD[d.kat]},
-  {ad:'Çıkış yılı',n:d=>d.yil,v:d=>String(d.yil),best:'high'},
-  {ad:'Ekran boyutu',v:d=>fmtE(d.ekran)},
-  {ad:'Ekran',v:d=>esc(d.ekranNot)},
-  {ad:'İşlemci',v:d=>esc(d.islemci)},
-  {ad:'RAM',n:d=>d.ram,v:d=>d.ram+' GB',best:'high'},
-  {ad:'Depolama (başlangıç)',n:d=>d.depolama,v:d=>fmtS(d.depolama),best:'high'},
-  {ad:'Ağırlık',n:d=>d.agirlik,v:d=>fmtW(d.agirlik),best:'low'},
-  {ad:'Kamera',v:d=>esc(d.kamera)},
-  {ad:'Pil',v:d=>esc(d.pil)},
-  {ad:'Çıkış fiyatı',n:d=>d.fiyat,v:d=>fmtP(d.fiyat),best:'low'}
+const hz=d=>{const m=/(\d+)\s*Hz/.exec(d.ekranNot||'');return m?+m[1]:(/XDR/.test(d.ekranNot||'')?120:60)};
+const nit=d=>{const m=/(\d[\d.]*)\s*nit/.exec(((d.ext&&d.ext.parlaklik)||'').replace(/\s(?=\d{3}\b)/g,''));return m?+m[1].replace('.',''):null};
+const X=(ad,k,extra={})=>({ad,raw:d=>(d.ext&&d.ext[k])||'—',...extra});
+const BOLUMLER=[
+  {ad:'Ekran',r:[
+    {ad:'Ekran boyutu',raw:d=>fmtE(d.ekran)},
+    {ad:'Panel',raw:d=>d.ekranNot},
+    X('Çözünürlük','coz'),
+    {ad:'Yenileme hızı',raw:d=>hz(d)+' Hz',n:hz,best:'high'},
+    X('En yüksek parlaklık','parlaklik',{n:nit,best:'high'})]},
+  {ad:'Performans',r:[
+    {ad:'İşlemci',raw:d=>d.islemci},
+    {ad:'RAM',raw:d=>d.ram+' GB',n:d=>d.ram,best:'high'},
+    {ad:'Depolama (başlangıç)',raw:d=>fmtS(d.depolama),n:d=>d.depolama,best:'high'},
+    X('Depolama seçenekleri','depolamaSec')]},
+  {ad:'Kamera',r:[
+    {ad:'Arka kamera',raw:d=>d.kamera},
+    X('Ön kamera','on'),
+    X('Video kaydı','video')]},
+  {ad:'Pil ve şarj',r:[
+    {ad:'Pil',raw:d=>d.pil},
+    X('Kablolu şarj','sarj'),
+    X('Kablosuz şarj','kablosuz')]},
+  {ad:'Bağlantı',r:[
+    X('Mobil ağ ve Wi-Fi','ag'),
+    X('Portlar','port')]},
+  {ad:'Tasarım',r:[
+    {ad:'Ağırlık',raw:d=>fmtW(d.agirlik),n:d=>d.agirlik,best:'low'},
+    X('Boyutlar','boyut'),
+    X('Renkler','renkler'),
+    X('Suya ve toza dayanıklılık','ip'),
+    X('Kilit açma','kilit')]},
+  {ad:'Yazılım',r:[X('İşletim sistemi','os')]},
+  {ad:'Genel',r:[
+    {ad:'Marka',raw:d=>d.marka},
+    {ad:'Tür',raw:d=>CAT_AD[d.kat]},
+    {ad:'Çıkış yılı',raw:d=>String(d.yil),n:d=>d.yil,best:'high'},
+    {ad:'Çıkış fiyatı',raw:d=>fmtP(d.fiyat),n:d=>d.fiyat,best:'low'}]}
 ];
-const DETAIL=EXT_F.map(([k,l])=>({ad:l,v:d=>esc((d.ext&&d.ext[k])||'—'),raw:d=>(d.ext&&d.ext[k])||'—'}));
 
 function openDetail(id){
   const d=byId(id);if(!d)return;
   const on=state.sel.includes(id), full=state.sel.length>=MAX;
-  const det=DETAIL.filter(r=>r.raw(d)!=='—');
+  const govde=BOLUMLER.map(b=>{
+    const satir=b.r.filter(r=>r.raw(d)!=='—').map(r=>`<dt>${r.ad}</dt><dd>${esc(r.raw(d))}</dd>`).join('');
+    return satir?`<h3 class="det-b">${b.ad}</h3><dl class="kv">${satir}</dl>`:'';
+  }).join('');
+  $('detail').dataset.id=id;
   $('detail').innerHTML=`<div class="dlg-head"><h2 id="dTitle">${esc(d.marka)} ${esc(d.ad)}</h2><button class="x" data-close aria-label="Kapat">×</button></div>
   <div class="dlg-body">
     ${picBox(d,'detail-pic')}
-        ${d.ai?'<p class="muted">Bu cihaz yapay zekâ ile eklendi; bilgilerini doğrula.</p>':''}
-    <h3 class="ext-h">Temel özellikler</h3>
-    <dl class="kv">${CORE.map(r=>`<dt>${r.ad}</dt><dd>${r.v(d)}</dd>`).join('')}</dl>
-    ${det.length?`<h3 class="ext-h">Detaylı özellikler</h3><dl class="kv">${det.map(r=>`<dt>${r.ad}</dt><dd>${r.v(d)}</dd>`).join('')}</dl>`:''}
+    ${d.ai?'<p class="muted">Bu cihaz yapay zekâ ile eklendi; bilgilerini doğrula.</p>':''}
+    ${govde}
     <button class="go" data-add="${d.id}" ${!on&&full?'disabled':''}>${on?'Karşılaştırmadan çıkar':full?`En fazla ${MAX} cihaz seçilebilir`:'Karşılaştırmaya ekle'}</button>
   </div>`;
   if(!$('detail').open)$('detail').showModal();
 }
 
-function cmpRows(ds){
-  const row=(label,vals,best)=>`<tr><th scope="row">${label}</th>${vals.map((v,i)=>`<td>${best&&best.includes(i)?'<mark>'+v+'</mark>':v}</td>`).join('')}</tr>`;
-  const n=ds.length+1;
-  let html=`<tr class="grp"><th scope="rowgroup" colspan="${n}">Temel özellikler</th></tr>`;
-  CORE.forEach(r=>{
-    const vals=ds.map(r.v);
-    if(state.diffOnly&&new Set(vals).size===1)return;
-    let best=null;
-    if(r.best){const ns=ds.map(r.n);const real=ns.filter(x=>x!=null);if(new Set(real).size>1){const bv=r.best==='high'?Math.max(...real):Math.min(...real);best=ns.map((x,i)=>x===bv?i:-1).filter(i=>i>-1)}}
-    html+=row(r.ad,vals,best);
-  });
-  let part='';
-  DETAIL.forEach(r=>{
-    const raw=ds.map(r.raw);
-    if(raw.every(v=>v==='—'))return;
-    if(state.diffOnly&&new Set(raw).size===1)return;
-    part+=row(r.ad,ds.map(r.v),null);
-  });
-  if(part)html+=`<tr class="grp"><th scope="rowgroup" colspan="${n}">Detaylı özellikler</th></tr>`+part;
-  return html;
+function cmpGovde(ds){
+  return BOLUMLER.map(b=>{
+    const satirlar=b.r.map(r=>{
+      const raw=ds.map(r.raw);
+      if(raw.every(v=>v==='—'))return '';
+      if(state.diffOnly&&new Set(raw).size===1)return '';
+      let enIyi=[];
+      if(r.best){const ns=ds.map(r.n);const g=ns.filter(x=>x!=null&&!isNaN(x));if(new Set(g).size>1){const bv=r.best==='high'?Math.max(...g):Math.min(...g);enIyi=ns.map((x,i)=>x===bv?i:-1).filter(i=>i>-1)}}
+      return `<div class="cs"><span class="cs-ad">${r.ad}</span><div class="cs-v">${raw.map((v,i)=>`<span class="${enIyi.includes(i)?'iyi':''}">${esc(v)}</span>`).join('')}</div></div>`;
+    }).join('');
+    return satirlar?`<section class="cb"><h3>${b.ad}</h3>${satirlar}</section>`:'';
+  }).join('')||'<p class="muted" style="padding:20px 0">Seçtiğin cihazların gösterilen tüm özellikleri aynı.</p>';
 }
 function openCompare(){
   const ds=state.sel.map(byId).filter(Boolean);
   if(ds.length<2){$('compare').open&&$('compare').close();return}
-  $('compare').innerHTML=`<div class="dlg-head"><h2 id="cTitle">Karşılaştırma</h2><button class="x" data-close aria-label="Kapat">×</button></div>
-  <div class="dlg-body">
-    <div class="cmp-tools">
-      <label><input type="checkbox" id="diffOnly" ${state.diffOnly?'checked':''}> Yalnızca farklı olanları göster</label>
-      <p class="legend"><mark>Sarı</mark>: en yeni, en çok RAM ve depolama, en hafif, en düşük fiyat.</p>
+  const dlg=$('compare');
+  dlg.style.setProperty('--n',ds.length);
+  dlg.dataset.n=ds.length;
+  dlg.innerHTML=`<div class="ck">
+    <div class="ck-ust">
+      <button class="ck-geri" data-close><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Geri</button>
+      <h2 id="cTitle">Karşılaştırma</h2>
+      <label class="ck-fark">Farklar<input type="checkbox" id="diffOnly" role="switch" ${state.diffOnly?'checked':''}><span aria-hidden="true"></span></label>
     </div>
-    <div class="scroll"><table>
-      <thead><tr><th></th>${ds.map(d=>`<th scope="col">${picBox(d,'col-pic')}<div class="col-sub">${esc(d.marka)}</div><div class="col-name">${esc(d.ad)}</div><div class="col-sub">${d.yil}${d.ai?', yapay zekâ ile eklendi':''}</div><button class="col-rm" data-rm="${d.id}">Çıkar</button></th>`).join('')}</tr></thead>
-      <tbody id="cmpBody">${cmpRows(ds)}</tbody>
-    </table></div>
+    <div class="ck-cihaz">${ds.map(d=>`<div class="ck-k">
+      <button class="ck-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button>
+      ${picBox(d,'ck-pic')}
+      <span class="ck-m">${esc(d.marka)}</span><span class="ck-a">${esc(d.ad)}</span>
+    </div>`).join('')}</div>
+    <div class="ck-govde" id="cmpBody">${cmpGovde(ds)}<p class="ck-not"><span class="iyi">Sarı</span> o satırdaki en iyi değeri gösterir.</p></div>
   </div>`;
-  $('diffOnly').addEventListener('change',e=>{state.diffOnly=e.target.checked;$('cmpBody').innerHTML=cmpRows(state.sel.map(byId).filter(Boolean))});
-  if(!$('compare').open)$('compare').showModal();
+  $('diffOnly').addEventListener('change',e=>{state.diffOnly=e.target.checked;$('cmpBody').innerHTML=cmpGovde(state.sel.map(byId).filter(Boolean))+'<p class="ck-not"><span class="iyi">Sarı</span> o satırdaki en iyi değeri gösterir.</p>'});
+  if(!dlg.open)dlg.showModal();
 }
 
 function toggle(id){
@@ -746,7 +922,7 @@ function validate(r){
   const yil=num(r.yil,2010,2030), ekran=num(r.ekran,3,20), ram=num(r.ram,1,256), depolama=num(r.depolama,8,16384), agirlik=num(r.agirlik,80,6000);
   const fiyat=r.fiyat==null?null:num(r.fiyat,30,10000);
   if(!kat||!ad||!marka||yil===null||ekran===null||ram===null||depolama===null||agirlik===null)return null;
-  const ext={};EXT_F.forEach(([k])=>{ext[k]=clean(r[k],120)||'—'});
+  const ext={};['coz','on','video','sarj','kablosuz','ip','port','ag','os','kilit','depolamaSec','parlaklik','boyut','renkler'].forEach(k=>{ext[k]=clean(r[k],140)||'—'});
   return {id:'ai-'+slug(marka+' '+ad),ad,marka,kat,yil:Math.round(yil),ekran,ekranNot:clean(r.ekranNot)||'Bilgi yok',islemci:clean(r.islemci)||'Bilgi yok',ram,depolama,agirlik:Math.round(agirlik),kamera:clean(r.kamera,200)||'Bilgi yok',pil:clean(r.pil)||'Bilgi yok',fiyat:fiyat==null?null:Math.round(fiyat),ext,ai:true,bilinen:true};
 }
 function setStatus(msg,err){const el=$('aiStatus');if(!el)return;el.textContent=msg;el.classList.toggle('err',!!err)}
@@ -793,7 +969,11 @@ Otherwise return exactly these fields (Turkish text, short, correct Turkish char
  "port": "ports",
  "ag": "5G/4G and Wi-Fi version",
  "os": "operating system at launch",
- "kilit": "biometrics such as Face ID or fingerprint, or \\"Yok\\""}
+ "kilit": "biometrics such as Face ID or fingerprint, or \\"Yok\\"",
+ "depolamaSec": "all storage options sold, e.g. \\"128 GB, 256 GB, 512 GB\\"",
+ "parlaklik": "peak brightness, e.g. \\"2600 nit\\"",
+ "boyut": "dimensions in mm, e.g. \\"146,9 × 70,5 × 7,2 mm\\"",
+ "renkler": "launch colors in Turkish, comma separated"}
 
 Facts only, no opinions or recommendations.`;
 }
@@ -833,7 +1013,6 @@ function mergeAI(list){
 }
 
 // Bağımsız uygulamada yapay zekâ isteği kendi sunucumuzdaki /api/ai adresine gider
-// GitHub Pages sunucu kodu çalıştıramaz; orada yapay zekâ istekleri Cloudflare'deki sunucuya gider
 const AI_URL=location.hostname.endsWith('github.io')?'https://kiyasla.erdemgursoy07.workers.dev/api/ai':'/api/ai';
 async function callAI(prompt,wantJson,signal){
   if(!navigator.onLine)throw {code:'offline'};
