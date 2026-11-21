@@ -1,7 +1,7 @@
 {
   "name": "Kıyasla – Cihaz Karşılaştır",
   "short_name": "Kıyasla",
-  "description": "Telefon, tablet ve dizüstü bilgisayarları karşılaştır, yapay zekâdan öneri al.",
+  "description": "Telefon, tablet ve laptopları yan yana karşılaştır, kararı sen ver.",
   "lang": "tr",
   "id": "./",
   "start_url": "./",
