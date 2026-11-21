@@ -108,6 +108,22 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .satir-i{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--muted);font-weight:800;cursor:pointer;flex-shrink:0}
 .sc .note{margin-top:18px}
 .vs-pic.pic,.hz-p.pic{aspect-ratio:auto}
+.tur{position:fixed;inset:0;z-index:70}
+.tur[hidden]{display:none}
+.tur-isik{position:fixed;border-radius:20px;box-shadow:0 0 0 9999px rgba(5,12,8,.72);transition:left .3s,top .3s,width .3s,height .3s;pointer-events:none;outline:2px solid var(--accent);outline-offset:2px}
+.tur-isik.yok{outline:none;border-radius:0}
+.tur-kart{position:fixed;left:16px;right:16px;max-width:400px;margin:0 auto;background:var(--surface);color:var(--ink);border-radius:20px;padding:18px 18px 14px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.tur-kart.orta{transform:translateY(-50%)}
+.tur-adim{margin:0 0 4px;font-size:12px;font-weight:800;color:var(--accent-text);letter-spacing:.04em}
+.tur-kart h2{margin:0 0 6px;font-size:19px;font-weight:800}
+.tur-m{margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--muted)}
+.tur-alt{display:flex;align-items:center;gap:10px}
+.tur-alt .go{margin-left:auto;min-width:110px}
+.tur-nok{display:flex;gap:6px}
+.tur-nok i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.tur-nok i.on{background:var(--accent);width:18px;border-radius:4px}
+.go.ikincil{background:var(--accent-soft);color:var(--accent-text)}
+@media (prefers-reduced-motion:reduce){.tur-isik{transition:none}}
 @media (max-height:760px){.hazir-l .hazir:nth-child(n+4){display:none}}
 @media (max-height:680px){.hazir-l .hazir:nth-child(n+3){display:none}:root{--kutu-h:clamp(150px,24vh,200px)}}
 @media (max-height:600px){.hazir-l .hazir:nth-child(n+2){display:none}}
@@ -118,7 +134,9 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .fy-ad i{width:9px;height:9px;border-radius:50%;display:inline-block}
 .fy-l{display:flex;flex-wrap:wrap;gap:6px}
 .fy{display:inline-flex;align-items:center;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
-.fy::after{content:"↗";margin-left:6px;color:var(--muted);font-size:12px}
+.fy svg{margin-left:6px;color:var(--muted);flex-shrink:0}
+.fy-ana{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.fy-ana svg{color:inherit}
 .fy-detay{margin:16px 0 4px}
 .benim-k{margin:14px 0 4px;padding:4px 12px 10px;border-radius:14px;background:var(--accent-soft)}
 .benim-k .bb{padding-top:10px;justify-content:flex-start}
@@ -407,6 +425,15 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 <dialog id="detail" aria-labelledby="dTitle"></dialog>
 <dialog id="ayarlar" aria-labelledby="aTitle"></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="tur" id="tur" hidden>
+  <div class="tur-isik" id="turIsik"></div>
+  <div class="tur-kart" id="turKart" role="dialog" aria-modal="true" aria-labelledby="turB">
+    <p class="tur-adim" id="turAdim"></p>
+    <h2 id="turB"></h2>
+    <p class="tur-m" id="turM"></p>
+    <div class="tur-alt"><button class="link" id="turAtla">Turu atla</button><div class="tur-nok" id="turNok" aria-hidden="true"></div><button class="go" id="turIleri">İleri</button></div>
+  </div>
+</div>
 <dialog id="compare" aria-labelledby="cTitle"></dialog>
 
 <script>
@@ -1255,7 +1282,7 @@ const BOL_IKON={
   'Tasarım':'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
   'Yazılım':'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
   'Genel':'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
-  'Fiyatlara bak':'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',
+  'Resmî mağaza':'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',
   'Senin cihazına göre':'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>'
 };
 const bolBaslik=ad=>`<h3 class="bb"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${BOL_IKON[ad]||''}</svg>${ad}</h3>`;
@@ -1339,7 +1366,7 @@ function openDetail(id){
     <button class="go" data-add="${d.id}" ${!on&&full?'disabled':''}>${on?'Karşılaştırmadan çıkar':full?`En fazla ${MAX} cihaz seçilebilir`:'Karşılaştırmaya ekle'}</button>
     ${aileHtml}
     ${benimHtml}
-    <div class="fy-detay"><p class="aile-b">Fiyatlara bak</p><div class="fy-l">${fiyatLinkleri(d)}</div></div>
+    <div class="fy-detay"><p class="aile-b">Resmî mağaza</p><div class="fy-l">${fiyatLinkleri(d)}</div></div>
     ${govde}
   </div>`;
   if(!$('detail').open)$('detail').showModal();
@@ -1362,10 +1389,28 @@ function cmpVeri(ds){
   }).join('');
   return {html,farkli,ayni};
 }
-const MAGAZALAR=[['Akakçe',q=>'https://www.akakce.com/arama/?q='+q],['Cimri',q=>'https://www.cimri.com/arama?q='+q],['Hepsiburada',q=>'https://www.hepsiburada.com/ara?q='+q],['Trendyol',q=>'https://www.trendyol.com/sr?q='+q]];
-const fiyatLinkleri=d=>{const q=encodeURIComponent((d.marka+' '+d.ad.replace(/\(.*?\)/g,'')).replace(/"/g,'').replace(/\s+/g,' ').trim());return MAGAZALAR.map(([ad,u])=>`<a class="fy" href="${u(q)}" target="_blank" rel="noopener">${ad}</a>`).join('')};
+const MARKA_SITE={
+  Apple:['apple.com/tr','https://www.apple.com/tr/'],
+  Samsung:['samsung.com/tr','https://www.samsung.com/tr/'],
+  Xiaomi:['mi.com/tr','https://www.mi.com/tr/'],
+  HP:['hp.com/tr-tr','https://www.hp.com/tr-tr/home.html'],
+  Lenovo:['lenovo.com/tr','https://www.lenovo.com/tr/tr/'],
+  ASUS:['asus.com/tr','https://www.asus.com/tr/'],
+  MSI:['tr.msi.com','https://tr.msi.com/'],
+  Monster:['monsternotebook.com.tr','https://www.monsternotebook.com.tr/'],
+  Acer:['acer.com/tr-tr','https://www.acer.com/tr-tr'],
+  Dell:['dell.com/tr-tr','https://www.dell.com/tr-tr'],
+  Huawei:['consumer.huawei.com/tr','https://consumer.huawei.com/tr/']
+};
+const SIM_DIS=`<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>`;
+const fiyatLinkleri=d=>{
+  const m=MARKA_SITE[d.marka];if(!m)return '<span class="muted">Bu marka için resmî site bilgisi yok.</span>';
+  const model=d.ad.replace(/\(.*?\)/g,'').replace(/"/g,'').replace(/\s+/g,' ').trim();
+  const ara='https://www.google.com/search?q='+encodeURIComponent('site:'+m[0]+' '+model);
+  return `<a class="fy fy-ana" href="${ara}" target="_blank" rel="noopener">${esc(model)} sayfasını bul${SIM_DIS}</a><a class="fy" href="${m[1]}" target="_blank" rel="noopener">${esc(d.marka)} Türkiye${SIM_DIS}</a>`;
+};
 function fiyatBolumu(ds){
-  return `<section class="cb">${bolBaslik('Fiyatlara bak')}${ds.map((d,i)=>`<div class="fy-s"><span class="fy-ad"><i style="background:${CIHAZ_RENK[i]}"></i>${esc(kisaAd(d))}</span><div class="fy-l">${fiyatLinkleri(d)}</div></div>`).join('')}<p class="by-not">Bağlantılar mağazaların arama sayfasını açar; güncel fiyatlar orada.</p></section>`;
+  return `<section class="cb">${bolBaslik('Resmî mağaza')}${ds.map((d,i)=>`<div class="fy-s"><span class="fy-ad"><i style="background:${CIHAZ_RENK[i]}"></i>${esc(kisaAd(d))}</span><div class="fy-l">${fiyatLinkleri(d)}</div></div>`).join('')}<p class="by-not">Bağlantılar her cihazın kendi markasının resmî Türkiye sitesini açar; güncel fiyat ve stok bilgisi orada.</p></section>`;
 }
 function cmpGovde(ds){
   const v=cmpVeri(ds);
@@ -1427,6 +1472,46 @@ function suruklemeKur(){
   });
 }
 
+// ---------- Uygulama turu ----------
+const TUR=[
+  {h:null,b:'Kıyasla’ya hoş geldin',m:'Telefon, tablet ve laptopları birkaç dokunuşla yan yana karşılaştır. Nasıl çalıştığını 30 saniyede gösterelim.',btn:'Başla'},
+  {h:'#vsKutular',b:'Cihazlarını seç',m:'Boş bir kutuya dokun. Alttan açılan panelde ara, türe göre süz ve istediğin cihaza dokun; cihaz kutuya yerleşir. Panelde her cihazın yanındaki “i” ile almadan önce özelliklerine bakabilirsin.'},
+  {h:'#vsKutular',b:'Detaya bak, çıkar',m:'Dolu bir kutuya dokununca cihazın tüm özellikleri ve resmî mağaza bağlantısı açılır. Köşedeki × ile cihazı çıkarırsın. İki cihazdan sonra 4 cihaza kadar ekleyebilirsin.'},
+  {h:'#vsBtn',b:'Karşılaştır',m:'En az iki cihaz seçince bu buton açılır. Karşılaştırmada en iyi değerler sarıyla işaretlenir, “Farklar” ile sadece farklı olanları görürsün, gerçek boyutları da çizimle karşılaştırırsın.'},
+  {h:'#hazirSerit',b:'Hazır karşılaştırmalar',m:'Çok merak edilen karşılaştırmaları tek dokunuşla aç.'},
+  {h:'#ayarBtn',b:'Ayarlar',m:'“Benim cihazım”ı seçersen baktığın her cihazda kendi telefonuna göre farkları görürsün. Açık/koyu görünüm ve yazı boyutu da burada.',btn:'Başlayalım'}
+];
+let turI=0;
+function turGoster(){
+  const t=TUR[turI], z=+getComputedStyle(document.documentElement).getPropertyValue('--yazi')||1;
+  $('turAdim').textContent=turI?turI+' / '+(TUR.length-1):'';
+  $('turB').textContent=t.b;$('turM').textContent=t.m;
+  $('turIleri').textContent=t.btn||'İleri';
+  $('turNok').innerHTML=TUR.slice(1).map((_,i)=>`<i class="${i+1===turI?'on':''}"></i>`).join('');
+  const isik=$('turIsik'),kart=$('turKart');
+  const el=t.h&&document.querySelector(t.h);
+  if(el){
+    const r=el.getBoundingClientRect(),p=8;
+    const x=r.left/z-p,y=r.top/z-p,w=r.width/z+p*2,h=r.height/z+p*2;
+    Object.assign(isik.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px',opacity:1});
+    const ekranH=window.innerHeight/z, kartH=kart.offsetHeight||200;
+    if(y+h+kartH+16<ekranH){kart.style.top=(y+h+12)+'px';kart.style.bottom='auto'}
+    else{kart.style.top='auto';kart.style.bottom=(ekranH-y+12)+'px'}
+    isik.classList.remove('yok');
+  }else{
+    Object.assign(isik.style,{left:'50%',top:'50%',width:'0px',height:'0px'});isik.classList.add('yok');
+    kart.style.top='50%';kart.style.bottom='auto';
+  }
+  kart.classList.toggle('orta',!el);
+  $('turIleri').focus();
+}
+function turBaslat(){turI=0;$('tur').hidden=false;requestAnimationFrame(turGoster)}
+function turBitir(){$('tur').hidden=true;try{localStorage.setItem('kiyasla:tur','1')}catch(e){}}
+$('turIleri').addEventListener('click',()=>{if(turI>=TUR.length-1)turBitir();else{turI++;turGoster()}});
+$('turAtla').addEventListener('click',turBitir);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('tur').hidden)turBitir()});
+window.addEventListener('resize',()=>{if(!$('tur').hidden)turGoster()});
+
 // ---------- Ayarlar: tema ve yazı boyutu ----------
 const AYAR_KEY='kiyasla:ayarlar';
 let ayar={tema:'sistem',yazi:1};
@@ -1442,6 +1527,7 @@ function ayarAc(){
   $('ayarlar').innerHTML=`<div class="dlg-head"><h2 id="aTitle" tabindex="-1" autofocus data-oto>Ayarlar</h2><button class="x" data-close aria-label="Kapat">×</button></div>
   <div class="dlg-body">
     <div class="ay-grup"><p>Benim cihazım</p>${ayar.benim&&byId(ayar.benim)?`<div class="benim-sec"><span>${esc(byId(ayar.benim).marka)} ${esc(byId(ayar.benim).ad)}</span><button class="link" data-benimsec="1">Değiştir</button><button class="link" data-benimsil="1">Kaldır</button></div>`:`<button class="go" data-benimsec="1">Cihazımı seç</button>`}<p class="benim-alt">Seçersen, baktığın her cihazda kendi cihazına göre farkları görürsün.</p></div>
+    <div class="ay-grup"><p>Yardım</p><button class="go ikincil" data-turtekrar="1">Uygulama turunu tekrar göster</button></div>
     <div class="ay-grup"><p>Görünüm</p><div class="ay-seg" role="group" aria-label="Görünüm">${T.map(([v,l])=>`<button data-tema="${v}" aria-pressed="${ayar.tema===v}">${l}</button>`).join('')}</div></div>
     <div class="ay-grup"><p>Yazı boyutu</p><div class="ay-seg" role="group" aria-label="Yazı boyutu">${Y.map(([v,l])=>`<button data-yazi="${v}" aria-pressed="${ayar.yazi===v}">${l}</button>`).join('')}</div></div>
   </div>`;
@@ -1469,6 +1555,7 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t)return;
   if(t.dataset.panel){seciciAc('kars');return}
   if(t.dataset.secCihaz&&state.secMod==='benim'){ayar.benim=t.dataset.secCihaz;ayarUygula();$('secici').close();toast('Benim cihazım: '+kisaAd(byId(ayar.benim)));ayarAc();return}
+  if(t.dataset.turtekrar){$('ayarlar').close();setTimeout(turBaslat,200);return}
   if(t.dataset.benimsec){$('ayarlar').close();seciciAc('benim');return}
   if(t.dataset.benimsil){delete ayar.benim;ayarUygula();ayarAc();return}
   if(t.dataset.secCihaz){const id=t.dataset.secCihaz;const vardi=state.sel.includes(id);if(!vardi&&state.sel.length>=MAX){toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');return}toggle(id);if(!vardi&&$('secici').open)$('secici').close();else{renderSon();renderGrid()}return}
@@ -1495,7 +1582,7 @@ renderCats();renderHizli();refresh();renderEv();
 // Her açılışta animasyon oynar (yaklaşık 2 saniye); hareketi azalt açıksa kısa süre sade hali görünür
 (function(){const el=$('acilis');if(!el)return;
   const az=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  setTimeout(()=>{el.classList.add('gizle');setTimeout(()=>el.remove(),400)},az?700:2050)})();
+  setTimeout(()=>{el.classList.add('gizle');setTimeout(()=>el.remove(),400);let gordu=false;try{gordu=localStorage.getItem('kiyasla:tur')==='1'}catch(e){}if(!gordu)setTimeout(turBaslat,450)},az?700:2050)})();
 
 // ---------- Yapay zekâ ile cihaz ekleme ----------
 const trMap={'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'};
