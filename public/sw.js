@@ -1,7 +1,7 @@
 // Uygulamanın internetsiz de açılmasını sağlar. Dosyaları değiştirdiğinde SURUM'u artır.
-const SURUM = 'v12';
+const SURUM = 'v14';
 const DOSYALAR = ['./', './index.html', './gizlilik.html', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
+  './icons/orman-192.png', './icons/orman-512.png', './icons/orman-apple-180.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(SURUM).then(c => c.addAll(DOSYALAR)).then(() => self.skipWaiting()));
