@@ -44,26 +44,65 @@
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px);touch-action:manipulation;-webkit-text-size-adjust:100%}
-body{margin:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;zoom:var(--yazi,1);background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5}
+html{overflow-x:hidden;scroll-padding-top:env(safe-area-inset-top,0px);touch-action:manipulation;-webkit-text-size-adjust:100%}
+body{margin:0;overflow-x:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;zoom:var(--yazi,1);background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 :focus:not(:focus-visible){outline:none}
 input,textarea{-webkit-user-select:text;user-select:text}
 [data-oto]:focus{outline:none}
-.wrap{max-width:1120px;margin:0 auto;padding:20px 16px calc(110px + env(safe-area-inset-bottom,0px))}
-.sekme{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sekme-eski{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
 .sekme button{position:relative;border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;cursor:pointer;font-size:11px;font-weight:700}
 .sekme button[aria-current="page"]{color:var(--accent-text)}
 .rozet{position:absolute;top:2px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .rozet[hidden]{display:none}
-.vs-kart{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px 14px 14px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 28px rgba(0,0,0,.08);margin-bottom:22px}
+.vs-kart{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:18px 14px 14px;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 30px rgba(0,0,0,.12);margin-bottom:20px}
 .vs-baslik{margin:0;text-align:center;font-size:20px;font-weight:800;line-height:1.25}
 .vs-kutular{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.vs-k{position:relative;height:132px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;min-width:0;text-align:center}
-.vs-kutular.cok .vs-k{height:118px}
+.vs-k{position:relative;height:min(196px,24vh);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;min-width:0;text-align:center}
+.vs-kutular.cok .vs-k{height:min(134px,17vh)}
 .vs-k.bos{border:2px dashed var(--line);background:none;color:var(--muted);font-weight:600;font-size:14px;cursor:pointer}
-.vs-k.dolu{background:var(--bg);border:1.5px solid var(--accent)}
+.vs-k.dolu{background:var(--bg);border:1.5px solid var(--accent);padding:0}
+.vs-ac{width:100%;height:100%;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;cursor:pointer;text-align:center;border-radius:16px}
+.vs-kutular:not(.cok) .vs-pic{width:84px;height:64px}
+.vs-ekle{align-self:center;border:0;background:none;color:var(--accent-text);font-weight:700;font-size:14px;cursor:pointer;padding:2px 8px}
+.vs-ekle[hidden]{display:none}
+.ayar-btn{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.hazir-l{display:flex;flex-direction:column;gap:8px}
+.hazir-l .hazir{display:flex;align-items:center;gap:12px;width:100%;border-radius:14px;padding:9px 12px;text-align:left;white-space:normal}
+.hz-pic{display:flex;flex-shrink:0}
+.hz-p{width:32px;height:32px;border-radius:9px;overflow:hidden;border:2px solid var(--surface)}
+.hz-p+.hz-p{margin-left:-10px}
+.hz-y{flex:1;min-width:0;font-size:14px;font-weight:600;line-height:1.3}
+.hz-ok{color:var(--muted);font-size:20px}
+#secici{margin:auto auto 0;width:100%;max-width:640px;height:calc(100dvh - 56px - env(safe-area-inset-top,0px));max-height:none;border-radius:22px 22px 0 0;padding:0;overflow:hidden;background:var(--surface)}
+#secici[open]{animation:seciciGel .25s ease-out}
+@keyframes seciciGel{from{transform:translateY(60px);opacity:.5}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#secici[open]{animation:none}}
+.sc{display:flex;flex-direction:column;height:100%;padding:8px 16px 0;gap:10px}
+.sc-tutac{align-self:center;width:40px;height:5px;border-radius:3px;background:var(--line)}
+.sc-ust{display:flex;justify-content:space-between;align-items:center}
+.sc-ust h2{margin:0;font-size:20px;font-weight:800}
+.sc-kapat{border:0;background:none;color:var(--accent-text);font-weight:700;font-size:15px;cursor:pointer;padding:6px 2px}
+.sc .hizli{margin:0 -16px}
+.sc-liste{flex:1;overflow-y:auto;margin:0 -16px;padding:0 16px calc(24px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
+.sc-b{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em;margin:10px 0 4px}
+.son-l{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.son-c{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.son-c[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-text)}
+.satir{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.satir-sec{flex:1;display:flex;align-items:center;gap:12px;border:0;background:none;padding:9px 0;text-align:left;cursor:pointer;min-width:0}
+.satir-sec:disabled{opacity:.45;cursor:not-allowed}
+.satir-pic.pic{width:46px;height:46px;aspect-ratio:auto;border-radius:11px;overflow:hidden;flex-shrink:0}
+.satir-y{flex:1;min-width:0;display:flex;flex-direction:column}
+.satir-y b{font-size:15px;font-weight:700;line-height:1.25}
+.satir-y small{font-size:12px;color:var(--muted)}
+.satir.on .satir-y b{color:var(--accent-text)}
+.satir-ok{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.satir-i{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--muted);font-weight:800;cursor:pointer;flex-shrink:0}
+.sc .note{margin-top:18px}
+.vs-pic.pic,.hz-p.pic{aspect-ratio:auto}
 .vs-arti{width:42px;height:42px;border-radius:50%;background:var(--accent-soft);color:var(--accent-text);font-size:24px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
 .vs-pic{width:64px;height:48px;border-radius:9px;overflow:hidden}
 .vs-ad{font-size:14px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
@@ -74,6 +113,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .vs-btn.pasif{background:var(--accent-soft);color:var(--accent-text)}
 .vs-ipucu{margin:0;text-align:center;font-size:12px;color:var(--muted)}
 .ev-bolum{margin-bottom:22px}
+#evBolum .ev-b{font-size:17px;margin:0 0 10px}
 .ev-b{margin:0 0 10px;font-size:18px;font-weight:800}
 .serit{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
 .serit::-webkit-scrollbar{display:none}
@@ -94,7 +134,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .hizli::-webkit-scrollbar{display:none}
 .hz{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 .hz[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
 .acilis{position:fixed;inset:0;z-index:50;background:var(--splash-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .35s ease}
 .acilis.gizle{opacity:0;pointer-events:none}
 .acilis-ic{width:112px;height:112px;border-radius:26px;overflow:hidden}
@@ -116,8 +156,8 @@ input,textarea{-webkit-user-select:text;user-select:text}
 @keyframes anOk{from{transform:rotate(0)}to{transform:rotate(180deg)}}
 @keyframes anYazi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.acilis{transition:none}.acilis *{animation:none!important}}
-.ust{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
-.ust-ic{width:56px;height:56px;border-radius:13px;overflow:hidden;flex-shrink:0}
+.ust{display:flex;align-items:center;gap:12px;margin:2px 0 16px}
+.ust-ic{width:44px;height:44px;border-radius:11px;overflow:hidden;flex-shrink:0}
 .ust-ic svg{width:100%;height:100%;display:block}
 .ust-yazi{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .ayar-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
@@ -130,7 +170,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:calc(100vw - 40px);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
 .toast.goster{opacity:1;transform:translateX(-50%)}
 .ust-yazi p{margin:0;font-size:15px;font-weight:500;color:var(--muted)}
-h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:0}
+h1{font-size:26px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:0}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .tools .search,.tools .seg{grid-column:1/-1}
 @media (min-width:760px){.tools{grid-template-columns:minmax(0,2fr) auto minmax(0,1fr) minmax(0,1fr)}.tools .search,.tools .seg{grid-column:auto}}
@@ -303,56 +343,36 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
       <h1>Kıyasla</h1>
       <p>Karşılaştır. Karar ver.</p>
     </div>
+    <button class="ayar-btn" id="ayarBtn" aria-label="Ayarlar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg></button>
   </header>
 
-  <section id="evBolum" class="gorunum">
+  <section id="evBolum">
     <div class="vs-kart">
       <p class="vs-baslik">Neyi karşılaştırmak istersin?</p>
       <div class="vs-kutular" id="vsKutular"></div>
+      <button class="vs-ekle" id="vsEkle" data-panel="1" hidden>+ Cihaz ekle (en fazla 4)</button>
       <button class="vs-btn" id="vsBtn">Karşılaştır</button>
-      <p class="vs-ipucu">2 ile 4 arasında cihaz seçebilirsin</p>
     </div>
-    <div class="ev-bolum">
-      <h2 class="ev-b">Hazır karşılaştırmalar</h2>
-      <div class="serit" id="hazirSerit"></div>
-    </div>
-    <div class="ev-bolum">
-      <h2 class="ev-b">Kategoriler</h2>
-      <div class="kat-kartlar" id="katKartlar"></div>
-    </div>
-    <div class="ev-bolum" id="sonBolum" hidden>
-      <h2 class="ev-b">Son baktıkların</h2>
-      <div class="serit" id="sonSerit"></div>
-    </div>
-  </section>
-
-  <section id="araBolum" class="gorunum" hidden>
-  <h2 class="ara-b">Tüm cihazlar</h2>
-  <div class="tools">
-    <input class="search" id="q" type="search" placeholder="Model ya da marka ara" aria-label="Cihaz ara">
-    <div class="seg" id="cats" role="group" aria-label="Tür"></div>
-    <select class="sel" id="brand" aria-label="Marka"></select>
-    <select class="sel" id="sort" aria-label="Sıralama">
-      <option value="yeni">En yeni önce</option>
-      <option value="eski">En eski önce</option>
-      <option value="az">A’dan Z’ye</option>
-    </select>
-  </div>
-  <div class="hizli" id="hizli" role="group" aria-label="Hızlı filtreler"></div>
-  <p class="count" id="count" aria-live="polite"></p>
-  <div class="grid" id="grid"></div>
-
-
-  <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
+    <h2 class="ev-b">Hazır karşılaştırmalar</h2>
+    <div class="hazir-l" id="hazirSerit"></div>
   </section>
 </div>
 
-<nav class="sekme" aria-label="Ana menü">
-  <button data-sekme="ev" aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Ana sayfa</span></button>
-  <button data-sekme="ara"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span>Ara</span></button>
-  <button data-sekme="kars" id="sekmeKars"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg><span>Karşılaştır</span><b class="rozet" id="rozet" hidden>0</b></button>
-  <button data-sekme="ayar"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg><span>Ayarlar</span></button>
-</nav>
+<dialog id="secici" aria-labelledby="sTitle">
+  <div class="sc">
+    <span class="sc-tutac" aria-hidden="true"></span>
+    <div class="sc-ust"><h2 id="sTitle" tabindex="-1" autofocus data-oto>Cihaz seç</h2><button class="sc-kapat" data-close>Kapat</button></div>
+    <input class="search" id="q" type="search" placeholder="Model ya da marka ara" aria-label="Cihaz ara">
+    <div class="seg" id="cats" role="group" aria-label="Tür"></div>
+    <div class="hizli" id="hizli" role="group" aria-label="Hızlı filtreler"></div>
+    <div class="sc-liste" id="scListe">
+      <div id="sonBolum" hidden><p class="sc-b">Son baktıkların</p><div class="son-l" id="sonSerit"></div></div>
+      <p class="sc-b" id="count" aria-live="polite"></p>
+      <div class="liste" id="grid"></div>
+      <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
+    </div>
+  </div>
+</dialog>
 
 <dialog id="detail" aria-labelledby="dTitle"></dialog>
 <dialog id="ayarlar" aria-labelledby="aTitle"></dialog>
@@ -872,43 +892,36 @@ const KAT_KART=[['telefon','Telefon','kk-1'],['tablet','Tablet','kk-2'],['dizust
 const kisaAd=d=>d.ad.replace(/\s*\(.*?\)/,'');
 function renderVs(){
   const ds=state.sel.map(byId).filter(Boolean), n=ds.length;
-  const yuva=Math.max(2,Math.min(MAX,n<MAX?n+ (n>=2?1:0):MAX));
+  const yuva=n<=2?2:4;
   let html='';
   for(let i=0;i<yuva;i++){
     const d=ds[i];
-    html+=d?`<div class="vs-k dolu"><button class="vs-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button>${picBox(d,'vs-pic')}<span class="vs-ad">${esc(kisaAd(d))}</span><span class="vs-m">${esc(d.marka)}</span></div>`
-           :`<button class="vs-k bos" data-sekme="ara" data-sec="1"><span class="vs-arti" aria-hidden="true">+</span><span>Cihaz seç</span></button>`;
+    html+=d?`<div class="vs-k dolu"><button class="vs-ac" data-open="${d.id}" aria-label="${esc(d.ad)} özellikleri">${picBox(d,'vs-pic')}<span class="vs-ad">${esc(kisaAd(d))}</span><span class="vs-m">${esc(d.marka)}</span></button><button class="vs-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button></div>`
+           :`<button class="vs-k bos" data-panel="1"><span class="vs-arti" aria-hidden="true">+</span><span>Cihaz seç</span></button>`;
   }
-  $('vsKutular').className='vs-kutular'+(yuva>2?' cok':'');
-  $('vsKutular').innerHTML=html+(yuva===2?'<span class="vs-rozet" aria-hidden="true">VS</span>':'');
-  const b=$('vsBtn');b.textContent=n>=2?'Karşılaştır':n===1?'Bir cihaz daha seç':'İki cihaz seç';
+  const k=$('vsKutular');k.className='vs-kutular'+(yuva>2?' cok':'');
+  k.innerHTML=html+(yuva===2?'<span class="vs-rozet" aria-hidden="true">VS</span>':'');
+  $('vsEkle').hidden=n!==2;
+  const b=$('vsBtn');b.textContent=n>=2?(n>2?n+' cihazı karşılaştır':'Karşılaştır'):n===1?'Bir cihaz daha seç':'İki cihaz seç';
   b.classList.toggle('pasif',n<2);
 }
 function renderEv(){
-  $('hazirSerit').innerHTML=HAZIR.filter(([a,b])=>byId(a)&&byId(b)).map(([a,b])=>`<button class="hazir" data-hazir="${a},${b}">${esc(kisaAd(byId(a)))} <em>vs</em> ${esc(kisaAd(byId(b)))}</button>`).join('');
-  $('katKartlar').innerHTML=KAT_KART.map(([k,ad,c])=>`<button class="kat-k ${c}" data-katgit="${k}"><span class="kat-ad">${ad}</span><span class="kat-n">${allDevices().filter(d=>d.kat===k).length} cihaz</span></button>`).join('');
+  $('hazirSerit').innerHTML=HAZIR.filter(([a,b])=>byId(a)&&byId(b)).slice(0,4).map(([a,b])=>{const x=byId(a),y=byId(b);return `<button class="hazir" data-hazir="${a},${b}"><span class="hz-pic">${picBox(x,'hz-p')}${picBox(y,'hz-p')}</span><span class="hz-y">${esc(kisaAd(x))} <em>vs</em> ${esc(kisaAd(y))}</span><span class="hz-ok" aria-hidden="true">›</span></button>`}).join('');
+}
+function renderSon(){
   let son=[];try{son=JSON.parse(localStorage.getItem('kiyasla:son')||'[]')}catch(e){}
-  son=son.map(byId).filter(Boolean).slice(0,10);
-  $('sonBolum').hidden=!son.length;
-  $('sonSerit').innerHTML=son.map(d=>`<button class="son-k" data-open="${d.id}">${picBox(d,'son-pic')}<span>${esc(kisaAd(d))}</span></button>`).join('');
+  son=son.map(byId).filter(Boolean).slice(0,8);
+  $('sonBolum').hidden=!son.length||!!state.q.trim();
+  $('sonSerit').innerHTML=son.map(d=>`<button class="son-c" data-sec-cihaz="${d.id}" aria-pressed="${state.sel.includes(d.id)}">${esc(kisaAd(d))}</button>`).join('');
 }
 function sonaEkle(id){
   try{let son=JSON.parse(localStorage.getItem('kiyasla:son')||'[]');son=[id,...son.filter(x=>x!==id)].slice(0,10);localStorage.setItem('kiyasla:son',JSON.stringify(son))}catch(e){}
 }
-function gorunumGoster(){
-  const ara=location.hash==='#ara';
-  $('evBolum').hidden=ara;$('araBolum').hidden=!ara;
-  document.querySelectorAll('.sekme [data-sekme]').forEach(b=>{const on=(b.dataset.sekme==='ara'&&ara)||(b.dataset.sekme==='ev'&&!ara);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
-  if(!ara)renderEv();
-  window.scrollTo(0,0);
+function seciciAc(){
+  if(state.sel.length>=MAX){toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');return}
+  renderSon();renderGrid();$('scListe').scrollTop=0;
+  if(!$('secici').open)$('secici').showModal();
 }
-function sekmeGit(ad,odak){
-  if(ad==='ara'){if(location.hash!=='#ara')location.hash='ara';else gorunumGoster();if(odak)setTimeout(()=>$('q').focus(),60)}
-  else if(ad==='ev'){if(location.hash==='#ara')history.back();else gorunumGoster()}
-  else if(ad==='kars'){if(state.sel.length>=2)openCompare();else{toast(state.sel.length?'Karşılaştırmak için bir cihaz daha seç.':'Önce karşılaştırmak istediğin cihazları seç.');sekmeGit('ara')}}
-  else if(ad==='ayar')ayarAc();
-}
-window.addEventListener('hashchange',gorunumGoster);
 
 // ---------- Hızlı filtreler ----------
 const HIZLI=[
@@ -925,6 +938,7 @@ function renderHizli(){$('hizli').innerHTML=HIZLI.map(([k,ad])=>`<button class="
 // ---------- Liste ----------
 function renderCats(){$('cats').innerHTML=CATS.map(c=>`<button data-cat="${c.id}" aria-pressed="${state.cat===c.id}">${c.ad}</button>`).join('')}
 function renderBrands(){
+  if(!$('brand'))return;
   const pool=allDevices().filter(d=>state.cat==='hepsi'||d.kat===state.cat);
   const brands=[...new Set(pool.map(d=>d.marka))].sort((a,b)=>a.localeCompare(b,'tr'));
   $('brand').innerHTML='<option value="hepsi">Tüm markalar</option>'+brands.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
@@ -951,20 +965,12 @@ function renderGrid(){
   const full=state.sel.length>=MAX;
   $('grid').innerHTML=items.map(d=>{
     const on=state.sel.includes(d.id);
-    return `<article class="card${on?' on':''}">
-      <button class="card-open" data-open="${d.id}" aria-label="${esc(d.marka+' '+d.ad)}, ${d.yil}. Özellikleri gör">
-        ${picBox(d)}
-        <div class="card-txt"><span class="c-name">${esc(d.ad)}</span><span class="c-year">${esc(d.marka)}, ${d.yil}</span>${d.ai?'<span class="c-ai">Yapay zekâ ile eklendi</span>':''}</div>
-      </button>
-      <button class="pick" data-add="${d.id}" aria-pressed="${on}" aria-label="${on?'Karşılaştırmadan çıkar':'Karşılaştırmaya ekle'}: ${esc(d.ad)}" ${!on&&full?'disabled':''}>${on?'✓':'+'}</button>
-    </article>`}).join('');
+    return `<div class="satir${on?' on':''}">
+      <button class="satir-sec" data-sec-cihaz="${d.id}" aria-pressed="${on}" ${!on&&full?'disabled':''}>${picBox(d,'satir-pic')}<span class="satir-y"><b>${esc(d.ad)}</b><small>${esc(d.marka)}, ${d.yil}${d.ai?', yapay zekâ ile eklendi':''}</small></span>${on?'<span class="satir-ok" aria-hidden="true">✓</span>':''}</button>
+      <button class="satir-i" data-open="${d.id}" aria-label="${esc(d.ad)} özelliklerini gör">i</button>
+    </div>`}).join('');
 }
-function renderTray(){
-  const n=state.sel.length;
-  $('rozet').hidden=n===0;$('rozet').textContent=n;
-  $('sekmeKars').setAttribute('aria-label','Karşılaştır'+(n?', '+n+' cihaz seçili':''));
-  renderVs();
-}
+function renderTray(){renderVs()}
 function kaydetSecim(){try{localStorage.setItem('kiyasla:secim',JSON.stringify(state.sel))}catch(e){}}
 function refresh(){renderBrands();renderGrid();renderTray()}
 
@@ -1196,7 +1202,6 @@ function toggle(id){
     const yeni=byId(id), turler=new Set(state.sel.map(x=>byId(x)&&byId(x).kat));
     state.sel.push(id);
     if(yeni&&turler.size&&!turler.has(yeni.kat))toast('Farklı türde cihazlar seçtin. Karşılaştırma yapılır ama bazı özellikler aynı anlamı taşımayabilir.');
-    else toast(state.sel.length>=2?state.sel.length+' cihaz seçildi. Alttaki Karşılaştır’a dokun.':'Eklendi. Bir cihaz daha seç.');
   } else toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');
   kaydetSecim();
   renderGrid();renderTray();
@@ -1206,11 +1211,12 @@ function toggle(id){
 
 document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t)return;
-  if(t.dataset.sekme){sekmeGit(t.dataset.sekme,!!t.dataset.sec);return}
+  if(t.dataset.panel){seciciAc();return}
+  if(t.dataset.secCihaz){const id=t.dataset.secCihaz;const vardi=state.sel.includes(id);if(!vardi&&state.sel.length>=MAX){toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');return}toggle(id);if(!vardi&&$('secici').open)$('secici').close();else{renderSon();renderGrid()}return}
   if(t.dataset.hazir){state.sel=t.dataset.hazir.split(',');kaydetSecim();renderGrid();renderTray();openCompare();return}
-  if(t.dataset.katgit){state.cat=t.dataset.katgit;renderCats();renderBrands();renderGrid();sekmeGit('ara');return}
   if(t.dataset.hizli){const k=t.dataset.hizli;state.hizli.has(k)?state.hizli.delete(k):state.hizli.add(k);renderHizli();renderGrid();return}
-  if(t.id==='vsBtn'){sekmeGit(state.sel.length>=2?'kars':'ara',true);return}
+  if(t.id==='vsBtn'){if(state.sel.length>=2)openCompare();else seciciAc();return}
+  if(t.id==='ayarBtn'){ayarAc();return}
   if(t.dataset.cat){state.cat=t.dataset.cat;renderCats();renderBrands();renderGrid()}
   else if(t.dataset.add)toggle(t.dataset.add);
   else if(t.dataset.open)openDetail(t.dataset.open);
@@ -1221,13 +1227,10 @@ document.addEventListener('click',e=>{
   else if(t.dataset.yazi){ayar.yazi=+t.dataset.yazi;ayarUygula();ayarAc()}
   else if(t.hasAttribute('data-close'))t.closest('dialog').close();
 });
-$('detail').addEventListener('close',()=>{if(location.hash!=='#ara')renderEv()});
-['detail','compare','ayarlar'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
-$('q').addEventListener('input',e=>{state.q=e.target.value;renderGrid()});
-$('brand').addEventListener('change',e=>{state.brand=e.target.value;renderGrid()});
-$('sort').addEventListener('change',e=>{state.sort=e.target.value;renderGrid()});
+['detail','compare','ayarlar','secici'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
+$('q').addEventListener('input',e=>{state.q=e.target.value;renderSon();renderGrid()});
 try{const s0=JSON.parse(localStorage.getItem('kiyasla:secim')||'[]');if(Array.isArray(s0))state.sel=s0.filter(id=>DEVICES.some(d=>d.id===id)).slice(0,MAX)}catch(e){}
-renderCats();renderHizli();refresh();gorunumGoster();
+renderCats();renderHizli();refresh();renderEv();
 // Açılış ekranını kısa bir süre gösterip kaldır
 // Her açılışta animasyon oynar (yaklaşık 2 saniye); hareketi azalt açıksa kısa süre sade hali görünür
 (function(){const el=$('acilis');if(!el)return;
@@ -1323,7 +1326,7 @@ async function addWithAI(name){
     aiMap.set(d.id,d);refresh();
     const saved=await persist(d);
     setStatus(saved?`“${d.marka} ${d.ad}” listeye eklendi ve kaydedildi.`:`“${d.marka} ${d.ad}” bu oturum için listeye eklendi.`);
-    state.q='';$('q').value='';refresh();openDetail(d.id);
+    state.q='';$('q').value='';refresh();renderSon();openDetail(d.id);
   }catch(e){const m=errText(e);if(m)setStatus(m,true)}
   finally{const b=$('aiAddBtn');if(b){b.disabled=false;b.textContent='Yapay zekâ ile ekle'}}
 }
