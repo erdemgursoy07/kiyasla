@@ -6,8 +6,8 @@
 <title>Kıyasla – Telefon, Tablet, Laptop Karşılaştır</title>
 <meta name="description" content="Telefon, tablet ve laptopları yan yana karşılaştır.">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#FBF0EC" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14131F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F0F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101712" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icons/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,10 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F8F2EF; --surface:#FFFFFF; --ink:#1A1F36; --muted:#5E5562; --line:#EBDCD6;
-  --accent:#E5533F; --accent-ink:#1A1F36; --accent-soft:#FBE3DC; --accent-text:#B93A26;
-  --mark:#FFE1A1; --mark-ink:#1A1F36; --err:#B3261E;
-  --device:#1A1F36; --splash-bg:#FBF0EC; --pic-l:91%; --pic-s:40%;
+  --bg:#F2F4EE; --surface:#FFFFFF; --ink:#142218; --muted:#55615A; --line:#DCE3D6;
+  --accent:#2F6B3F; --accent-ink:#FFFFFF; --accent-soft:#E1ECDD; --accent-text:#2F6B3F;
+  --mark:#F7D58A; --mark-ink:#142218; --err:#B3261E;
+  --device:#142218; --splash-bg:#F0F3EC; --pic-l:91%; --pic-s:40%;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -29,18 +29,18 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#14131F; --surface:#1E1C2B; --ink:#F3ECEA; --muted:#A99FA8; --line:#332F42;
-    --accent:#FF7A66; --accent-ink:#1A1F36; --accent-soft:#3B2531; --accent-text:#FF8E7C; --splash-bg:#14131F;
-    --mark:#5E4A1E; --mark-ink:#FFE9BF; --err:#FF8A80;
-    --device:#0B0A12; --pic-l:24%; --pic-s:22%;
+    --bg:#101712; --surface:#18221B; --ink:#EEF2EA; --muted:#9DAA9F; --line:#2A3A2E;
+    --accent:#6FBF83; --accent-ink:#0D1A11; --accent-soft:#1F3526; --accent-text:#82CC95; --splash-bg:#101712;
+    --mark:#5A4718; --mark-ink:#FFE7B0; --err:#FF8A80;
+    --device:#0A0F0B; --pic-l:24%; --pic-s:22%;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#14131F; --surface:#1E1C2B; --ink:#F3ECEA; --muted:#A99FA8; --line:#332F42;
-  --accent:#FF7A66; --accent-ink:#1A1F36; --accent-soft:#3B2531; --accent-text:#FF8E7C; --splash-bg:#14131F;
-  --mark:#5E4A1E; --mark-ink:#FFE9BF; --err:#FF8A80;
-  --device:#0B0A12; --pic-l:24%; --pic-s:22%;
+  --bg:#101712; --surface:#18221B; --ink:#EEF2EA; --muted:#9DAA9F; --line:#2A3A2E;
+  --accent:#6FBF83; --accent-ink:#0D1A11; --accent-soft:#1F3526; --accent-text:#82CC95; --splash-bg:#101712;
+  --mark:#5A4718; --mark-ink:#FFE7B0; --err:#FF8A80;
+  --device:#0A0F0B; --pic-l:24%; --pic-s:22%;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -51,7 +51,50 @@ button{font:inherit;color:inherit}
 :focus:not(:focus-visible){outline:none}
 input,textarea{-webkit-user-select:text;user-select:text}
 [data-oto]:focus{outline:none}
-.wrap{max-width:1120px;margin:0 auto;padding:24px 18px 150px}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px calc(110px + env(safe-area-inset-bottom,0px))}
+.sekme{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.sekme button{position:relative;border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;cursor:pointer;font-size:11px;font-weight:700}
+.sekme button[aria-current="page"]{color:var(--accent-text)}
+.rozet{position:absolute;top:2px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.rozet[hidden]{display:none}
+.vs-kart{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px 14px 14px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 28px rgba(0,0,0,.08);margin-bottom:22px}
+.vs-baslik{margin:0;text-align:center;font-size:20px;font-weight:800;line-height:1.25}
+.vs-kutular{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vs-k{position:relative;height:132px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;min-width:0;text-align:center}
+.vs-kutular.cok .vs-k{height:118px}
+.vs-k.bos{border:2px dashed var(--line);background:none;color:var(--muted);font-weight:600;font-size:14px;cursor:pointer}
+.vs-k.dolu{background:var(--bg);border:1.5px solid var(--accent)}
+.vs-arti{width:42px;height:42px;border-radius:50%;background:var(--accent-soft);color:var(--accent-text);font-size:24px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.vs-pic{width:64px;height:48px;border-radius:9px;overflow:hidden}
+.vs-ad{font-size:14px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+.vs-m{font-size:11px;color:var(--muted)}
+.vs-x{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--muted);font-size:18px;width:28px;height:28px;cursor:pointer}
+.vs-rozet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;border:4px solid var(--surface);pointer-events:none}
+.vs-btn{height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:16px;cursor:pointer}
+.vs-btn.pasif{background:var(--accent-soft);color:var(--accent-text)}
+.vs-ipucu{margin:0;text-align:center;font-size:12px;color:var(--muted)}
+.ev-bolum{margin-bottom:22px}
+.ev-b{margin:0 0 10px;font-size:18px;font-weight:800}
+.serit{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+.serit::-webkit-scrollbar{display:none}
+.hazir{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.hazir em{font-style:normal;color:var(--accent-text);font-weight:800;margin:0 2px}
+.kat-kartlar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kat-k{border:0;border-radius:18px;padding:14px 12px;min-height:92px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:2px;text-align:left;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.08)}
+.kk-1{background:var(--accent);color:var(--accent-ink)}
+.kk-2{background:#F2B84B;color:#142218}
+.kk-3{background:#CFE0C8;color:#142218}
+.kat-ad{font-size:16px;font-weight:800}
+.kat-n{font-size:12px;font-weight:600;opacity:.8}
+.son-k{flex:0 0 112px;border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden;padding:0;cursor:pointer;text-align:left}
+.son-pic{height:64px}
+.son-k span{display:block;padding:7px 8px 9px;font-size:12px;font-weight:700;line-height:1.2}
+.ara-b{margin:0 0 12px;font-size:22px;font-weight:800}
+.hizli{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 10px;padding:2px 16px 4px;scrollbar-width:none}
+.hizli::-webkit-scrollbar{display:none}
+.hz{flex:0 0 auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.hz[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
 .acilis{position:fixed;inset:0;z-index:50;background:var(--splash-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .35s ease}
 .acilis.gizle{opacity:0;pointer-events:none}
 .acilis-ic{width:112px;height:112px;border-radius:26px;overflow:hidden}
@@ -137,7 +180,7 @@ h1{font-size:32px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:
 .status:empty{display:none}
 .status.err{color:var(--err)}
 .note{color:var(--muted);font-size:.85rem;margin-top:26px;max-width:72ch}
-.tray{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));display:none;justify-content:center;align-items:center;gap:10px;z-index:5;pointer-events:none}
+.tray-eski{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));display:none;justify-content:center;align-items:center;gap:10px;z-index:5;pointer-events:none}
 .tray.show{display:flex}
 .tray>*{pointer-events:auto}
 .tray-x{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
@@ -246,7 +289,7 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </head>
 <body>
 <div class="acilis" id="acilis" aria-hidden="true">
-  <div class="acilis-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kıyasla"><rect width="512" height="512" fill="#E5533F"/><circle cx="256" cy="256" r="206" fill="#EA6855"/><g class="an-sol"><rect x="96" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect class="an-c an-l1" x="130" y="290" width="64" height="16" rx="8" fill="#E5533F"/><rect class="an-c an-l2" x="130" y="316" width="88" height="16" rx="8" fill="#E5533F" opacity="0.6"/><rect class="an-c an-l3" x="130" y="342" width="46" height="16" rx="8" fill="#E5533F" opacity="0.35"/></g><g class="an-sag"><rect x="272" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFE1A1"/><rect class="an-c an-r1" x="306" y="290" width="88" height="16" rx="8" fill="#1A1F36"/><rect class="an-c an-r2" x="306" y="316" width="52" height="16" rx="8" fill="#1A1F36" opacity="0.6"/><rect class="an-c an-r3" x="306" y="342" width="72" height="16" rx="8" fill="#1A1F36" opacity="0.35"/></g><g class="an-roz"><circle cx="256" cy="206" r="48" fill="#FFE1A1" stroke="#E5533F" stroke-width="12"/><g class="an-ok"><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>
+  <div class="acilis-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kıyasla"><rect width="512" height="512" fill="#2F6B3F"/><circle cx="256" cy="256" r="206" fill="#3A7C4B"/><g class="an-sol"><rect x="96" y="112" width="144" height="288" rx="34" fill="#142218"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#F5F1E6"/><rect class="an-c an-l1" x="130" y="290" width="64" height="16" rx="8" fill="#2F6B3F"/><rect class="an-c an-l2" x="130" y="316" width="88" height="16" rx="8" fill="#2F6B3F" opacity="0.6"/><rect class="an-c an-l3" x="130" y="342" width="46" height="16" rx="8" fill="#2F6B3F" opacity="0.35"/></g><g class="an-sag"><rect x="272" y="112" width="144" height="288" rx="34" fill="#142218"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#F2B84B"/><rect class="an-c an-r1" x="306" y="290" width="88" height="16" rx="8" fill="#142218"/><rect class="an-c an-r2" x="306" y="316" width="52" height="16" rx="8" fill="#142218" opacity="0.6"/><rect class="an-c an-r3" x="306" y="342" width="72" height="16" rx="8" fill="#142218" opacity="0.35"/></g><g class="an-roz"><circle cx="256" cy="206" r="48" fill="#F2B84B" stroke="#2F6B3F" stroke-width="12"/><g class="an-ok"><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#142218" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#142218" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>
 </div>
   <div class="acilis-yazi">
     <p class="acilis-ad">Kıyasla</p>
@@ -255,14 +298,36 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
 </div>
 <div class="wrap">
   <header class="ust">
-    <div class="ust-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="512" height="512" fill="#E5533F"/><circle cx="256" cy="256" r="206" fill="#EA6855"/><rect x="96" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#FFFFFF"/><rect x="130" y="290" width="64" height="16" rx="8" fill="#E5533F"/><rect x="130" y="316" width="88" height="16" rx="8" fill="#E5533F" opacity="0.6"/><rect x="130" y="342" width="46" height="16" rx="8" fill="#E5533F" opacity="0.35"/><rect x="272" y="112" width="144" height="288" rx="34" fill="#1A1F36"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#FFE1A1"/><rect x="306" y="290" width="88" height="16" rx="8" fill="#1A1F36"/><rect x="306" y="316" width="52" height="16" rx="8" fill="#1A1F36" opacity="0.6"/><rect x="306" y="342" width="72" height="16" rx="8" fill="#1A1F36" opacity="0.35"/><circle cx="256" cy="206" r="48" fill="#FFE1A1" stroke="#E5533F" stroke-width="12"/><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#1A1F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="ust-ic"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="512" height="512" fill="#2F6B3F"/><circle cx="256" cy="256" r="206" fill="#3A7C4B"/><rect x="96" y="112" width="144" height="288" rx="34" fill="#142218"/><rect x="108" y="124" width="120" height="264" rx="24" fill="#F5F1E6"/><rect x="130" y="290" width="64" height="16" rx="8" fill="#2F6B3F"/><rect x="130" y="316" width="88" height="16" rx="8" fill="#2F6B3F" opacity="0.6"/><rect x="130" y="342" width="46" height="16" rx="8" fill="#2F6B3F" opacity="0.35"/><rect x="272" y="112" width="144" height="288" rx="34" fill="#142218"/><rect x="284" y="124" width="120" height="264" rx="24" fill="#F2B84B"/><rect x="306" y="290" width="88" height="16" rx="8" fill="#142218"/><rect x="306" y="316" width="52" height="16" rx="8" fill="#142218" opacity="0.6"/><rect x="306" y="342" width="72" height="16" rx="8" fill="#142218" opacity="0.35"/><circle cx="256" cy="206" r="48" fill="#F2B84B" stroke="#2F6B3F" stroke-width="12"/><path d="M234 194 H276 M266 184 L278 194 L266 204" fill="none" stroke="#142218" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M278 218 H236 M246 208 L234 218 L246 228" fill="none" stroke="#142218" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="ust-yazi">
       <h1>Kıyasla</h1>
       <p>Karşılaştır. Karar ver.</p>
     </div>
-    <button class="ayar-btn" id="ayarBtn" aria-label="Ayarlar"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg></button>
   </header>
 
+  <section id="evBolum" class="gorunum">
+    <div class="vs-kart">
+      <p class="vs-baslik">Neyi karşılaştırmak istersin?</p>
+      <div class="vs-kutular" id="vsKutular"></div>
+      <button class="vs-btn" id="vsBtn">Karşılaştır</button>
+      <p class="vs-ipucu">2 ile 4 arasında cihaz seçebilirsin</p>
+    </div>
+    <div class="ev-bolum">
+      <h2 class="ev-b">Hazır karşılaştırmalar</h2>
+      <div class="serit" id="hazirSerit"></div>
+    </div>
+    <div class="ev-bolum">
+      <h2 class="ev-b">Kategoriler</h2>
+      <div class="kat-kartlar" id="katKartlar"></div>
+    </div>
+    <div class="ev-bolum" id="sonBolum" hidden>
+      <h2 class="ev-b">Son baktıkların</h2>
+      <div class="serit" id="sonSerit"></div>
+    </div>
+  </section>
+
+  <section id="araBolum" class="gorunum" hidden>
+  <h2 class="ara-b">Tüm cihazlar</h2>
   <div class="tools">
     <input class="search" id="q" type="search" placeholder="Model ya da marka ara" aria-label="Cihaz ara">
     <div class="seg" id="cats" role="group" aria-label="Tür"></div>
@@ -273,17 +338,21 @@ mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:
       <option value="az">A’dan Z’ye</option>
     </select>
   </div>
+  <div class="hizli" id="hizli" role="group" aria-label="Hızlı filtreler"></div>
   <p class="count" id="count" aria-live="polite"></p>
   <div class="grid" id="grid"></div>
 
 
   <p class="note">Özellikler cihazların başlangıç sürümüne aittir ve yaklaşıktır. Fiyatlar dolar cinsinden çıkış fiyatıdır; Türkiye fiyatları farklıdır. Monster modellerinin özellikleri sürüme göre değişir. Satın almadan önce üreticinin ya da mağazanın sitesinden doğrula. <a href="gizlilik.html" style="color:inherit">Gizlilik politikası</a></p>
+  </section>
 </div>
 
-<div class="tray" id="tray">
-  <button class="tray-x" id="clear" aria-label="Seçimi temizle">×</button>
-  <button class="tray-go" id="go"><span class="tray-n" id="trayN">0</span><span id="trayT">Karşılaştır</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-</div>
+<nav class="sekme" aria-label="Ana menü">
+  <button data-sekme="ev" aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Ana sayfa</span></button>
+  <button data-sekme="ara"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span>Ara</span></button>
+  <button data-sekme="kars" id="sekmeKars"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg><span>Karşılaştır</span><b class="rozet" id="rozet" hidden>0</b></button>
+  <button data-sekme="ayar"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg><span>Ayarlar</span></button>
+</nav>
 
 <dialog id="detail" aria-labelledby="dTitle"></dialog>
 <dialog id="ayarlar" aria-labelledby="aTitle"></dialog>
@@ -797,6 +866,62 @@ function aramaUyar(d,q){
   return parca.every(t=>bitisik.includes(t)||kelimeler.some(k=>k.startsWith(t)||(t.length>=4&&mesafe(t,k.slice(0,t.length+1))<=1)||(t.length>=4&&mesafe(t,k)<=1)));
 }
 
+// ---------- Ana sayfa ----------
+const HAZIR=[['ip17pm','s25u'],['ip17','ip16'],['ip17','s25'],['s25u','mi15u'],['mba13','zenbook14'],['mba13','xps13'],['ipadair11','tabs10fe'],['ipadpro11','tabs10p'],['g14','strixg16']];
+const KAT_KART=[['telefon','Telefon','kk-1'],['tablet','Tablet','kk-2'],['dizustu','Laptop','kk-3']];
+const kisaAd=d=>d.ad.replace(/\s*\(.*?\)/,'');
+function renderVs(){
+  const ds=state.sel.map(byId).filter(Boolean), n=ds.length;
+  const yuva=Math.max(2,Math.min(MAX,n<MAX?n+ (n>=2?1:0):MAX));
+  let html='';
+  for(let i=0;i<yuva;i++){
+    const d=ds[i];
+    html+=d?`<div class="vs-k dolu"><button class="vs-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button>${picBox(d,'vs-pic')}<span class="vs-ad">${esc(kisaAd(d))}</span><span class="vs-m">${esc(d.marka)}</span></div>`
+           :`<button class="vs-k bos" data-sekme="ara" data-sec="1"><span class="vs-arti" aria-hidden="true">+</span><span>Cihaz seç</span></button>`;
+  }
+  $('vsKutular').className='vs-kutular'+(yuva>2?' cok':'');
+  $('vsKutular').innerHTML=html+(yuva===2?'<span class="vs-rozet" aria-hidden="true">VS</span>':'');
+  const b=$('vsBtn');b.textContent=n>=2?'Karşılaştır':n===1?'Bir cihaz daha seç':'İki cihaz seç';
+  b.classList.toggle('pasif',n<2);
+}
+function renderEv(){
+  $('hazirSerit').innerHTML=HAZIR.filter(([a,b])=>byId(a)&&byId(b)).map(([a,b])=>`<button class="hazir" data-hazir="${a},${b}">${esc(kisaAd(byId(a)))} <em>vs</em> ${esc(kisaAd(byId(b)))}</button>`).join('');
+  $('katKartlar').innerHTML=KAT_KART.map(([k,ad,c])=>`<button class="kat-k ${c}" data-katgit="${k}"><span class="kat-ad">${ad}</span><span class="kat-n">${allDevices().filter(d=>d.kat===k).length} cihaz</span></button>`).join('');
+  let son=[];try{son=JSON.parse(localStorage.getItem('kiyasla:son')||'[]')}catch(e){}
+  son=son.map(byId).filter(Boolean).slice(0,10);
+  $('sonBolum').hidden=!son.length;
+  $('sonSerit').innerHTML=son.map(d=>`<button class="son-k" data-open="${d.id}">${picBox(d,'son-pic')}<span>${esc(kisaAd(d))}</span></button>`).join('');
+}
+function sonaEkle(id){
+  try{let son=JSON.parse(localStorage.getItem('kiyasla:son')||'[]');son=[id,...son.filter(x=>x!==id)].slice(0,10);localStorage.setItem('kiyasla:son',JSON.stringify(son))}catch(e){}
+}
+function gorunumGoster(){
+  const ara=location.hash==='#ara';
+  $('evBolum').hidden=ara;$('araBolum').hidden=!ara;
+  document.querySelectorAll('.sekme [data-sekme]').forEach(b=>{const on=(b.dataset.sekme==='ara'&&ara)||(b.dataset.sekme==='ev'&&!ara);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  if(!ara)renderEv();
+  window.scrollTo(0,0);
+}
+function sekmeGit(ad,odak){
+  if(ad==='ara'){if(location.hash!=='#ara')location.hash='ara';else gorunumGoster();if(odak)setTimeout(()=>$('q').focus(),60)}
+  else if(ad==='ev'){if(location.hash==='#ara')history.back();else gorunumGoster()}
+  else if(ad==='kars'){if(state.sel.length>=2)openCompare();else{toast(state.sel.length?'Karşılaştırmak için bir cihaz daha seç.':'Önce karşılaştırmak istediğin cihazları seç.');sekmeGit('ara')}}
+  else if(ad==='ayar')ayarAc();
+}
+window.addEventListener('hashchange',gorunumGoster);
+
+// ---------- Hızlı filtreler ----------
+const HIZLI=[
+  ['2025','2025',d=>d.yil===2025],
+  ['katlanir','Katlanır',d=>/katlanır/i.test(d.ekranNot)],
+  ['kalem','Kalem destekli',d=>d.kat==='tablet'||/S Pen|360°|dokunmatik/i.test(d.ekranNot)],
+  ['5g','5G',d=>/5G/.test((d.ext&&d.ext.ag)||'')],
+  ['oyun','Oyun laptopu',d=>/RTX/.test(d.islemci)],
+  ['hafif','Hafif',d=>(d.kat==='telefon'&&d.agirlik<180)||(d.kat==='tablet'&&d.agirlik<480)||(d.kat==='dizustu'&&d.agirlik<1300)]
+];
+state.hizli=new Set();
+function renderHizli(){$('hizli').innerHTML=HIZLI.map(([k,ad])=>`<button class="hz" data-hizli="${k}" aria-pressed="${state.hizli.has(k)}">${ad}</button>`).join('')}
+
 // ---------- Liste ----------
 function renderCats(){$('cats').innerHTML=CATS.map(c=>`<button data-cat="${c.id}" aria-pressed="${state.cat===c.id}">${c.ad}</button>`).join('')}
 function renderBrands(){
@@ -808,7 +933,7 @@ function renderBrands(){
 }
 function renderGrid(){
   const q=state.q.trim();
-  let items=allDevices().filter(d=>(state.cat==='hepsi'||d.kat===state.cat)&&(state.brand==='hepsi'||d.marka===state.brand)&&(!q||aramaUyar(d,q)));
+  let items=allDevices().filter(d=>(state.cat==='hepsi'||d.kat===state.cat)&&(state.brand==='hepsi'||d.marka===state.brand)&&(!q||aramaUyar(d,q))&&[...state.hizli].every(k=>HIZLI.find(h=>h[0]===k)[2](d)));
   const az=(a,b)=>(a.marka+' '+a.ad).localeCompare(b.marka+' '+b.ad,'tr');
   items.sort((a,b)=>state.sort==='eski'?(a.yil-b.yil)||az(a,b):state.sort==='az'?az(a,b):(b.yil-a.yil)||az(a,b));
   $('count').textContent=items.length+' cihaz';
@@ -836,11 +961,9 @@ function renderGrid(){
 }
 function renderTray(){
   const n=state.sel.length;
-  $('tray').classList.toggle('show',n>0);
-  $('trayN').textContent=n;
-  $('trayT').textContent=n<2?'Bir cihaz daha seç':'Karşılaştır';
-  $('go').classList.toggle('bekle',n<2);
-  $('go').setAttribute('aria-label',n<2?'Karşılaştırmak için bir cihaz daha seç':n+' cihazı karşılaştır');
+  $('rozet').hidden=n===0;$('rozet').textContent=n;
+  $('sekmeKars').setAttribute('aria-label','Karşılaştır'+(n?', '+n+' cihaz seçili':''));
+  renderVs();
 }
 function kaydetSecim(){try{localStorage.setItem('kiyasla:secim',JSON.stringify(state.sel))}catch(e){}}
 function refresh(){renderBrands();renderGrid();renderTray()}
@@ -946,6 +1069,7 @@ function boyutBolumu(ds){
 
 function openDetail(id){
   const d=byId(id);if(!d)return;
+  sonaEkle(id);
   const on=state.sel.includes(id), full=state.sel.length>=MAX;
   const govde=BOLUMLER.map(b=>{
     const satir=b.r.filter(r=>r.raw(d)!=='—').map(r=>`<dt>${r.ad}</dt><dd>${esc(r.raw(d))}</dd>`).join('');
@@ -1072,6 +1196,7 @@ function toggle(id){
     const yeni=byId(id), turler=new Set(state.sel.map(x=>byId(x)&&byId(x).kat));
     state.sel.push(id);
     if(yeni&&turler.size&&!turler.has(yeni.kat))toast('Farklı türde cihazlar seçtin. Karşılaştırma yapılır ama bazı özellikler aynı anlamı taşımayabilir.');
+    else toast(state.sel.length>=2?state.sel.length+' cihaz seçildi. Alttaki Karşılaştır’a dokun.':'Eklendi. Bir cihaz daha seç.');
   } else toast('En fazla '+MAX+' cihaz karşılaştırabilirsin.');
   kaydetSecim();
   renderGrid();renderTray();
@@ -1081,6 +1206,11 @@ function toggle(id){
 
 document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.sekme){sekmeGit(t.dataset.sekme,!!t.dataset.sec);return}
+  if(t.dataset.hazir){state.sel=t.dataset.hazir.split(',');kaydetSecim();renderGrid();renderTray();openCompare();return}
+  if(t.dataset.katgit){state.cat=t.dataset.katgit;renderCats();renderBrands();renderGrid();sekmeGit('ara');return}
+  if(t.dataset.hizli){const k=t.dataset.hizli;state.hizli.has(k)?state.hizli.delete(k):state.hizli.add(k);renderHizli();renderGrid();return}
+  if(t.id==='vsBtn'){sekmeGit(state.sel.length>=2?'kars':'ara',true);return}
   if(t.dataset.cat){state.cat=t.dataset.cat;renderCats();renderBrands();renderGrid()}
   else if(t.dataset.add)toggle(t.dataset.add);
   else if(t.dataset.open)openDetail(t.dataset.open);
@@ -1089,17 +1219,15 @@ document.addEventListener('click',e=>{
   else if(t.dataset.boyut){state.boyutMod=t.dataset.boyut;const y=$('cmpBody').scrollTop;$('cmpBody').innerHTML=cmpGovde(state.sel.map(byId).filter(Boolean));$('cmpBody').scrollTop=y}
   else if(t.dataset.tema){ayar.tema=t.dataset.tema;ayarUygula();ayarAc()}
   else if(t.dataset.yazi){ayar.yazi=+t.dataset.yazi;ayarUygula();ayarAc()}
-  else if(t.id==='ayarBtn')ayarAc();
   else if(t.hasAttribute('data-close'))t.closest('dialog').close();
 });
+$('detail').addEventListener('close',()=>{if(location.hash!=='#ara')renderEv()});
 ['detail','compare','ayarlar'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()}));
 $('q').addEventListener('input',e=>{state.q=e.target.value;renderGrid()});
 $('brand').addEventListener('change',e=>{state.brand=e.target.value;renderGrid()});
 $('sort').addEventListener('change',e=>{state.sort=e.target.value;renderGrid()});
-$('go').addEventListener('click',openCompare);
-$('clear').addEventListener('click',()=>{state.sel=[];kaydetSecim();renderGrid();renderTray()});
 try{const s0=JSON.parse(localStorage.getItem('kiyasla:secim')||'[]');if(Array.isArray(s0))state.sel=s0.filter(id=>DEVICES.some(d=>d.id===id)).slice(0,MAX)}catch(e){}
-renderCats();refresh();
+renderCats();renderHizli();refresh();gorunumGoster();
 // Açılış ekranını kısa bir süre gösterip kaldır
 // Her açılışta animasyon oynar (yaklaşık 2 saniye); hareketi azalt açıksa kısa süre sade hali görünür
 (function(){const el=$('acilis');if(!el)return;
