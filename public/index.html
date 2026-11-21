@@ -498,8 +498,8 @@ const RAW=[
   D('tabs10lite','Galaxy Tab S10 Lite','Samsung','tablet',2025,10.9,'LCD, 90 Hz, S Pen kutuda','Exynos 1380',6,128,524,'8 MP','8000 mAh',350),
   D('a17','Galaxy A17 5G','Samsung','telefon',2025,6.7,'AMOLED, 90 Hz','Exynos 1330',4,128,192,'50 MP ana, 5 MP ultra geniş, 2 MP makro','5000 mAh',200),
   D('s26u','Galaxy S26 Ultra','Samsung','telefon',2026,6.9,'AMOLED, 120 Hz, S Pen','Snapdragon 8 Elite Gen 5 for Galaxy',12,256,214,'200 MP ana, 50 MP ultra geniş, 50 MP 5x ve 10 MP 3x tele','5000 mAh',1299),
-  D('s26p','Galaxy S26+','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Exynos 2600 / Snapdragon 8 Elite Gen 5',12,256,190,'50 MP ana, 12 MP ultra geniş, 10 MP 3x tele','4900 mAh',1099),
-  D('s26','Galaxy S26','Samsung','telefon',2026,6.3,'AMOLED, 120 Hz','Exynos 2600 / Snapdragon 8 Elite Gen 5',12,256,167,'50 MP ana, 12 MP ultra geniş, 10 MP 3x tele','4300 mAh',899),
+  D('s26p','Galaxy S26+','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Exynos 2600',12,256,190,'50 MP ana, 12 MP ultra geniş, 10 MP 3x tele','4900 mAh',1099),
+  D('s26','Galaxy S26','Samsung','telefon',2026,6.3,'AMOLED, 120 Hz','Exynos 2600',12,256,167,'50 MP ana, 12 MP ultra geniş, 10 MP 3x tele','4300 mAh',899),
   D('ip17e','iPhone 17e','Apple','telefon',2026,6.1,'OLED, 60 Hz','Apple A19',8,256,167,'48 MP ana (tek kamera)','Apple: 26 saate kadar video',599),
   D('mba13m5','MacBook Air 13" (M5)','Apple','dizustu',2026,13.6,'Liquid Retina','Apple M5',16,512,1240,'12 MP Center Stage','18 saate kadar',1099),
   D('mba15m5','MacBook Air 15" (M5)','Apple','dizustu',2026,15.3,'Liquid Retina','Apple M5',16,512,1510,'12 MP Center Stage','18 saate kadar',1299),
@@ -508,7 +508,7 @@ const RAW=[
   D('mi15tp','Xiaomi 15T Pro','Xiaomi','telefon',2025,6.83,'AMOLED, 144 Hz','Dimensity 9400+',12,256,210,'50 MP ana, 50 MP 5x periskop tele, 12 MP ultra geniş (Leica)','5500 mAh',850),
   D('mi15t','Xiaomi 15T','Xiaomi','telefon',2025,6.83,'AMOLED, 120 Hz','Dimensity 8400-Ultra',12,256,194,'50 MP ana, 50 MP 2x tele, 12 MP ultra geniş (Leica)','5500 mAh',690),
   D('mi17','Xiaomi 17','Xiaomi','telefon',2026,6.3,'AMOLED, 120 Hz','Snapdragon 8 Elite Gen 5',12,256,191,'50 MP ana, 50 MP ultra geniş, 50 MP tele (Leica)','7000 mAh',950),
-  D('mi17u','Xiaomi 17 Ultra','Xiaomi','telefon',2026,6.9,'AMOLED, 120 Hz','Snapdragon 8 Elite Gen 5',16,512,220,'50 MP 1 inç ana, 200 MP periskop tele, 50 MP ultra geniş (Leica)','6000 mAh',1500),
+  D('mi17u','Xiaomi 17 Ultra','Xiaomi','telefon',2026,6.9,'AMOLED, 120 Hz','Snapdragon 8 Elite Gen 5',16,512,219,'50 MP 1 inç ana, 200 MP periskop tele, 50 MP ultra geniş (Leica)','6000 mAh',1500),
   D('pocof7u','Poco F7 Ultra','Xiaomi','telefon',2025,6.67,'AMOLED, 120 Hz','Snapdragon 8 Elite',12,256,212,'50 MP ana, 50 MP 2,5x tele, 32 MP ultra geniş','5300 mAh',649),
   D('pocof7','Poco F7','Xiaomi','telefon',2025,6.83,'AMOLED, 120 Hz','Snapdragon 8s Gen 4',12,256,215,'50 MP ana, 8 MP ultra geniş','6500 mAh',399),
   D('pocox7p','Poco X7 Pro','Xiaomi','telefon',2025,6.67,'AMOLED, 120 Hz','Dimensity 8400-Ultra',8,256,195,'50 MP ana, 8 MP ultra geniş','6000 mAh',300),
@@ -529,6 +529,35 @@ const RAW=[
   D('dell14plus','Dell 14 Plus','Dell','dizustu',2025,14,'2.5K IPS','Intel Core Ultra 7 256V',16,512,1550,'1080p','64 Wh',949),
   D('dell16prem','Dell 16 Premium','Dell','dizustu',2025,16,'3.2K OLED dokunmatik, 120 Hz','Intel Core Ultra 7 255H + RTX 5050',32,1024,2100,'1080p + IR','99,5 Wh',2199),
   D('aw16aurora','Alienware 16 Aurora','Dell','dizustu',2025,16,'2.5K, 120 Hz','Intel Core 7 240H + RTX 5060',16,1024,2500,'1080p','96 Wh',1149),
+  // --- 2026 (kullanıcının sağladığı listeden) ---
+  D('ip18pm','iPhone 18 Pro Max','Apple','telefon',2026,6.9,'OLED, 120 Hz','Apple A20 Pro',12,256,249,'48 MP ana, 48 MP periskop tele, 48 MP ultra geniş','5391 mAh',null),
+  D('ip18p','iPhone 18 Pro','Apple','telefon',2026,6.3,'OLED, 120 Hz','Apple A20 Pro',12,256,211,'48 MP ana, 48 MP 4x periskop tele, 48 MP ultra geniş','4056 mAh',null),
+  D('ip18','iPhone 18','Apple','telefon',2026,6.3,'OLED, 120 Hz','Apple A20',8,256,175,'48 MP ana (OIS), 48 MP ultra geniş / makro','~3800 mAh',null),
+  D('ipduo','iPhone Duo','Apple','telefon',2026,7.6,'Katlanır iç ekran; dış ekran 5,4 inç, 120 Hz','Apple A20 Pro',12,256,254,'48 MP + 48 MP','~5500 mAh',null),
+  D('zfold8u','Galaxy Z Fold 8 Ultra','Samsung','telefon',2026,8.0,'Katlanır iç ekran; dış ekran 6,5 inç, 120 Hz','Snapdragon 8 Elite Gen 5',16,512,235,'200 MP ana, 50 MP periskop tele, 50 MP ultra geniş','5000 mAh',null),
+  D('zfold8','Galaxy Z Fold 8','Samsung','telefon',2026,7.6,'Katlanır iç ekran; dış ekran 5,5 inç, 120 Hz','Snapdragon 8 Elite Gen 5',12,256,201,'50 MP ana, 50 MP ultra geniş','4800 mAh',null),
+  D('zflip8','Galaxy Z Flip 8','Samsung','telefon',2026,6.9,'Katlanır iç ekran, 120 Hz','Exynos 2600',12,256,180,'50 MP ana, 12 MP ultra geniş','4300 mAh',null),
+  D('s26fe','Galaxy S26 FE','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Exynos 2500',8,128,193,'50 MP ana, 12 MP ultra geniş, 8 MP 3x tele','4900 mAh',null),
+  D('a57','Galaxy A57 5G','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Exynos 1680',8,128,179,'50 MP ana, 12 MP ultra geniş, 5 MP makro','5000 mAh',null),
+  D('a37','Galaxy A37 5G','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Exynos 1480',6,128,196,'50 MP ana, 8 MP ultra geniş, 5 MP makro','5000 mAh',null),
+  D('a27','Galaxy A27 5G','Samsung','telefon',2026,6.7,'AMOLED, 120 Hz','Snapdragon 6 Gen 3',6,128,200,'50 MP ana, 5 MP ultra geniş, 2 MP makro','5000 mAh',null),
+  D('mi17tp','Xiaomi 17T Pro','Xiaomi','telefon',2026,6.83,'AMOLED, 144 Hz','Dimensity 9500',12,256,219,'50 MP ana (OIS), 50 MP 5x periskop tele, ultra geniş (Leica)','7000 mAh',null),
+  D('pocof9u','Poco F9 Ultra','Xiaomi','telefon',2026,6.9,'2K AMOLED, 120 Hz','Snapdragon 8 Elite Gen 5',16,512,null,'50 MP ana (OIS), 50 MP 5x periskop tele, 50 MP','8050 mAh',null),
+  D('pocof9p','Poco F9 Pro','Xiaomi','telefon',2026,6.59,'1.5K AMOLED, 120 Hz','Snapdragon 8 Elite Gen 5',12,256,null,'50 MP ana (OIS), 50 MP tele, 8 MP ultra geniş','6330 mAh',null),
+  D('redmia7p','Redmi A7 Pro','Xiaomi','telefon',2026,6.9,'HD+ IPS LCD, 120 Hz','Unisoc T7250 (4G) / T8300 (5G)',4,64,null,'13 MP (4G) / 32 MP (5G)','6000–6300 mAh',null),
+  D('pococ81p','Poco C81 Pro','Xiaomi','telefon',2026,6.9,'HD+ IPS LCD, 120 Hz','Unisoc T7250',4,64,null,'13 MP ana','6000 mAh',null),
+  D('mbp14m5p','MacBook Pro 14" (M5 Pro)','Apple','dizustu',2026,14.2,'Liquid Retina XDR, 120 Hz','Apple M5 Pro',16,512,1550,'12 MP Center Stage','22 saat ve üzeri',null),
+  D('mbp16m5p','MacBook Pro 16" (M5 Pro / Max)','Apple','dizustu',2026,16.2,'Liquid Retina XDR, 120 Hz','Apple M5 Pro / M5 Max',16,512,2140,'12 MP Center Stage','22 saat ve üzeri',null),
+  D('mbneo','MacBook Neo','Apple','dizustu',2026,13,'Liquid Retina, 500 nit','Apple A18 Pro',8,256,null,'—','16 saate kadar',null),
+  D('zephduo26','ROG Zephyrus Duo (2026)','ASUS','dizustu',2026,16,'Çift 3K OLED, 120 Hz','Intel Core Ultra 9 386H + RTX 5090',64,2048,null,'—','90 Wh',null),
+  D('g16_2026','ROG Zephyrus G16 (2026)','ASUS','dizustu',2026,16,'QHD+ OLED, 240 Hz','Intel Core Ultra 9 285H + RTX 5080',32,2048,null,'—','90 Wh',null),
+  D('titan18','Titan 18 HX Dragon Edition (2026)','MSI','dizustu',2026,18,'UHD+ Mini-LED, 120 Hz','Intel Core Ultra 9 290HX Plus + RTX 5090',64,4096,null,'—','99,9 Wh',null),
+  D('legion9','Legion 9 18IAX10','Lenovo','dizustu',2026,18,'3.2K Mini-LED, 165 Hz','Intel Core Ultra 9 290HX Plus + RTX 5090 / 5080',64,2048,null,'—','99,9 Wh',null),
+  D('yoga9aura','Yoga 9i 2-in-1 Aura Edition','Lenovo','dizustu',2026,14,'2.8K OLED dokunmatik, 120 Hz, 360° menteşe','Intel Core Ultra 7 258V',32,1024,1320,'—','75 Wh',null),
+  D('loq15_26','LOQ 15AHP10 (2026)','Lenovo','dizustu',2026,15.6,'FHD IPS, 144 Hz','AMD Ryzen 7 250 / Intel i5-14500HX + RTX 5050 / 5060',16,512,null,'—','60 Wh',null),
+  D('tuff16_26','TUF Gaming F16 (2026)','ASUS','dizustu',2026,16,'FHD+ IPS, 165 Hz','AMD Ryzen 7 260 / Intel i5-13450HX + RTX 5050',16,512,null,'—','90 Wh',null),
+  D('ideaslim3_26','IdeaPad Slim 3 (2026)','Lenovo','dizustu',2026,15.6,'FHD IPS','AMD Ryzen 7 5825U / Ryzen 5',16,512,null,'—','47 Wh',null),
+  D('taba11p','Galaxy Tab A11+','Samsung','tablet',2026,11,'LCD, 90 Hz','8 çekirdekli işlemci',6,128,null,'8 MP','7040 mAh',null),
   D('firehd10','Fire HD 10 (2023)','Amazon','tablet',2023,10.1,'FHD LCD','8 çekirdekli 2,05 GHz',3,32,434,'5 MP','13 saate kadar',139,'311141','Video izleme ve kitap okuma için en ucuz seçeneklerden biri.'),
   // --- Ek telefonlar ---
   D('ip15pm','iPhone 15 Pro Max','Apple','telefon',2023,6.7,'OLED, 120 Hz','Apple A17 Pro',8,256,221,'48 MP ana, 12 MP ultra geniş, 12 MP 5x tele','Apple: 29 saate kadar video',1199),
@@ -769,7 +798,7 @@ E('tabs11u','2960×1848','12 MP','4K 30 fps','45 W','Yok','IP68','USB-C (USB 3.2
 E('tabs10lite','2112×1320','5 MP','1080p 30 fps','25 W','Yok','Yok','USB-C','Wi-Fi 6, isteğe bağlı 5G','Android 15, One UI 7','Yan tuşta parmak izi');
 E('a17','2340×1080','13 MP','1080p 30 fps','25 W','Yok','IP54','USB-C','5G, Wi-Fi 5','Android 15, One UI 7','Yan tuşta parmak izi');
 E('s26u','3120×1440','12 MP','8K 30 fps','60 W','25 W, ters kablosuz şarj','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, One UI 8.5','Ultrasonik parmak izi, yüz tanıma');
-E('s26p','3120×1440','12 MP','8K 30 fps','45 W','15 W, ters kablosuz şarj','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, One UI 8.5','Ultrasonik parmak izi, yüz tanıma');
+E('s26p','3120×1440','12 MP','8K 30 fps','45 W','20 W, ters kablosuz şarj','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, One UI 8.5','Ultrasonik parmak izi, yüz tanıma');
 E('s26','2340×1080','12 MP','8K 30 fps','25 W','15 W, ters kablosuz şarj','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, One UI 8.5','Ultrasonik parmak izi, yüz tanıma');
 E('ip17e','2532×1170','12 MP','4K 60 fps','20 W hızlı şarj','MagSafe / Qi2','IP68','USB-C (USB 2)','5G, Wi-Fi 7','iOS 26','Face ID');
 E('mba13m5','2560×1664','—','—','30–70 W (USB-C veya MagSafe)','—','—','2× Thunderbolt 4, MagSafe 3, kulaklık','Wi-Fi 7, Bluetooth 6','macOS Tahoe','Touch ID');
@@ -779,7 +808,7 @@ E('ipadair13m4','2732×2048','12 MP (yatay)','4K 60 fps','USB-C, 20 W','Yok','Yo
 E('mi15tp','2772×1280','32 MP','4K 60 fps','90 W','50 W','IP68','USB-C','5G, Wi-Fi 7','Android 15, HyperOS 3','Ekran içi parmak izi');
 E('mi15t','2772×1280','32 MP','4K 60 fps','67 W','Yok','IP68','USB-C','5G, Wi-Fi 6E','Android 15, HyperOS 3','Ekran içi parmak izi');
 E('mi17','2656×1220','50 MP','8K 24 fps','100 W','50 W','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, HyperOS 3','Ultrasonik parmak izi');
-E('mi17u','3200×1440','50 MP','8K 30 fps','90 W','80 W','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, HyperOS 3','Ultrasonik parmak izi');
+E('mi17u','3200×1440','50 MP','8K 30 fps','90 W','50 W','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 16, HyperOS 3','Ultrasonik parmak izi');
 E('pocof7u','3200×1440','32 MP','8K 24 fps','120 W','50 W','IP68','USB-C (USB 3.2)','5G, Wi-Fi 7','Android 15, HyperOS 2','Ultrasonik parmak izi');
 E('pocof7','2772×1280','20 MP','4K 60 fps','90 W','Yok','IP68','USB-C','5G, Wi-Fi 7','Android 15, HyperOS 2','Ultrasonik parmak izi');
 E('pocox7p','2712×1220','20 MP','4K 60 fps','90 W','Yok','IP68','USB-C','5G, Wi-Fi 6','Android 15, HyperOS 2','Ekran içi parmak izi');
@@ -800,6 +829,34 @@ E('omenmax16','2560×1600','—','—','330 W','—','—','2× Thunderbolt 5, 2
 E('dell14plus','2560×1600','—','—','65 W USB-C','—','—','2× Thunderbolt 4, USB-A, HDMI','Wi-Fi 7','Windows 11 (Copilot+ PC)','Parmak izi');
 E('dell16prem','3200×2000','—','—','130 W USB-C','—','—','4× Thunderbolt 4, kulaklık','Wi-Fi 7','Windows 11','Yüz tanıma (IR), parmak izi');
 E('aw16aurora','2560×1600','—','—','240 W','—','—','Thunderbolt 4, USB-C, 2× USB-A, HDMI, RJ45','Wi-Fi 6E','Windows 11','Yok');
+E('ip18pm','—','18 MP','—','60 W','MagSafe 25 W','IP68','USB-C','5G','iOS 27','Face ID');
+E('ip18p','—','18 MP','—','60 W','MagSafe 25 W','IP68','USB-C','5G','iOS 27','Face ID');
+E('ip18','—','18 MP','—','—','MagSafe 30 W','IP68','USB-C','5G','iOS 27','Face ID');
+E('ipduo','—','İç ve dış ekran kamerası','—','Hızlı şarj','MagSafe','IP68','USB-C','5G','iOS 27','—');
+E('zfold8u','—','Ekran altı ve kapak kamerası','—','45 W','25 W','IP48','USB-C','5G','Android 17, One UI 9','Yan tuşta parmak izi');
+E('zfold8','—','10 MP (iç ve kapak)','—','45 W','20 W','IP48','USB-C','5G','Android 17, One UI 9','Yan tuşta parmak izi');
+E('zflip8','—','10 MP','—','25 W','15 W','IP48','USB-C','5G','Android 17, One UI 9','Yan tuşta parmak izi');
+E('s26fe','—','12 MP','—','45 W','15 W','IP68','USB-C','5G','Android 17, One UI 9','Ekran içi parmak izi');
+E('a57','2340×1080','12 MP','—','45 W','Yok','IP68','USB-C','5G','Android 16, One UI 8.5','Ekran içi parmak izi');
+E('a37','2340×1080','12 MP','—','45 W','Yok','IP68','USB-C','5G','Android 16, One UI 8.5','Ekran içi parmak izi');
+E('a27','2340×1080','12 MP','—','25 W','Yok','IP64','USB-C','5G','Android 16, One UI 8.5','Ekran içi parmak izi');
+E('mi17tp','1.5K','—','—','100 W','50 W','IP68','USB-C','5G','Android 16, HyperOS 3','Ekran içi parmak izi');
+E('pocof9u','2K','—','—','120 W','—','IP68','USB-C','5G','Android 16, HyperOS 3','—');
+E('pocof9p','1.5K','—','—','90 W','—','IP68','USB-C','5G','Android 16, HyperOS 3','—');
+E('redmia7p','HD+','8 MP','—','15 W','Yok','IP54','USB-C, 3,5 mm kulaklık','4G veya 5G (sürüme göre)','Android 16, HyperOS 3','—');
+E('pococ81p','HD+','8 MP','—','15 W','Yok','IP54','USB-C, 3,5 mm kulaklık','4G','Android 16, HyperOS 3','—');
+E('mbp14m5p','—','—','—','MagSafe 3','—','—','Thunderbolt 5, MagSafe 3','—','macOS','Touch ID');
+E('mbp16m5p','—','—','—','MagSafe 3','—','—','Thunderbolt 5, MagSafe 3','—','macOS','Touch ID');
+E('mbneo','2408×1506','—','—','20 W adaptör','—','—','2× USB-C','Wi-Fi 6E','macOS','Touch ID (512 GB sürümde)');
+E('zephduo26','Çift 3K','—','—','—','—','—','Thunderbolt 4','Wi-Fi 7','Windows 11 Pro','—');
+E('g16_2026','QHD+','—','—','—','—','—','Thunderbolt 4','—','Windows 11','—');
+E('titan18','UHD+','—','—','—','—','—','Thunderbolt 5','Wi-Fi 7','Windows 11 Pro','—');
+E('legion9','3.2K','—','—','—','—','—','—','—','Windows 11 Pro','—');
+E('yoga9aura','2.8K','—','—','—','—','—','—','—','Windows 11','—');
+E('loq15_26','1920×1080','—','—','Hızlı şarj','—','—','—','—','FreeDOS veya Windows 11','—');
+E('tuff16_26','FHD+','—','—','—','—','MIL-STD-810H','—','—','FreeDOS veya Windows 11','—');
+E('ideaslim3_26','1920×1080','—','—','—','—','—','USB-C, HDMI','Wi-Fi 6','FreeDOS veya Windows 11','—');
+E('taba11p','—','5 MP','—','15–25 W','Yok','—','USB-C','—','Android, One UI','—');
 
 // Ek özellikler: id, depolama seçenekleri, en yüksek parlaklık, boyutlar, renkler
 const FD={};
@@ -955,12 +1012,40 @@ F('omenmax16','1 TB, 2 TB','500 nit','357 × 269 × 23,7 mm','Siyah');
 F('dell14plus','512 GB, 1 TB','300 nit','314 × 226 × 16,9 mm','Gümüş');
 F('dell16prem','1 TB, 2 TB','400 nit','356 × 249 × 19 mm','Grafit, Platin');
 F('aw16aurora','1 TB','300 nit','362 × 271 × 23 mm','Koyu Gri');
+F('ip18pm','256 GB – 2 TB','3000 nit','—','—');
+F('ip18p','256 GB – 1 TB','3000 nit','—','—');
+F('ip18','256 GB, 512 GB','—','—','—');
+F('ipduo','256 GB – 2 TB','3000 nit','—','—');
+F('zfold8u','512 GB, 1 TB','3000 nit','—','—');
+F('zfold8','256 GB – 1 TB','—','—','—');
+F('zflip8','256 GB, 512 GB','2600 nit','—','—');
+F('s26fe','128 GB – 512 GB','1900 nit','—','—');
+F('a57','128 GB, 256 GB','—','—','—');
+F('a37','128 GB, 256 GB','—','—','—');
+F('a27','128 GB, 256 GB','—','—','—');
+F('mi17tp','256 GB – 1 TB','3500 nit','—','—');
+F('pocof9u','512 GB, 1 TB','—','—','—');
+F('pocof9p','256 GB, 512 GB','—','—','—');
+F('redmia7p','64 GB, 128 GB (microSD)','—','—','—');
+F('pococ81p','64 GB – 256 GB (microSD)','—','—','—');
+F('mbp14m5p','512 GB – 8 TB','—','—','—');
+F('mbp16m5p','512 GB – 8 TB','—','—','—');
+F('mbneo','256 GB, 512 GB','500 nit','—','—');
+F('zephduo26','2 TB','—','—','—');
+F('g16_2026','2 TB','—','—','—');
+F('titan18','4 TB','—','—','—');
+F('legion9','2 TB','—','—','—');
+F('yoga9aura','1 TB','—','—','—');
+F('loq15_26','512 GB, 1 TB','—','—','—');
+F('tuff16_26','512 GB, 1 TB','—','—','—');
+F('ideaslim3_26','512 GB','—','—','—');
+F('taba11p','128 GB, 256 GB (microSD)','—','—','—');
 F('x1c','512 GB, 1 TB, 2 TB','400 nit','312,8 × 214,8 × 14,9 mm','Siyah');
 F('yoga7x','512 GB, 1 TB','500 nit','325 × 225,5 × 12,9 mm','Kozmik Mavi');
 F('ideapad5','512 GB, 1 TB','400 nit','312,8 × 221,4 × 16,9 mm','Gri, Mavi');
 F('legion5','1 TB, 2 TB','500 nit','363,4 × 260,4 × 26,6 mm','Gri');
 
-const YAKLASIK=new Set(['s26u','s26p','s26','ip17e','mba13m5','mba15m5','ipadair11m4','ipadair13m4','mi17','mi17u','rn15pp','rn15p','rn15','legionpro5g10','strixg16_2025','omenmax16','dell16prem','dell14plus','aw16aurora','redmi15','tabs10lite']);
+const YAKLASIK=new Set(['ip18pm','ip18p','ip18','ipduo','zfold8u','zfold8','zflip8','s26fe','a57','a37','a27','mi17tp','pocof9u','pocof9p','redmia7p','pococ81p','mbp14m5p','mbp16m5p','mbneo','zephduo26','g16_2026','titan18','legion9','yoga9aura','loq15_26','tuff16_26','ideaslim3_26','taba11p','s26u','s26p','s26','ip17e','mba13m5','mba15m5','ipadair11m4','ipadair13m4','mi17','mi17u','rn15pp','rn15p','rn15','legionpro5g10','strixg16_2025','omenmax16','dell16prem','dell14plus','aw16aurora','redmi15','tabs10lite']);
 const DEVICES=RAW.filter(d=>BRANDS[d.kat].includes(d.marka)).map(d=>({...d,ext:{...(EXTD[d.id]||{}),...(FD[d.id]||{})},yak:YAKLASIK.has(d.id)}));
 
 const state={cat:'hepsi',brand:'hepsi',q:'',sort:'yeni',sel:[],diffOnly:false};
@@ -971,9 +1056,9 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const allDevices=()=>DEVICES.concat([...aiMap.values()]);
 const byId=id=>allDevices().find(d=>d.id===id);
-const fmtW=g=>g>=1000?(g/1000).toLocaleString('tr-TR',{maximumFractionDigits:2})+' kg':g+' g';
+const fmtW=g=>g==null?'—':g>=1000?(g/1000).toLocaleString('tr-TR',{maximumFractionDigits:2})+' kg':g+' g';
 const fmtS=gb=>gb>=1000?Math.round(gb/(gb%1024===0?1024:1000)).toLocaleString('tr-TR')+' TB':gb+' GB';
-const fmtP=p=>p==null?'Türkiye’de satılıyor, fiyat için mağazaya bak':'$'+p.toLocaleString('tr-TR');
+const fmtP=p=>p==null?'—':'$'+p.toLocaleString('tr-TR');
 const fmtE=i=>i.toLocaleString('tr-TR')+' inç';
 
 // ---------- Temsili çizimler (fotoğraf bulunamazsa) ----------
