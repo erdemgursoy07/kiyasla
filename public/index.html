@@ -108,6 +108,14 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .satir-i{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--muted);font-weight:800;cursor:pointer;flex-shrink:0}
 .sc .note{margin-top:18px}
 .vs-pic.pic,.hz-p.pic{aspect-ratio:auto}
+.kaynak{margin:16px 0 4px}
+.kaynak ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.kaynak a{color:var(--accent-text);word-break:break-word;font-size:14px}
+.kontrol{margin:18px 0 6px;display:flex;flex-direction:column;gap:10px}
+.kontrol-b{margin:4px 0;font-weight:800}
+.kontrol-b.iyi-k{color:var(--accent-text)}
+.kontrol-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.kontrol-l li{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:10px;background:var(--mark);color:var(--mark-ink);font-size:14px}
 .tur{position:fixed;inset:0;z-index:70}
 .tur[hidden]{display:none}
 .tur-isik{position:fixed;border-radius:20px;box-shadow:0 0 0 9999px rgba(5,12,8,.72);transition:left .3s,top .3s,width .3s,height .3s;pointer-events:none;outline:2px solid var(--accent);outline-offset:2px}
@@ -1079,6 +1087,8 @@ const state={cat:'hepsi',brand:'hepsi',q:'',sort:'yeni',sel:[],diffOnly:false};
 const aiMap=new Map();
 let sampleFn=null, db=null;
 const IN_CLAUDE=!!(window.claude&&window.claude.use);
+const AI_ADRES=location.hostname.endsWith('github.io')?'https://kiyasla.erdemgursoy07.workers.dev/api/ai':'/api/ai';
+const ARAMA_VAR=!IN_CLAUDE;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const allDevices=()=>DEVICES.concat([...aiMap.values()]);
@@ -1361,17 +1371,50 @@ function openDetail(id){
   $('detail').innerHTML=`<div class="dlg-head"><h2 id="dTitle" tabindex="-1" autofocus data-oto>${esc(d.marka)} ${esc(d.ad)}</h2><button class="x" data-close aria-label="Kapat">×</button></div>
   <div class="dlg-body">
     ${picBox(d,'detail-pic')}
-    ${d.ai?'<p class="muted">Bu cihaz yapay zekâ ile eklendi; bilgilerini doğrula.</p>':''}
+    ${d.ai?`<p class="muted">Bu cihaz yapay zekâ ile eklendi${d.kaynaklar&&d.kaynaklar.length?' ve aşağıdaki kaynaklara dayanıyor':''}; bilgilerini doğrula.</p>`:''}
     ${d.yak?'<p class="yak-not">Bu cihaz yeni; bazı özellikleri yaklaşık olabilir. Satın almadan önce üreticinin sitesinden doğrula.</p>':''}
     <button class="go" data-add="${d.id}" ${!on&&full?'disabled':''}>${on?'Karşılaştırmadan çıkar':full?`En fazla ${MAX} cihaz seçilebilir`:'Karşılaştırmaya ekle'}</button>
     ${aileHtml}
     ${benimHtml}
     <div class="fy-detay"><p class="aile-b">Resmî mağaza</p><div class="fy-l">${fiyatLinkleri(d)}</div></div>
     ${govde}
+    ${kaynakHtml(d.kaynaklar,'Kaynaklar')}
+    ${ARAMA_VAR?`<div class="kontrol"><button class="go ikincil" data-kontrol="${d.id}">Bilgileri internetten kontrol et</button><div id="kontrolKutu" aria-live="polite"></div></div>`:''}
   </div>`;
   if(!$('detail').open)$('detail').showModal();
 }
 
+function kaynakHtml(k,baslik){
+  if(!k||!k.length)return '';
+  return `<div class="kaynak"><p class="aile-b">${baslik}</p><ul>${k.map(x=>`<li><a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a></li>`).join('')}</ul></div>`;
+}
+// Uygulamadaki değerleri Google aramasıyla üreticinin bilgileriyle karşılaştırır
+async function kontrolEt(id){
+  const d=byId(id);if(!d)return;
+  const kutu=$('kontrolKutu'),btn=document.querySelector('[data-kontrol]');
+  if(btn){btn.disabled=true;btn.textContent='Kontrol ediliyor…'}
+  kutu.innerHTML='<p class="muted">Üreticinin sitesi ve güvenilir kaynaklar taranıyor… 10 ile 40 saniye sürebilir.</p>';
+  const degerler={ekran:fmtE(d.ekran),panel:d.ekranNot,islemci:d.islemci,ram:d.ram+' GB',depolama_baslangic:fmtS(d.depolama),agirlik:fmtW(d.agirlik),kamera:d.kamera,pil:d.pil,cikis_yili:d.yil,cikis_fiyati_usd:d.fiyat,...(d.ext||{})};
+  const istem=`You are fact-checking a device catalog. Device: "${d.marka} ${d.ad}".
+Search the web, preferring the manufacturer's official specifications page. Compare these catalog values (Turkish labels, keys in Turkish) with what you find:
+${JSON.stringify(degerler)}
+Return ONLY one JSON object, no prose, no code fences:
+{"bulundu": true|false, "farklar":[{"alan":"Turkish field name","katalogda":"catalog value","kaynakta":"value found"}], "not":"one short Turkish sentence"}
+List only fields where the source clearly says something different. Ignore "—" values and formatting differences. If you cannot find reliable sources, return {"bulundu": false, "farklar": [], "not": "..."}.`;
+  try{
+    const v=await sampleFn.json(istem,{ara:true});
+    const f=Array.isArray(v.farklar)?v.farklar.slice(0,20):[];
+    const k=kaynakTemizle(v.__kaynaklar);
+    const rapor=`${d.marka} ${d.ad}\n`+(f.length?f.map(x=>`- ${clean(String(x.alan),60)}: uygulamada ${clean(String(x.katalogda),80)}, kaynakta ${clean(String(x.kaynakta),80)}`).join('\n'):'Fark bulunamadı.')+(k.length?'\nKaynaklar:\n'+k.map(x=>'- '+x.u).join('\n'):'');
+    kutu.innerHTML=(v.bulundu===false?'<p class="muted">Güvenilir bir kaynak bulunamadı.</p>':
+      f.length?`<p class="kontrol-b">${f.length} farklı değer bulundu</p><ul class="kontrol-l">${f.map(x=>`<li><b>${esc(clean(String(x.alan),60))}</b><span>Uygulamada: ${esc(clean(String(x.katalogda),80))}</span><span>Kaynakta: ${esc(clean(String(x.kaynakta),80))}</span></li>`).join('')}</ul>`:
+      '<p class="kontrol-b iyi-k">Kaynaklarla uyumlu, fark bulunamadı.</p>')+
+      (v.not?`<p class="muted">${esc(clean(String(v.not),200))}</p>`:'')+kaynakHtml(k,'Kontrol edilen kaynaklar')+
+      `<button class="go ikincil" data-raporkopya="1">Raporu kopyala</button>`;
+    kutu.dataset.rapor=rapor;
+  }catch(e){kutu.innerHTML=`<p class="status err">${esc(errText(e)||'Kontrol yapılamadı.')}</p>`}
+  finally{if(btn){btn.disabled=false;btn.textContent='Bilgileri internetten kontrol et'}}
+}
 function cmpVeri(ds){
   let farkli=0,ayni=0;
   const html=BOLUMLER.map(b=>{
@@ -1555,6 +1598,8 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t)return;
   if(t.dataset.panel){seciciAc('kars');return}
   if(t.dataset.secCihaz&&state.secMod==='benim'){ayar.benim=t.dataset.secCihaz;ayarUygula();$('secici').close();toast('Benim cihazım: '+kisaAd(byId(ayar.benim)));ayarAc();return}
+  if(t.dataset.kontrol){kontrolEt(t.dataset.kontrol);return}
+  if(t.dataset.raporkopya){const r=$('kontrolKutu').dataset.rapor||'';(navigator.clipboard?navigator.clipboard.writeText(r):Promise.reject()).then(()=>toast('Rapor kopyalandı. Bana yapıştırabilirsin.'),()=>toast('Kopyalanamadı.'));return}
   if(t.dataset.turtekrar){$('ayarlar').close();setTimeout(turBaslat,200);return}
   if(t.dataset.benimsec){$('ayarlar').close();seciciAc('benim');return}
   if(t.dataset.benimsil){delete ayar.benim;ayarUygula();ayarAc();return}
@@ -1601,7 +1646,8 @@ function validate(r){
   const fiyat=r.fiyat==null?null:num(r.fiyat,30,10000);
   if(!kat||!ad||!marka||yil===null||ekran===null||ram===null||depolama===null||agirlik===null)return null;
   const ext={};['coz','on','video','sarj','kablosuz','ip','port','ag','os','kilit','depolamaSec','parlaklik','boyut','renkler'].forEach(k=>{ext[k]=clean(r[k],140)||'—'});
-  return {id:'ai-'+slug(marka+' '+ad),ad,marka,kat,yil:Math.round(yil),ekran,ekranNot:clean(r.ekranNot)||'Bilgi yok',islemci:clean(r.islemci)||'Bilgi yok',ram,depolama,agirlik:Math.round(agirlik),kamera:clean(r.kamera,200)||'Bilgi yok',pil:clean(r.pil)||'Bilgi yok',fiyat:fiyat==null?null:Math.round(fiyat),ext,ai:true,bilinen:true};
+  const kaynaklar=kaynakTemizle(r.kaynaklar);
+  return {kaynaklar,id:'ai-'+slug(marka+' '+ad),ad,marka,kat,yil:Math.round(yil),ekran,ekranNot:clean(r.ekranNot)||'Bilgi yok',islemci:clean(r.islemci)||'Bilgi yok',ram,depolama,agirlik:Math.round(agirlik),kamera:clean(r.kamera,200)||'Bilgi yok',pil:clean(r.pil)||'Bilgi yok',fiyat:fiyat==null?null:Math.round(fiyat),ext,ai:true,bilinen:true};
 }
 function setStatus(msg,err){const el=$('aiStatus');if(!el)return;el.textContent=msg;el.classList.toggle('err',!!err)}
 function errText(e){
@@ -1609,17 +1655,23 @@ function errText(e){
   if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){sampleFn=null;renderGrid();return 'Yapay zekâ bu görünümde kullanılamıyor.'}
   if(c==='offline')return 'İnternet bağlantısı yok. Cihaz eklemek için internete bağlan.';
   if(c==='not_configured')return 'Yapay zekâ henüz ayarlanmamış (sunucuda API anahtarı eksik).';
+  if(c==='forbidden')return 'Bu istek kabul edilmedi. Uygulamayı kendi adresinden açtığından emin ol.';
+  if(c==='too_many')return 'Kısa sürede çok fazla istek gönderildi. Bir dakika sonra tekrar dene.';
+  if(c==='bot_check')return 'Güvenlik doğrulaması tamamlanamadı. Sayfayı yenileyip tekrar dene.';
+  if(c==='busy')return 'Yapay zekâ şu an çok yoğun. Birkaç dakika sonra tekrar dene.';
   if(c==='rate_limited')return 'Çok fazla istek gönderildi ya da kullanım limitine ulaşıldı. Biraz sonra tekrar dene.';
   if(c==='session_expired')return 'Oturumun sona ermiş. Yeniden giriş yapıp tekrar dene.';
   if(c==='refused')return 'Yapay zekâ bu isteği yanıtlamadı. Farklı yazmayı dene.';
   if(c==='invalid_json'||c==='empty_completion')return 'Yanıt anlaşılamadı. Tekrar dene.';
   if(c==='cancelled')return '';
-  return 'Bağlantıda bir sorun oluştu. Tekrar dene.';
+  return 'Bağlantıda bir sorun oluştu. Tekrar dene.'+(e&&e.detail?' (Ayrıntı: '+e.detail+')':'');
 }
 function addPrompt(name){
   return `You are a consumer-electronics specification database. The user wants to add this device to a comparison catalog: "${name}".
 
 Return ONLY one JSON object, with no prose and no code fences.
+
+If you can search the web, search for this exact model and prefer the manufacturer's official specifications page, then the official Turkish store page; use only values you find there.
 
 If you do not confidently recognize this as one specific, real smartphone, tablet or laptop model, return {"bilinen": false}. Do not guess or invent devices.
 
@@ -1665,7 +1717,9 @@ async function addWithAI(name){
   const btn=$('aiAddBtn');if(btn){btn.disabled=true;btn.textContent='Ekleniyor…'}
   setStatus('Yapay zekâ cihazı araştırıyor… Bu 10 ile 60 saniye sürebilir.');
   try{
-    const d=validate(await sampleFn.json(addPrompt(name),{modelTier:'default'}));
+    const ham=await sampleFn.json(addPrompt(name),{modelTier:'default',ara:ARAMA_VAR});
+    const d=validate(ham);
+    if(d&&!d.disarida&&ham&&ham.__kaynaklar)d.kaynaklar=kaynakTemizle(ham.__kaynaklar);
     if(d&&d.disarida){setStatus(`${d.marka} şu an Kıyasla’da yok. Kıyasla ${BRAND_TEXT} markalarını kapsıyor.`,true);return}
     if(!d){setStatus(`“${name}” tanınmadı ya da bilgileri güvenilir bulunmadı. Marka ve modeli tam yazmayı dene, örneğin “Samsung Galaxy S24”.`,true);return}
     const dup=allDevices().find(x=>x.id===d.id||norm(x.marka+x.ad)===norm(d.marka+d.ad));
@@ -1691,25 +1745,51 @@ function mergeAI(list){
 }
 
 // Bağımsız uygulamada yapay zekâ isteği kendi sunucumuzdaki /api/ai adresine gider
-const AI_URL=location.hostname.endsWith('github.io')?'https://kiyasla.erdemgursoy07.workers.dev/api/ai':'/api/ai';
-async function callAI(prompt,wantJson,signal){
-  if(!navigator.onLine)throw {code:'offline'};
-  let r;
-  try{r=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson}),signal})}
-  catch(e){throw {code:e&&e.name==='AbortError'?'cancelled':'upstream_error'}}
-  let data={};try{data=await r.json()}catch(e){}
-  if(!r.ok)throw {code:data.error||'upstream_error'};
-  if(!data.text)throw {code:'empty_completion'};
-  return data.text;
+// Sunucu ayarları (bot koruması açık mı) bir kez okunur
+let aiAyar=null;
+async function aiAyarGetir(){
+  if(aiAyar)return aiAyar;
+  try{aiAyar=await (await fetch(AI_ADRES)).json()}catch(e){aiAyar={}}
+  return aiAyar;
 }
+// Cloudflare Turnstile: görünmez bot koruması (sunucuda açıksa)
+let tsHazir=null,tsId=null,tsCoz=null;
+function tsYukle(site){
+  if(tsHazir)return tsHazir;
+  tsHazir=new Promise((coz,red)=>{
+    window.tsGeldi=()=>{try{const kap=document.createElement('div');kap.style.cssText='position:fixed;left:-9999px;top:0';document.body.append(kap);
+      tsId=turnstile.render(kap,{sitekey:site,execution:'execute',appearance:'interaction-only',callback:tok=>{tsCoz&&tsCoz(tok);tsCoz=null},'error-callback':()=>{tsCoz&&tsCoz(null);tsCoz=null}});coz()}catch(e){red(e)}};
+    const sc=document.createElement('script');sc.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=tsGeldi';sc.async=true;sc.onerror=()=>red(new Error('ts'));document.head.append(sc);
+  });
+  return tsHazir;
+}
+async function tsJeton(){
+  const ay=await aiAyarGetir();if(!ay.ts_site)return null;
+  try{await tsYukle(ay.ts_site)}catch(e){return null}
+  return new Promise(coz=>{tsCoz=coz;try{turnstile.reset(tsId);turnstile.execute(tsId)}catch(e){coz(null)}setTimeout(()=>{if(tsCoz){tsCoz(null);tsCoz=null}},15000)});
+}
+async function callAI(prompt,wantJson,signal,ara){
+  if(!navigator.onLine)throw {code:'offline'};
+  const ts=await tsJeton();
+  let r;
+  try{r=await fetch(AI_ADRES,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,json:wantJson,ara:!!ara,ts}),signal})}
+  catch(e){throw {code:e&&e.name==='AbortError'?'cancelled':'upstream_error'}}
+  let data=null;try{data=await r.json()}catch(e){}
+  if(!data)throw {code:'upstream_error',detail:`Sunucudan beklenen yanıt gelmedi (HTTP ${r.status})`};
+  if(!r.ok)throw {code:data.error||'upstream_error',detail:data.detail};
+  if(!data.text)throw {code:'empty_completion',detail:data.detail};
+  return data;
+}
+const jsonAyikla=t=>{const m=String(t).replace(/```json|```/g,'');const a=m.indexOf('{'),b=m.lastIndexOf('}');return JSON.parse(a>-1&&b>a?m.slice(a,b+1):m.trim())};
+const kaynakTemizle=k=>Array.isArray(k)?k.filter(x=>x&&typeof x.u==='string'&&/^https:\/\//.test(x.u)).slice(0,8).map(x=>({u:x.u.slice(0,600),t:clean(x.t,120)||'Kaynak'})):[];
 
 (async()=>{
   if(IN_CLAUDE){
     try{sampleFn=await window.claude.use('sample');if(sampleFn)renderGrid()}catch(e){}
     try{db=await window.claude.use('db');if(db)db.collection('devices').onSnapshot(snap=>mergeAI(snap.docs.map(x=>x.data())),()=>{})}catch(e){}
   }else{
-    sampleFn=async(p,o={})=>({text:await callAI(p,false,o.signal),truncated:false});
-    sampleFn.json=async(p,o={})=>{const t=await callAI(p,true,o.signal);try{return JSON.parse(t.replace(/```json|```/g,'').trim())}catch(e){throw {code:'invalid_json'}}};
+    sampleFn=async(p,o={})=>({text:(await callAI(p,false,o.signal)).text,truncated:false});
+    sampleFn.json=async(p,o={})=>{const d=await callAI(p,true,o.signal,o.ara);let v;try{v=jsonAyikla(d.text)}catch(e){throw {code:'invalid_json'}}if(v&&typeof v==='object')v.__kaynaklar=d.kaynaklar||[];return v};
     try{const arr=JSON.parse(localStorage.getItem(LS_KEY)||'[]');if(Array.isArray(arr))mergeAI(arr)}catch(e){}
     renderGrid();
     if(navigator.serviceWorker)navigator.serviceWorker.register('sw.js').catch(()=>{});

@@ -106,3 +106,22 @@ GitHub’da `public/index.html` dosyasını değiştirip kaydettiğinde Cloudfla
 - Gemini anahtarını asla `index.html` içine yazma; sadece Cloudflare ayarlarında dursun.
 - Uygulaman herkese açık olduğu için başkaları da yapay zekâ özelliğini kullanabilir. Faturalandırma kapalı olduğu sürece bu sana ücret çıkarmaz, en kötü ihtimalle günlük ücretsiz kota dolar.
 - Gemini model adı zamanla değişebilir. Yapay zekâ bir gün çalışmayı bırakırsa Cloudflare’de `GEMINI_MODEL` adında bir değişken ekleyip Google AI Studio’da gördüğün güncel model adını yazabilirsin.
+
+---
+
+## Güvenlik: bot koruması (Turnstile) — isteğe bağlı
+
+Sunucu zaten sadece Kıyasla’nın kendi adresinden gelen istekleri kabul ediyor ve aynı kişiden dakikada 8, günde 120’den fazla yapay zekâ isteğini reddediyor. Bunlar kurulum gerektirmez. Ek olarak görünmez bot korumasını açmak istersen:
+
+1. Cloudflare panelinde soldaki menüden **Turnstile**’a gir ve **Add widget** de.
+2. Ad olarak `Kıyasla` yaz. **Hostname** kısmına `kiyasla.erdemgursoy07.workers.dev` ekle.
+3. **Widget Mode** olarak **Invisible** (görünmez) seç ve oluştur.
+4. Sana iki anahtar verilecek: **Site Key** ve **Secret Key**.
+5. `kiyasla` Worker’ının **Settings → Variables and Secrets** bölümüne iki değişken ekle:
+   - `TURNSTILE_SITE` → türü **Text**, değeri Site Key
+   - `TURNSTILE_SECRET` → türü **Secret**, değeri Secret Key
+6. Kaydettikten sonra koruma kendiliğinden açılır; uygulamada bir şey değiştirmen gerekmez. Kapatmak için bu iki değişkenden birini silmen yeterli.
+
+## Google aramasıyla doğrulama
+
+Uygulama yayındaki sürümde yapay zekâ ile cihaz eklerken ve bir cihazın detayındaki **“Bilgileri internetten kontrol et”** butonunda Gemini’nin Google aramasını kullanır; kullanılan kaynaklar cihazın altında listelenir. Bu özelliğin ücretsiz kotası Google AI Studio’daki hesabına bağlıdır. Kota dolarsa uygulama “çok fazla istek” uyarısı verir; ertesi gün yeniden çalışır.

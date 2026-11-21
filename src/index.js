@@ -1,19 +1,40 @@
 // Cloudflare Workers için sunucu kodu.
 // /api/ai adresine gelen istekleri Gemini'ye iletir, diğer her şeyde uygulamanın dosyalarını gösterir.
-// Gemini anahtarı Cloudflare ayarlarında GEMINI_API_KEY adıyla gizli değişken olarak durur.
-// İstersen GEMINI_MODEL değişkeniyle belirli bir model seçebilirsin.
+// Cloudflare ayarlarındaki değişkenler:
+//   GEMINI_API_KEY   (Secret, zorunlu)  Gemini anahtarı
+//   GEMINI_MODEL     (isteğe bağlı)     belirli bir model
+//   TURNSTILE_SITE   (isteğe bağlı)     Turnstile site anahtarı (herkese açık)
+//   TURNSTILE_SECRET (Secret, isteğe bağlı) Turnstile gizli anahtarı; ikisi de varsa bot koruması açılır
 
 const MODELLER = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-flash-lite-latest', 'gemini-2.0-flash'];
-// Bu durumlarda sıradaki model denenir: bulunamadı (404), yoğun (503), geçici sunucu hatası (500)
 const TEKRAR_DENE = [404, 500, 503];
 const MAKS_UZUNLUK = 60000;
 
-// Bu adreslerden gelen istekler kabul edilir (GitHub Pages sürümü için)
-const IZINLI_ADRESLER = ['https://erdemgursoy07.github.io'];
+// Kıyasla'nın kendi adresi her zaman izinli; ek olarak:
+const EK_IZINLI = ['https://erdemgursoy07.github.io'];
 
+// İstek sınırı: aynı internet adresinden dakikada en fazla 8, günde en fazla 120 istek
+const DAKIKA_SINIRI = 8, GUN_SINIRI = 120;
+const sayac = new Map();
+function sinirAsildi(ip) {
+  const simdi = Date.now();
+  let k = sayac.get(ip);
+  if (!k || simdi - k.gunBas > 86400000) k = { gunBas: simdi, gun: 0, dakika: [] };
+  k.dakika = k.dakika.filter(x => simdi - x < 60000);
+  if (k.dakika.length >= DAKIKA_SINIRI || k.gun >= GUN_SINIRI) { sayac.set(ip, k); return true; }
+  k.dakika.push(simdi); k.gun++; sayac.set(ip, k);
+  if (sayac.size > 5000) for (const [a, v] of sayac) if (simdi - v.gunBas > 86400000) sayac.delete(a);
+  return false;
+}
+
+function izinliMi(request) {
+  const origin = request.headers.get('Origin');
+  if (!origin) return false;
+  return origin === new URL(request.url).origin || EK_IZINLI.includes(origin);
+}
 function cors(request) {
   const origin = request && request.headers.get('Origin');
-  if (!origin || !IZINLI_ADRESLER.includes(origin)) return {};
+  if (!origin || !EK_IZINLI.includes(origin)) return {};
   return { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '86400', 'Vary': 'Origin' };
 }
 
@@ -25,13 +46,27 @@ function cevap(veri, durum = 200) {
   });
 }
 
-async function geminiyeSor(model, anahtar, prompt, json) {
-  const generationConfig = { temperature: json ? 0.2 : 0.7, maxOutputTokens: 4096 };
-  if (json) generationConfig.responseMimeType = 'application/json';
+async function turnstileDogrula(env, token, ip) {
+  if (!token || typeof token !== 'string') return false;
+  const f = new FormData();
+  f.append('secret', env.TURNSTILE_SECRET); f.append('response', token); if (ip) f.append('remoteip', ip);
+  try {
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: f });
+    const v = await r.json();
+    return !!v.success;
+  } catch { return false; }
+}
+
+async function geminiyeSor(model, anahtar, prompt, json, ara) {
+  const generationConfig = { temperature: json || ara ? 0.2 : 0.7, maxOutputTokens: 4096 };
+  const govde = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig };
+  // Google araması açıkken yapılandırılmış JSON çıktısı kullanılamıyor; JSON'u metinden ayıklıyoruz
+  if (ara) govde.tools = [{ google_search: {} }];
+  else if (json) generationConfig.responseMimeType = 'application/json';
   return fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': anahtar },
-    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig })
+    body: JSON.stringify(govde)
   });
 }
 
@@ -45,23 +80,27 @@ async function hataMetni(yanit) {
 }
 
 async function yapayZeka(request, env) {
-  // Tarayıcıdan açınca durum kontrolü gösterir
+  const turnstileAcik = !!(env.TURNSTILE_SITE && env.TURNSTILE_SECRET);
   if (request.method === 'GET') {
-    return cevap({ calisiyor: true, anahtar_var: !!env.GEMINI_API_KEY, model: env.GEMINI_MODEL || MODELLER[0] });
+    return cevap({ calisiyor: true, anahtar_var: !!env.GEMINI_API_KEY, model: env.GEMINI_MODEL || MODELLER[0], ts_site: turnstileAcik ? env.TURNSTILE_SITE : null });
   }
   if (request.method !== 'POST') return cevap({ error: 'invalid_request' }, 405);
+  if (!izinliMi(request)) return cevap({ error: 'forbidden' }, 403);
+  const ip = request.headers.get('CF-Connecting-IP') || 'bilinmiyor';
+  if (sinirAsildi(ip)) return cevap({ error: 'too_many' }, 429);
   if (!env.GEMINI_API_KEY) return cevap({ error: 'not_configured' }, 500);
 
   let govde;
   try { govde = await request.json(); } catch { return cevap({ error: 'invalid_request' }, 400); }
   const prompt = typeof govde.prompt === 'string' ? govde.prompt : '';
   if (!prompt || prompt.length > MAKS_UZUNLUK) return cevap({ error: 'invalid_request' }, 400);
+  if (turnstileAcik && !(await turnstileDogrula(env, govde.ts, ip))) return cevap({ error: 'bot_check' }, 403);
 
   const denenecek = env.GEMINI_MODEL ? [env.GEMINI_MODEL, ...MODELLER] : MODELLER;
   let yanit, sonHata = '', sonDurum = 0;
   for (const model of denenecek) {
     try {
-      yanit = await geminiyeSor(model, env.GEMINI_API_KEY, prompt, !!govde.json);
+      yanit = await geminiyeSor(model, env.GEMINI_API_KEY, prompt, !!govde.json, !!govde.ara);
     } catch (e) {
       return cevap({ error: 'upstream_error', detail: 'Gemini’ye bağlanılamadı' }, 502);
     }
@@ -82,7 +121,10 @@ async function yapayZeka(request, env) {
   if (!aday || aday.finishReason === 'SAFETY') return cevap({ error: 'refused' }, 422);
   const metin = ((aday.content && aday.content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
   if (!metin) return cevap({ error: 'empty_completion', detail: 'Gemini boş yanıt verdi' }, 502);
-  return cevap({ text: metin });
+  // Google aramasında kullanılan kaynaklar
+  const parcalar = (aday.groundingMetadata && aday.groundingMetadata.groundingChunks) || [];
+  const kaynaklar = parcalar.map(c => c.web).filter(w => w && /^https:\/\//.test(w.uri || '')).slice(0, 8).map(w => ({ u: w.uri, t: String(w.title || '').slice(0, 120) }));
+  return cevap({ text: metin, kaynaklar });
 }
 
 export default {
