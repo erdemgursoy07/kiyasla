@@ -133,6 +133,10 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .vs-ekle.gizli,.vs-temizle.gizli{visibility:hidden}
 .vs-ekle{padding:7px 4px}
 .satir-renk{display:flex;gap:4px;margin-top:4px}
+.satir-y .satir-oz{color:var(--ink);opacity:.85;font-size:12.5px;margin:1px 0}
+.vs-oz{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.3}
+.vs-kutular.cok .vs-oz{display:none}
+.eksik-l li{background:var(--accent-soft);color:var(--ink)}
 .satir-renk i{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent)}
 .det-gorsel{margin-bottom:10px}
 .det-pic.pic{aspect-ratio:auto;height:230px;border-radius:20px;overflow:hidden;max-width:none}
@@ -1166,6 +1170,15 @@ function renkler(d){
 }
 state.renkSec={};
 function govdeRenk(d){const l=renkler(d);const i=state.renkSec[d.id]||0;return (l[i]||l[0]||{}).hex||('hsl('+hueOf(d.id)+' 14% 58%)')}
+const islemciKisa=d=>String(d.islemci||'').split(' + ')[0].replace(/^(Apple|Intel|AMD|Qualcomm|MediaTek|Samsung)\s+/,'').replace(/\s*\/.*$/,'').trim();
+function ozetSatir(d){
+  const p=[];if(d.ekran)p.push(fmtE(d.ekran));const i=islemciKisa(d);if(i)p.push(i);if(d.ram)p.push(d.ram+' GB RAM');
+  return p.join(', ');
+}
+function kutuOzet(d){
+  const p=[];if(d.ekran)p.push(fmtE(d.ekran));if(d.ram)p.push(d.ram+' GB');if(d.agirlik!=null)p.push(fmtW(d.agirlik));
+  return p.join(', ');
+}
 function kameraSayisi(d){if(d.kat!=='telefon')return 0;if(/tek kamera/i.test(d.kamera))return 1;return (String(d.kamera).match(/\d+(?:[.,]\d+)?\s*MP/g)||[]).length}
 // Önden, markadan bağımsız sade çizim: kasa cihazın renginde, ekran o rengin koyu ışığıyla
 function art(d,renk){
@@ -1212,7 +1225,7 @@ function renderVs(){
   let html='';
   for(let i=0;i<yuva;i++){
     const d=ds[i];
-    html+=d?`<div class="vs-k dolu"><button class="vs-ac" data-open="${d.id}" aria-label="${esc(d.ad)} özellikleri">${picBox(d,'vs-pic')}<span class="vs-ad">${esc(kisaAd(d))}</span><span class="vs-m"><i style="background:${CIHAZ_RENK[i]}"></i>${esc(d.marka)}</span></button><button class="vs-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button></div>`
+    html+=d?`<div class="vs-k dolu"><button class="vs-ac" data-open="${d.id}" aria-label="${esc(d.ad)} özellikleri">${picBox(d,'vs-pic')}<span class="vs-ad">${esc(kisaAd(d))}</span><span class="vs-m"><i style="background:${CIHAZ_RENK[i]}"></i>${esc(d.marka)}</span><span class="vs-oz">${esc(kutuOzet(d))}</span></button><button class="vs-x" data-rm="${d.id}" aria-label="${esc(d.ad)} çıkar">×</button></div>`
            :`<button class="vs-k bos" data-panel="1"><span class="vs-sil" aria-hidden="true"><svg viewBox="0 0 48 48" width="46" height="46"><rect x="8" y="10" width="18" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".5"/><rect x="21" y="17" width="21" height="23" rx="3" fill="none" stroke="currentColor" stroke-width="2" opacity=".3"/><circle cx="34" cy="12" r="8" style="fill:var(--accent)"/><path d="M34 8v8M30 12h8" style="stroke:var(--accent-ink)" stroke-width="2.4" stroke-linecap="round"/></svg></span><span>Cihaz seç</span></button>`;
   }
   const k=$('vsKutular');k.className='vs-kutular'+(yuva>2?' cok':'')+(n>=2?' canli':'');
@@ -1320,7 +1333,7 @@ function renderGrid(){
   $('grid').innerHTML=items.map(d=>{
     const on=state.sel.includes(d.id);
     return `<div class="satir${on?' on':''}">
-      <button class="satir-sec" data-sec-cihaz="${d.id}" aria-pressed="${on}" ${!on&&full?'disabled':''}>${picBox(d,'satir-pic')}<span class="satir-y"><b>${esc(d.ad)}</b><small>${esc(d.marka)}, ${d.yil}${kameraSayisi(d)?', '+kameraSayisi(d)+' kamera':''}${d.ai?', yapay zekâ ile eklendi':''}${d.yak?' <i class="yak">Bilgiler yaklaşık</i>':''}</small>${renkler(d).length?`<span class="satir-renk" aria-hidden="true">${renkler(d).slice(0,6).map(r=>`<i style="background:${r.hex}"></i>`).join('')}</span>`:''}</span>${on?'<span class="satir-ok" aria-hidden="true">✓</span>':''}</button>
+      <button class="satir-sec" data-sec-cihaz="${d.id}" aria-pressed="${on}" ${!on&&full?'disabled':''}>${picBox(d,'satir-pic')}<span class="satir-y"><b>${esc(d.ad)}</b><small class="satir-oz">${esc(ozetSatir(d))}</small><small>${esc(d.marka)}, ${d.yil}${kameraSayisi(d)?', '+kameraSayisi(d)+' kamera':''}${d.ai?', yapay zekâ ile eklendi':''}${d.yak?' <i class="yak">Bilgiler yaklaşık</i>':''}</small>${renkler(d).length?`<span class="satir-renk" aria-hidden="true">${renkler(d).slice(0,6).map(r=>`<i style="background:${r.hex}"></i>`).join('')}</span>`:''}</span>${on?'<span class="satir-ok" aria-hidden="true">✓</span>':''}</button>
       <button class="satir-i" data-open="${d.id}" aria-label="${esc(d.ad)} özelliklerini gör">i</button>
     </div>`}).join('');
 }
@@ -1467,7 +1480,7 @@ function openDetail(id){
     <div class="fy-detay"><p class="aile-b">Resmî mağaza</p><div class="fy-l">${fiyatLinkleri(d)}</div></div>
     ${govde}
     ${kaynakHtml(d.kaynaklar,'Kaynaklar')}
-    ${ARAMA_VAR?`<div class="kontrol"><button class="go ikincil" data-kontrol="${d.id}">Bilgileri internetten kontrol et</button><div id="kontrolKutu" aria-live="polite"></div></div>`:''}
+    ${ARAMA_VAR?`<div class="kontrol"><button class="go ikincil" data-kontrol="${d.id}">Bilgileri internetten kontrol et ve tamamla</button><div id="kontrolKutu" aria-live="polite"></div></div>`:''}
   </div>`;
   if(!$('detail').open)$('detail').showModal();
 }
@@ -1488,20 +1501,24 @@ Search the web, preferring the manufacturer's official specifications page. Comp
 ${JSON.stringify(degerler)}
 Return ONLY one JSON object, no prose, no code fences:
 {"bulundu": true|false, "farklar":[{"alan":"Turkish field name","katalogda":"catalog value","kaynakta":"value found"}], "not":"one short Turkish sentence"}
-List only fields where the source clearly says something different. Ignore "—" values and formatting differences. If you cannot find reliable sources, return {"bulundu": false, "farklar": [], "not": "..."}.`;
+List only fields where the source clearly says something different, ignoring formatting differences.
+Also, for every catalog field whose value is "—" or contains "yaklaşık"-style gaps, fill it from the sources if you find it: add {"eksikler":[{"alan":"Turkish field name","deger":"value found, in Turkish"}]}. Useful extra fields if missing: çözünürlük, parlaklık (nit), boyutlar (mm), renkler, depolama seçenekleri, şarj gücü, kablosuz şarj, suya dayanıklılık, bağlantı noktaları, ön kamera, video, çıkış fiyatı (USD).
+If you cannot find reliable sources, return {"bulundu": false, "farklar": [], "eksikler": [], "not": "..."}.`;
   try{
     const v=await sampleFn.json(istem,{ara:true});
     const f=Array.isArray(v.farklar)?v.farklar.slice(0,20):[];
+    const ek=Array.isArray(v.eksikler)?v.eksikler.slice(0,20):[];
     const k=kaynakTemizle(v.__kaynaklar);
-    const rapor=`${d.marka} ${d.ad}\n`+(f.length?f.map(x=>`- ${clean(String(x.alan),60)}: uygulamada ${clean(String(x.katalogda),80)}, kaynakta ${clean(String(x.kaynakta),80)}`).join('\n'):'Fark bulunamadı.')+(k.length?'\nKaynaklar:\n'+k.map(x=>'- '+x.u).join('\n'):'');
+    const rapor=`${d.marka} ${d.ad}\n`+(f.length?f.map(x=>`- ${clean(String(x.alan),60)}: uygulamada ${clean(String(x.katalogda),80)}, kaynakta ${clean(String(x.kaynakta),80)}`).join('\n'):'Fark bulunamadı.')+(ek.length?'\nEksik bilgiler:\n'+ek.map(x=>`- ${clean(String(x.alan),60)}: ${clean(String(x.deger),120)}`).join('\n'):'')+(k.length?'\nKaynaklar:\n'+k.map(x=>'- '+x.u).join('\n'):'');
     kutu.innerHTML=(v.bulundu===false?'<p class="muted">Güvenilir bir kaynak bulunamadı.</p>':
       f.length?`<p class="kontrol-b">${f.length} farklı değer bulundu</p><ul class="kontrol-l">${f.map(x=>`<li><b>${esc(clean(String(x.alan),60))}</b><span>Uygulamada: ${esc(clean(String(x.katalogda),80))}</span><span>Kaynakta: ${esc(clean(String(x.kaynakta),80))}</span></li>`).join('')}</ul>`:
       '<p class="kontrol-b iyi-k">Kaynaklarla uyumlu, fark bulunamadı.</p>')+
+      (ek.length?`<p class="kontrol-b">${ek.length} eksik bilgi bulundu</p><ul class="kontrol-l eksik-l">${ek.map(x=>`<li><b>${esc(clean(String(x.alan),60))}</b><span>${esc(clean(String(x.deger),120))}</span></li>`).join('')}</ul>`:'')+
       (v.not?`<p class="muted">${esc(clean(String(v.not),200))}</p>`:'')+kaynakHtml(k,'Kontrol edilen kaynaklar')+
       `<button class="go ikincil" data-raporkopya="1">Raporu kopyala</button>`;
     kutu.dataset.rapor=rapor;
   }catch(e){kutu.innerHTML=`<p class="status err">${esc(errText(e)||'Kontrol yapılamadı.')}</p>`}
-  finally{if(btn){btn.disabled=false;btn.textContent='Bilgileri internetten kontrol et'}}
+  finally{if(btn){btn.disabled=false;btn.textContent='Bilgileri internetten kontrol et ve tamamla'}}
 }
 function cmpVeri(ds){
   let farkli=0,ayni=0;
