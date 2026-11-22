@@ -1,5 +1,5 @@
 // Uygulamanın internetsiz de açılmasını sağlar. Dosyaları değiştirdiğinde SURUM'u artır.
-const SURUM = 'v21';
+const SURUM = 'v24';
 const DOSYALAR = ['./', './index.html', './gizlilik.html', './manifest.webmanifest',
   './icons/orman-192.png', './icons/orman-512.png', './icons/orman-apple-180.png'];
 
@@ -17,9 +17,12 @@ self.addEventListener('fetch', e => {
   // Önce internetten dene (güncel kalsın), olmazsa kayıtlı kopyayı göster
   e.respondWith(
     fetch(e.request).then(res => {
-      const kopya = res.clone();
-      caches.open(SURUM).then(c => c.put(e.request, kopya));
+      // Sadece başarılı yanıtları sakla; hata sayfaları önbelleğe girmesin
+      if (res.ok && res.type === 'basic') {
+        const kopya = res.clone();
+        caches.open(SURUM).then(c => c.put(e.request, kopya));
+      }
       return res;
-    }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
+    }).catch(() => caches.match(e.request).then(r => r || (e.request.mode === 'navigate' ? caches.match('./index.html') : Response.error())))
   );
 });

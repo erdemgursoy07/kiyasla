@@ -13,6 +13,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kıyasla">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -102,6 +104,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 .satir-i{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--muted);font-weight:800;cursor:pointer;flex-shrink:0}
 .sc .note{margin-top:18px}
 .vs-pic.pic,.hz-p.pic{aspect-ratio:auto}
+.wrap{padding-top:calc(16px + env(safe-area-inset-top,0px))!important}
 #evBolum{position:relative;isolation:isolate}
 #evBolum::before,#evBolum::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none}
 #evBolum::before{left:-90px;top:-40px;width:480px;height:480px;background:radial-gradient(circle, color-mix(in srgb, var(--main) 22%, transparent), transparent 65%);animation:isikGez 14s ease-in-out infinite alternate}

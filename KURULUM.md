@@ -1,11 +1,11 @@
 # Kıyasla – Kurulum Rehberi
 
-Bu rehber, hiç yazılım deneyimi olmadan uygulamanı önce internette yayınlamanı, sonra Google Play ve App Store’a göndermeni anlatır. Adımları sırayla takip et. Ekranlardaki buton adları zamanla değişebilir; bulamazsan benzer adlı butonu ara.
+Bu rehber, hiç yazılım deneyimi olmadan uygulamanı önce internette yayınlamanı, sonra App Store’a göndermeni anlatır. Adımları sırayla takip et. Ekranlardaki buton adları zamanla değişebilir; bulamazsan benzer adlı butonu ara.
 
 ## Klasörde ne var?
 
 - `public/index.html` – Uygulamanın kendisi.
-- `public/gizlilik.html` – Gizlilik politikası. Her iki mağaza da bunu zorunlu tutar. İçindeki `[TARİH]` ve `[E-POSTA ADRESİN]` yerlerini kendi bilgilerinle değiştir.
+- `public/gizlilik.html` – Gizlilik politikası. App Store bunu zorunlu tutar. İçindeki `[E-POSTA ADRESİN]` yerini kendi e-postanla değiştir (`bash kur.sh` → 4).
 - `public/manifest.webmanifest`, `public/sw.js`, `public/icons/` – Uygulamanın telefona yüklenebilmesini, simgesini ve internetsiz açılmasını sağlar.
 - `src/index.js` ve `wrangler.jsonc` – Sunucu kısmı ve Cloudflare ayarları. Gemini anahtarın Cloudflare’de gizli kalır, dosyalarda yer almaz.
 
@@ -14,9 +14,8 @@ Bu rehber, hiç yazılım deneyimi olmadan uygulamanı önce internette yayınla
 | Ne | Ücret |
 |---|---|
 | Gemini API (ücretsiz kota) | 0 TL |
-| Cloudflare Pages (barındırma) | 0 TL |
+| Cloudflare Workers (barındırma) | 0 TL |
 | GitHub | 0 TL |
-| Google Play geliştirici hesabı | 25 dolar, tek seferlik |
 | Apple geliştirici hesabı | 99 dolar, her yıl |
 
 ---
@@ -40,60 +39,26 @@ Bu rehber, hiç yazılım deneyimi olmadan uygulamanı önce internette yayınla
 ## 3. Adım: Uygulamayı Cloudflare’de yayınla (10 dakika)
 
 1. https://dash.cloudflare.com adresinde ücretsiz hesap aç.
-2. Soldaki menüden **Workers & Pages**’e gir, **Create**’e bas ve **Pages** sekmesini seç.
-3. **Connect to Git**’i seç, GitHub hesabını bağla ve `kiyasla` deposunu seç.
-4. Ayarlar ekranında:
-   - **Framework preset:** None
-   - **Build command:** boş bırak
-   - **Build output directory:** `public`
-5. **Environment variables** (ortam değişkenleri) bölümünü aç ve şunu ekle:
+2. Soldaki menüden **Workers & Pages**’e gir, **Create**’e bas ve **Import a repository** (GitHub’dan içe aktar) seçeneğini seç.
+3. GitHub hesabını bağla ve `kiyasla` deposunu seç.
+4. Ayarlar ekranında **Deploy command** olarak `npx wrangler deploy` yazılı olmalı; kök klasör `/` kalsın. Diğer ayarlara dokunma (`wrangler.jsonc` dosyası gerisini halleder).
+5. **Deploy**’a bas. İlk yayın bitince projeye gir, **Settings → Variables and Secrets** bölümünde **Add** de ve şunu ekle:
+   - **Type:** Secret
    - **Variable name:** `GEMINI_API_KEY`
    - **Value:** 1. adımda aldığın anahtar
-   - Varsa **Encrypt** (şifrele) seçeneğini işaretle.
-6. **Save and Deploy**’a bas. Bir iki dakika sonra sana `https://kiyasla.pages.dev` (bu ad alınmışsa Cloudflare sonuna birkaç harf ekler) gibi bir adres verilecek.
+6. Kaydettikten sonra adresin şuna benzer olacak: `https://kiyasla.erdemgursoy07.workers.dev`
 
 Bu adresi telefonunda aç ve yapay zekâ kutusunu dene. Çalışıyorsa uygulaman artık internette!
 
-Telefonda hemen kullanmak için: Android’de Chrome menüsünden **Ana ekrana ekle**, iPhone’da Safari’de paylaş butonundan **Ana Ekrana Ekle**.
+Telefonda hemen kullanmak için: iPhone’da Safari’de paylaş butonundan **Ana Ekrana Ekle**.
 
 Sorun çıkarsa: Yapay zekâ “henüz ayarlanmamış” diyorsa anahtar eklenmemiştir. Cloudflare’de projeye gir, **Settings → Variables and Secrets** bölümünden ekle ve **Deployments** sekmesinden yeniden yayınla (Retry deployment).
 
 ---
 
-## 4. Adım: Google Play’e gönder
+## 4. Adım: App Store’a gönder
 
-1. https://play.google.com/console adresinden geliştirici hesabı aç (25 dolar). Kimlik doğrulaması birkaç gün sürebilir.
-2. https://www.pwabuilder.com adresine git, uygulamanın adresini (`https://....pages.dev`) yaz ve **Start**’a bas.
-3. **Package For Stores** butonuna bas, **Android**’i seç ve paketi indir. İndirdiğin zip içinde şunlar olacak:
-   - `.aab` uzantılı dosya: Play’e yükleyeceğin uygulama.
-   - İmzalama anahtarı (`signing.keystore`) ve şifre bilgileri: **Bunları kesinlikle kaybetme**, güncellemeler için gerekir. Birkaç yere yedekle.
-   - `assetlinks.json` dosyası.
-4. `assetlinks.json` dosyasını sitene koyman gerekiyor (bu, uygulamanın üstünde tarayıcı çubuğu çıkmasını engeller):
-   - GitHub’da deponu aç, **Add file → Create new file**’a bas.
-   - Dosya adı kutusuna `public/.well-known/assetlinks.json` yaz.
-   - `assetlinks.json` dosyasının içeriğini kopyalayıp yapıştır ve **Commit changes** de. Cloudflare siteyi otomatik güncelleyecek.
-5. Play Console’da **Uygulama oluştur**’a bas. Uygulama adı olarak örneğin `Kıyasla: Cihaz Karşılaştır` yazabilirsin (en fazla 30 karakter), dil olarak Türkçe seç.
-6. Doldurman gereken bölümler: mağaza girişi (açıklama, ekran görüntüleri, simge), gizlilik politikası adresi (`https://....pages.dev/gizlilik.html`), içerik derecelendirme anketi, veri güvenliği formu (veri toplamadığını, metinlerin yapay zekâ servisine gönderildiğini belirt) ve hedef kitle.
-7. `.aab` dosyasını önce **Kapalı test** (Closed testing) bölümüne yükle.
-
-Bilmen gereken: Yeni açılan kişisel hesaplarda Google, uygulamayı herkese açmadan önce en az 12 kişinin 14 gün boyunca kapalı testte uygulamayı denemesini istiyor (bildiğim son kurallar bu yönde, güncel durumu Play Console’da kontrol et). Arkadaşlarını ve aileni test kullanıcısı olarak ekle. 14 gün dolunca **Üretim** (Production) erişimi için başvurabilirsin.
-
-## 5. Adım: App Store’a gönder
-
-Burada dürüst olmam gereken iki engel var:
-
-1. **Mac gerekiyor.** Apple, uygulamaların Xcode adlı programla gönderilmesini istiyor ve Xcode sadece Mac’te çalışıyor. Mac’in yoksa bir arkadaşının Mac’ini kullanabilir ya da saatlik kiralanan bulut Mac hizmetlerinden (örneğin MacinCloud) birini kullanabilirsin.
-2. **Reddedilme riski var.** Apple, sadece bir web sitesini gösteren uygulamaları bazen “yeterli işlevi yok” diyerek reddedebiliyor. Uygulamanın internetsiz açılması, yapay zekâ özellikleri ve karşılaştırma araçları şansını artırır, ama garanti değildir.
-
-Adımlar:
-
-1. https://developer.apple.com/programs adresinden Apple Developer Program’a katıl (yıllık 99 dolar).
-2. PWABuilder’da **Package For Stores → iOS**’u seç ve paketi indir.
-3. Mac’te Xcode’u App Store’dan ücretsiz kur. Paketin içindeki proje dosyasını Xcode ile aç; PWABuilder paketin içinde adım adım iOS rehberi veriyor.
-4. Xcode’da **Product → Archive** ile uygulamayı paketle ve **Distribute App** ile App Store Connect’e yükle.
-5. https://appstoreconnect.apple.com adresinde açıklama, ekran görüntüleri, gizlilik politikası adresi ve gizlilik bilgilerini doldur ve incelemeye gönder.
-
-Önerim: Önce Google Play ile başla. Daha kolay ve ucuz. App Store’u uygulama oturduktan sonra yaparsın.
+Bu adım dosyanın sonundaki **“iPhone uygulaması (App Store)”** bölümünde adım adım anlatılıyor.
 
 ---
 
@@ -125,3 +90,41 @@ Sunucu zaten sadece Kıyasla’nın kendi adresinden gelen istekleri kabul ediyo
 ## Google aramasıyla doğrulama
 
 Uygulama yayındaki sürümde yapay zekâ ile cihaz eklerken ve bir cihazın detayındaki **“Bilgileri internetten kontrol et”** butonunda Gemini’nin Google aramasını kullanır; kullanılan kaynaklar cihazın altında listelenir. Bu özelliğin ücretsiz kotası Google AI Studio’daki hesabına bağlıdır. Kota dolarsa uygulama “çok fazla istek” uyarısı verir; ertesi gün yeniden çalışır.
+
+
+---
+
+## iPhone uygulaması (App Store)
+
+**Kısa yol:** iPhone’u kabloyla Mac’e bağla, Terminal’de bu klasöre gir ve `bash kur.sh` yaz. Betik iPhone projesini kendisi oluşturur, derler ve telefona yükler. App Store’a göndermek için `bash kur.sh magaza`, yayını kontrol için `bash kur.sh kontrol`, gizlilik e-postası için `bash kur.sh eposta`.
+
+İlk seferde bir kez gerekenler: Xcode > Settings > Accounts’ta Apple hesabın ekli olmalı; iPhone’da “Bu bilgisayara güven” denmiş ve Ayarlar > Gizlilik ve Güvenlik > Geliştirici Modu açık olmalı. Aşağıdaki PWABuilder adımları, betik yerine elle yapmak istersen alternatif yoldur.
+
+Kıyasla bir web uygulaması. iPhone paketini **PWABuilder** hazırlıyor: uygulama içeriği her zaman workers.dev adresinden geldiği için, GitHub’a yaptığın güncellemeler App Store’a yeni sürüm göndermeden de telefonlara yansır. Simge veya uygulama adı gibi paketin kendisini değiştirmek istersen yeni sürüm göndermen gerekir.
+
+### Gerekenler
+- Bir **Mac** ve App Store’dan ücretsiz **Xcode**
+- **Apple Developer Program** üyeliği (yıllık ücretli; developer.apple.com)
+- **CocoaPods** (kur.sh yoksa kurmayı teklif eder)
+
+### Adımlar
+1. **Yayını kontrol et:** `bash kur.sh` → 1. Her satır yeşil olmalı.
+2. **Gizlilik e-postası:** `bash kur.sh` → 4, sonra `public` klasörünü GitHub’a tekrar yükle. Gizlilik adresin: `https://kiyasla.erdemgursoy07.workers.dev/gizlilik.html`
+3. **Projeyi hazırla:** `bash kur.sh` → 3. Tarayıcıda PWABuilder açılır; **Package For Stores → iOS → Generate Package** de. Bundle ID için kalıcı bir ad yaz (ör. `com.erdemgursoy.kiyasla`). İnen zip’i Terminal’e sürükle; betik paketi açar, gerekli kütüphaneleri kurar ve projeyi Xcode’da açar.
+4. **Xcode’da:**
+   - Sol üstte projeye tıkla → **Signing & Capabilities** → **Team** olarak Apple Developer hesabını seç.
+   - **General → Supported Destinations** bölümünde sadece **iPhone** bırakmanı öneririm; iPad açık kalırsa App Store senden iPad ekran görüntüleri de ister.
+   - Önce kendi iPhone’unu kabloyla bağlayıp **Run (▶)** ile dene.
+   - Sorun yoksa üstten **Any iOS Device** seç → **Product → Archive** → **Distribute App → App Store Connect**.
+5. **App Store Connect’te (appstoreconnect.apple.com):** Yeni uygulama oluştur (aynı Bundle ID), önce **TestFlight** ile kendin dene, sonra incelemeye gönder.
+
+### App Store sayfası için hazırlaman gerekenler
+- **Uygulama adı (30 karakter):** Kıyasla: Cihaz Karşılaştır
+- **Alt başlık (30 karakter):** Telefon, tablet, laptop kıyasla
+- **Simge:** `magaza/app-store-simge-1024.png` hazır.
+- **Ekran görüntüleri:** En büyük iPhone ekran boyutu için en az 3 dikey ekran görüntüsü: ana sayfa (iki cihaz seçili, farklar görünürken), seçim paneli, karşılaştırma ekranı (çubuklar dolu) ve cihaz detayı. En kolayı Xcode’daki iPhone simülatöründe en büyük modeli seçip uygulamayı açmak ve Cmd+S ile kaydetmek.
+- **Gizlilik bilgileri (App Privacy):** Uygulama kişisel veri toplamıyor. Yapay zekâ özelliklerinde sadece cihaz adları Google’a gidiyor ve kimseyle ilişkilendirilmiyor. Formu doldururken takıldığın soruyu bana sor.
+- **Yaş sınırı:** 4+
+
+### İnceleme hakkında
+Apple, sadece bir web sitesini saran uygulamaları (Kılavuz 4.2, “asgari işlevsellik”) reddedebilir. Kıyasla’nın internetsiz açılması, kendi karşılaştırma ekranı, Benim cihazım ve uygulama turu bu riski azaltır ama tamamen ortadan kaldırmaz. Reddedilirsen gelen mesajı bana gönder; birlikte cevap yazar ya da gerekeni ekleriz.
